@@ -20,7 +20,9 @@ background-image:none;
     text-shadow: rgba(0, 0, 0, 0.3) 0px 0px 16px;
 }
 .img-tiger{
-    /*transform: rotatey(180deg);*/
+    transform: rotatey(180deg);
+    -webkit-transform: rotatey(180deg);
+    -ms-transform: rotatey(180deg);
     position: absolute;
     left: -260px;
     margin-top: -80px;
