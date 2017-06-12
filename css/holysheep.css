@@ -59,3 +59,12 @@ font-size:1em;
     display: block;
 width:block;
 }
+@media (max-width: 990px){
+
+.navigation .navbar-brand {
+    float: none;
+}
+.navigation {
+    background: rgba(0, 0, 0, 0.3);
+}
+}
