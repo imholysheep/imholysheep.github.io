@@ -35,9 +35,20 @@
 		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 		})(window,document,'script','dataLayer','GTM-PHV45JL');</script>
 		<!-- End Google Tag Manager -->
+		<script>
+		 function loadfb(){
+		 var iframeTag = document.createElement('iframe'),
+			 iframeID  = document.getElementById("fbiframe");
+			 iframeTag.src='https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FNaturalNCU%2F&tabs&width=340&height=154&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId=739658162855842';
+			 iframeTag.style='border:none;overflow:hidden;width:340;height:154;';
+			 iframeTag.scrolling='no';
+			 iframeTag.allowTransparency='ture';
+			 iframeID.appendChild(iframeTag); 
+		 }
+		</script>
     </head>
 
-    <body id="body">
+    <body id="body" onload="loadfb();">
 		<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PHV45JL"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -285,10 +296,9 @@ This thesis attempts to explore how Catesby’s innovative style could be establ
                                 <h2>關於我</h2>
 								<p>
 								這個網站目前建置了70%。--20170611</p>
-								<p>
+								
 								<div clas="row">
 								<div class="col-md-4">
-
 								<br>【下一階段的任務】
 								<br>增加審稿人評論。
 								<br>增加自我介紹。
@@ -296,34 +306,27 @@ This thesis attempts to explore how Catesby’s innovative style could be establ
 								<br>增加google分析。
 								<br>移轉網域。
 								<br>增加圖片說明。<br>
-								</p>
 								</div>
+								
 								<div class="col-md-4">								
-								<p>
 								<br>【遠程任務】
 								<br>放置中國哲學的筆記。
 								<br>放置藝術史筆記。
 								<br>
-								</p>
 								</div>
+								
 								<div class="col-md-4">
-								<p>
 								<br>【連絡我的方式】
 								<br>1.<a href="http://go.holysheep.me">遊記部落格：神羊大冒險</a>
 								<br>你可以在下面留言。<br>
 								<br>2.facebook<br>
-								
-								<!--iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FNaturalNCU%2F&tabs&width=340&height=154&small_header=true&adapt_container_width=false&hide_cover=false&show_facepile=true&appId=739658162855842" width="340" height="154" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe-->
-								</p>
+								<div id="fbiframe">	
+									<a src="">所羅門王的中央大學</a>
 								</div>
 								</div>
-								
-                            </div>
+							</div>	
                         </div>
                     </div>
-
-                    <div class="col-xs-12 col-sm-12 col-md-6 offset-md-3 wow fadeInUp" data-wow-delay="0.3s">
-
                 </div>
             </div>
         </section>
