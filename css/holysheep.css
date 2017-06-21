@@ -59,7 +59,7 @@ background:#ccc;
 background:#e0e0e0;
 }
 .imgtext{
-	fontsize:0.8em !important;
+	font-size:0.8em !important;
 }
 .Tyallow{
 	color:#fffcc4;
@@ -108,11 +108,14 @@ width:block;
     padding: 10px 40px;
     margin-top: 30px;
 }
+
+/*rewrite*/
 .about .content h3 {
 
     color: #000;
 
 }
+/*[end]rewrite*/
 @media (max-width: 990px){
 
 	.navigation .navbar-brand {
