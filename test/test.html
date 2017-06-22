@@ -29,6 +29,37 @@
         <link rel="stylesheet" href="../css/responsive.css">
         <link rel="stylesheet" href="../css/holysheep.css">
 		
+		<script>
+		function Obj(sku,
+				name,
+				category,
+				price,
+				quantity){
+			// 'transactionId': '{{OrderId}}',
+			// 'transactionTotal': 38.26,
+			// 'transactionTax': 1.29,
+			// 'transactionProducts': [{
+				// 'sku': 'DD44',
+				// 'name': 'T-Shirt',
+				// 'category': 'Apparel',
+				// 'price': 11.99,
+				// 'quantity': 1
+			// }],
+            // 'event':'transactionComplete'
+			this.transactionId= 'OrderId';
+			this.transactionTotal= 38.26;
+			this.transactionTax= 1.29;
+			this.transactionProducts={
+				sku,
+				name,
+				category,
+				price,
+				quantity
+			};
+            this.event='transactionComplete'
+		  }
+		  var pObj = new Obj();
+		</script>
 		
 		<!-- Google Tag Manager -->
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
