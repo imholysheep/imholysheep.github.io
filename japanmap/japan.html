@@ -1,0 +1,218 @@
+﻿<html>
+   <head>
+      <meta name="generator"
+         content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
+      <title></title>
+     <style>
+		#map{height:1000px;}
+		#info{
+		position: absolute;
+		z-index: 99;
+		background: #fff;
+		height: 100%;
+		padding:20px;
+		min-width: 200px;
+		transition:.4s;
+		left:-240px;
+		}
+		.show{left:0px !important;}
+		#hide{z-index:999; display:block;}
+      </style>
+   </head>
+   <body>
+   <div id="info" ></div>
+    <div id="map"></div>
+  
+  
+  <script>
+    // function slide() {
+		 // var elem = document.getElementById("slidebox");
+        // elem.classList.toggle('open');
+        // if (typeof google === 'object' && typeof google.maps === 'object') {
+            // //不知道她還沒找到之前叫什麼
+        // } else {
+            // loadScript();
+        // };
+
+    // }
+</script>
+<script>
+    //地點們
+    var obj =[
+		{lat:35.6974, lng: 139.7269, info:'testString 0 東京',type:'atm'},
+		{lat:34.6896, lng: 133.080010, info:'testString 1 大阪',type:'atm'},
+		{lat:34.68742, lng: 135.19775, info:'testString 2 神戶',type:'shop'},
+		{lat:34.685, lng: 135.8033, info:'testString 3 奈良',type:'shop'},
+		{lat:35.012, lng: 135.74703125, info:'testString 4 京都',type:'shop'}	
+	]
+	var center ={lat:36.173357 ,lng: 138.515625}
+	var minZoom = 6;
+	var icons = {'atm':'markerY.png','shop':'markerB.png'};
+	var map;
+	//載入完成才載地圖..
+	document.getElementsByTagName("BODY")[0].onload = function()
+	{
+	  //pushLocation();
+	  console.log('2.locations:markers撈他的資料，頁面載入完才執行：');
+	  loadScript();
+	};
+	//增加控制項：回原點------------------------------------------------------------
+	function CenterControl(controlDiv, map)
+	{
+	  // Set CSS for the control border.
+	  var controlUI = document.createElement('div');
+	  controlUI.style.backgroundColor = '#fff';
+	  controlUI.style.border = '2px solid #fff';
+	  controlUI.style.borderRadius = '3px';
+	  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+	  controlUI.style.cursor = 'pointer';
+	  controlUI.style.marginBottom = '22px';
+	  controlUI.style.textAlign = 'center';
+	  controlUI.title = '按我縮小地圖，click to return';
+	  controlDiv.appendChild(controlUI);
+	  // Set CSS for the control interior.
+	  var controlText = document.createElement('div');
+	  controlText.style.color = 'rgb(25,25,25)';
+	  controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+	  controlText.style.fontSize = '16px';
+	  controlText.style.lineHeight = '38px';
+	  controlText.style.paddingLeft = '5px';
+	  controlText.style.paddingRight = '5px';
+	  controlText.innerHTML = '回起始點';
+	  controlUI.appendChild(controlText);
+	  // Setup the click event listeners: simply set the map to Center.
+	  controlUI.addEventListener('click', function()
+	  {
+		map.setCenter(center);
+		map.setZoom(6);
+	  });
+	}
+	//初始化地圖------------------------------------------------------------
+	function initMap()
+	{
+	  var map = new google.maps.Map(document.getElementById('map'),
+	  {
+		center: center,
+		zoom: minZoom
+	  });
+	  var markers = obj.map(function(location, i)
+	  {
+		// if (locations[i].lat != 0) {
+		//console.log(location + '' + i);
+		if (obj[i].type=='shop'){
+		return new google.maps.Marker(
+		{
+		  position: location,
+		  map: map,
+		  icon:icons.shop,
+		  title: obj[i].info,
+		  type:obj[i].type,
+		  url: 'testUrl'
+		});
+		}else{
+		return new google.maps.Marker({
+			position:location,
+		  map: map,
+		  icon:icons.atm,
+		  title: obj[i].info,
+		  type:obj[i].type
+			
+		});
+		}
+	  });
+	  
+	
+	  
+	  console.log(markers);
+	  
+	  //the markers contents and events-----------------------------------------------
+	  for (i = 0; i < markers.length; i++)
+	  {
+		google.maps.event.addListener(markers[i], 'click', function()
+		{
+		var info = document.getElementById('info');  
+		  info.classList.add('show');
+		  var contents = '<div id="hide">x</div><div class="popup_container"><h3>' + this.title + '</h3></div>';
+		  info.innerHTML = contents;
+	  var hide = document.getElementById('hide');
+	  hide.addEventListener('click', function() {info.classList.remove('show');},false);
+		});
+	  }
+	  
+	  google.maps.event.addListener(map,'zoom_changed',function(event){
+		  map.setOptions({minZoom:minZoom});
+		  
+	  })
+	  
+		// Setup the click event listener: simply set the map to center on Center
+		var centerControlDiv = document.createElement('div');
+		var centerControl = new CenterControl(centerControlDiv, map);
+		centerControlDiv.index = 1;
+		map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+
+		// bounds of the desired area------------------------------
+		var allowedBounds = new google.maps.LatLngBounds(
+		new google.maps.LatLng(31.54, 123.31),
+		new google.maps.LatLng(46.92, 153.41)
+		);
+		var boundLimits = {
+		maxLat : allowedBounds.getNorthEast().lat(),//31.54
+		maxLng : allowedBounds.getNorthEast().lng(),//153.409
+		minLat : allowedBounds.getSouthWest().lat(),//46.92
+		minLng : allowedBounds.getSouthWest().lng()//123.31
+		};
+
+		var lastValidCenter = map.getCenter();
+		var newLat, newLng;
+		google.maps.event.addListener(map, 'center_changed', function() {
+		center = map.getCenter();
+		if (allowedBounds.contains(center)) {
+			// still within valid bounds, so save the last valid position
+			lastValidCenter = map.getCenter();
+			return;
+		}
+		newLat = lastValidCenter.lat();
+		newLng = lastValidCenter.lng();
+		if(center.lng() > boundLimits.minLng && center.lng() < boundLimits.maxLng){
+			newLng = center.lng();
+		}
+		if(center.lat() > boundLimits.minLat && center.lat() < boundLimits.maxLat){
+			newLat = center.lat();
+		}
+		map.panTo(new google.maps.LatLng(newLat, newLng));
+		});
+	
+	
+		google.maps.event.addListener(map, 'click', function(event) {
+			info.classList.remove('show'); 
+			console.log("Latitude: "+event.latLng.lat()+" "+", longitude: "+event.latLng.lng());
+		});
+	
+	
+	
+	
+	}
+	
+	//載入api------------------------------------------------------------
+	function loadScript()
+	{
+	  var script = document.createElement('script');
+	  script.type = 'text/javascript';
+	  script.defer = 'difer';
+	  script.async = 'async';
+	  script.src = 'https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap';
+	  //script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC7TKcgAtxzE5XHy9qmDtIKxD_KiQj-pD4&signed_in=true&callback=initMap';
+	  document.body.appendChild(script);
+	}
+	
+	// var markerCluster = new MarkerClusterer(map, markers, {
+    // imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+    // });
+</script>
+
+<!--script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+</script-->
+
+</body>
+
+</html>
