@@ -175,20 +175,23 @@
 	}
 	//載入api------------------------------------------------------------
 	function loadScript() {
-	  var script = document.createElement('script');
-	  script.type = 'text/javascript';
-	  script.defer = 'difer';
-	  script.async = 'async';
-	  //script.src = 'https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap';
-	  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC7TKcgAtxzE5XHy9qmDtIKxD_KiQj-pD4&signed_in=true&callback=initMap';
-	  document.body.appendChild(script);
+	  // var script = document.createElement('script');
+	  // script.type = 'text/javascript';
+	  // script.defer = 'difer';
+	  // script.async = 'async';
+	  // //script.src = 'https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap';
+	  // script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDwDSYs7e92U9nP8IVodq-OEswsUlhCAdQ&signed_in=true&callback=initMap';
+	  // document.body.appendChild(script);
 	}
 	
 	// var markerCluster = new MarkerClusterer(map, markers, {
     // imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
     // });
 </script>
-
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyDwDSYs7e92U9nP8IVodq-OEswsUlhCAdQ&signed_in=true">
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?callback=initMap"> </script>
 <!--script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script-->
 

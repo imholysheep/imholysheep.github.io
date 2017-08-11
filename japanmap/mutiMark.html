@@ -46,12 +46,25 @@
           center: {lat: 36.173357, lng: 138.515625}
         });
 		currentzoom = map.getZoom();
-		data.japan.forEach(function(entry){
-			console.log(entry);
+		
+		data.japan.forEach(function(entry){//篩資料
 			for(var item in entry.info){
-				console.log(entry.info[item].addr);
-				var geocoder = new google.maps.Geocoder();
-				geocodeAddress(geocoder, map, entry.info[item].addr,entry.info[item].name);
+				//console.log(entry.info[item].addr);
+				console.log(entry.info[item].lat);
+				var marker = new google.maps.Marker({
+				map: map,
+				icon:'markerB.png',
+				position: new google.maps.LatLng(entry.info[item].lat, entry.info[item].lng)			
+				});
+				google.maps.event.addListener(marker,'click', function() {
+					var content = '<div class="popup_container"><h3>' + entry.info[item].name + '</h3><span>地址：'+entry.info[item].addr+'</span></div>';
+					infowindow.open(map, this);
+					infowindow.setContent(content); 
+					console.log(this);
+				}, false);
+				var infowindow = new google.maps.InfoWindow();
+				
+			 
 			 }
 		});
          document.getElementById('submit').addEventListener('click', function() {
@@ -65,26 +78,26 @@
 			currentzoom = map.getZoom();
 		 });
 		 
-		var infowindow = new google.maps.InfoWindow();
+		
 		 
-      function geocodeAddress(geocoder, resultsMap, addr,name) {  
-		var content = '<div class="popup_container"><h3>' + name + '</h3><span>地址：'+addr+'</span></div>';
-        geocoder.geocode({'address':addr}, function(results, status) {
-          if (status === 'OK') {
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-            });
-			google.maps.event.addListener(marker,'click', function() {				
-			infowindow.open(map, marker);
+      // function geocodeAddress(geocoder, resultsMap, addr,name) {  
+		// var content = '<div class="popup_container"><h3>' + name + '</h3><span>地址：'+addr+'</span></div>';
+        // geocoder.geocode({'address':addr}, function(results, status) {
+          // if (status === 'OK') {
+            // var marker = new google.maps.Marker({
+              // map: resultsMap,
+              // position: results[0].geometry.location
+            // });
+			// google.maps.event.addListener(marker,'click', function() {				
+			// infowindow.open(map, marker);
 			
-			infowindow.setContent(content); 
-			}, false);
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
+			// infowindow.setContent(content); 
+			// }, false);
+          // } else {
+            // alert('Geocode was not successful for the following reason: ' + status);
+          // }
+        // });
+      // }
 		 
       }
 
@@ -116,7 +129,7 @@
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyDwDSYs7e92U9nP8IVodq-OEswsUlhCAdQ&signed_in=true">
     </script>
-	    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?callback=initMap"> </script>
+	    <!--script async defer
+    src="https://maps.googleapis.com/maps/api/js?callback=initMap"> </script-->
   </body>
 </html>
