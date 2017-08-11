@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Geocoding service</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="floating-panel">
+      <input id="address" type="textbox" placeholder="打地名搜尋看看這附近有沒有">
+      <input id="submit" type="button" onClick="" value="搜尋">
+    </div>
+    <div id="map"></div>
+    <script>
+	
+	  var data=	  
+		{"japan":[  
+		{"country":"東京都",
+		  "info":[  
+			 {"name":"sunkus蔵前店","addr":"東京都台東区蔵前２－１７－１"},
+			 {"name":"sunkus銀座中央通り店","addr":"東京都港区新橋一丁目７番１号"},
+			 {"name":"sunkus台東雷門二丁目店","addr":"東京都台東区雷門２－１８－１７"}
+		  ]},
+		{"country":"富山",
+		  "info":[  
+			 {"name":"Hokkaido Bank 富山きときと空港","addr":"富山県富山市秋ヶ島30番地"}
+		  ]},
+		{"country":"京都府",
+		  "info":[  
+			{"name":"cirkleK京都嵯峨広沢店","addr":"京都府京都市右京区嵯峨広沢御所ノ内町３０番地"},
+			{"name":"cirkleK西院南店","addr":"京都府京都市右京区西院三蔵町１２番地"},
+			{"name":"cirkleK西大路三条店","addr":"京都府京都市右京区西院上今田町２５番地１"},
+			{"name":"cirkleK葛野大路高辻店","addr":"京都府京都市右京区西院西田町９７番地１"},
+			{"name":"cirkleK西京極店","addr":"京都府京都市右京区西京極郡町９５－２"},
+			{"name":"cirkleK右京団子田町店","addr":"京都府京都市右京区西京極徳大寺団子田町４４番地１"},
+			{"name":"cirkleK四条通梅津店","addr":"京都府京都市右京区梅津北浦町５番１"}
+
+		  ]}
+		]};
+	
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: {lat: 36.173357, lng: 138.515625}
+        });
+		currentzoom = map.getZoom();
+		data.japan.forEach(function(entry){
+			console.log(entry);
+			for(var item in entry.info){
+				console.log(entry.info[item].addr);
+				var geocoder = new google.maps.Geocoder();
+				geocodeAddress(geocoder, map, entry.info[item].addr,entry.info[item].name);
+			 }
+		});
+         document.getElementById('submit').addEventListener('click', function() {
+			 var address = document.getElementById('address').value;
+			 var set = new google.maps.Geocoder();
+			setcenter(set, map, address);
+         });
+		 
+		
+		 google.maps.event.addListener(map, 'zoom_changed', function(event) {
+			currentzoom = map.getZoom();
+		 });
+		 
+		var infowindow = new google.maps.InfoWindow();
+		 
+      function geocodeAddress(geocoder, resultsMap, addr,name) {  
+		var content = '<div class="popup_container"><h3>' + name + '</h3><span>地址：'+addr+'</span></div>';
+        geocoder.geocode({'address':addr}, function(results, status) {
+          if (status === 'OK') {
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+			google.maps.event.addListener(marker,'click', function() {				
+			infowindow.open(map, marker);
+			
+			infowindow.setContent(content); 
+			}, false);
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+		 
+      }
+
+
+	 var Marry=[];
+	  function setcenter (geocoder,map,addrset){ 
+		geocoder.geocode({'address':addrset}, function(results, status) {
+		if(Marry.length!=0){ Marry[0].setMap(null);}//清除上一個
+		 Marry = []; 
+          if (status === 'OK') {
+			map.setCenter(results[0].geometry.location);
+			map.setZoom(currentzoom+1);
+			var marker1 = new google.maps.Marker({
+            //map: map,
+			icon: 'walk.gif',
+            position: results[0].geometry.location
+			}); 					
+			Marry.push(marker1);
+			Marry[0].setMap(map);
+		  }else{
+            alert('你確定有這地方? 錯誤訊息：' + status);
+          }
+		});
+			
+	  }	
+	 function deleteMarkers() {
+        Marry = [];
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+    </script>
+  </body>
+</html>
