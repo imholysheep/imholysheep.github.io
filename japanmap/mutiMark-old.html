@@ -39,18 +39,36 @@
     </div>
     <div id="map"></div>
     <script>
-	
       function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
+        var map = new google.maps.Map(document.getElementById('map'), { 
           zoom: 8,
           center: {lat: 36.173357, lng: 138.515625}
         });
+		
 		currentzoom = map.getZoom();
-		data.japan.forEach(function(entry){
-			console.log(entry);
-			for(var item in entry.info){
-				var geocoder = new google.maps.Geocoder();
-				geocodeAddress(geocoder, map, entry.info[item].addr,entry.info[item].name);
+		var infowindow = new google.maps.InfoWindow();
+		var allitems=[];
+		for(i=0;i<data.length-1;i++){		
+			allitems=data[i].info.concat(data[i+1].info);
+			console.log(allitems)
+		}
+		allitems.forEach(function(entry){//篩資料
+		var city = entry.city;
+			for(var n in entry.items){			
+				var marker = new google.maps.Marker({
+				map: map,
+				icon:'markerB.png',
+				position: new google.maps.LatLng(entry.items[n].lat, entry.items[n].lng),	
+				name: entry.items[n].name,//增加給 marker 物件
+				addr: entry.items[n].addr,
+				area: entry.city
+				});
+				google.maps.event.addListener(marker,'click', function() {
+					var content = '<div class="popup_container"><h3>' + this.name + '</h3><p>地區：'+ this.area +'</p><span>地址：'+ this.addr +'</span></div>';
+					infowindow.open(map, this);
+					infowindow.setContent(content); 
+					console.log(this.icon);
+				}, false);			 
 			 }
 		});
          document.getElementById('submit').addEventListener('click', function() {
@@ -64,26 +82,24 @@
 			currentzoom = map.getZoom();
 		 });
 		 
-		var infowindow = new google.maps.InfoWindow();
-		 
-      function geocodeAddress(geocoder, resultsMap, addr,name) {  
-		var content = '<div class="popup_container"><h3>' + name + '</h3><span>地址：'+addr+'</span></div>';
-        geocoder.geocode({'address':addr}, function(results, status) {
-          if (status === 'OK') {
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-            });
-			google.maps.event.addListener(marker,'click', function() {				
-			infowindow.open(map, marker);
+      // function geocodeAddress(geocoder, resultsMap, addr,name) {  
+		// var content = '<div class="popup_container"><h3>' + name + '</h3><span>地址：'+addr+'</span></div>';
+        // geocoder.geocode({'address':addr}, function(results, status) {
+          // if (status === 'OK') {
+            // var marker = new google.maps.Marker({
+              // map: resultsMap,
+              // position: results[0].geometry.location
+            // });
+			// google.maps.event.addListener(marker,'click', function() {				
+			// infowindow.open(map, marker);
 			
-			infowindow.setContent(content); 
-			}, false);
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
+			// infowindow.setContent(content); 
+			// }, false);
+          // } else {
+            // alert('Geocode was not successful for the following reason: ' + status);
+          // }
+        // });
+      // }
 		 
       }
 
@@ -113,8 +129,8 @@
         Marry = [];
       }
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyDwDSYs7e92U9nP8IVodq-OEswsUlhCAdQ&signed_in=true">
-    </script>
+    <!--script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyDwDSYs7e92U9nP8IVodq-OEswsUlhCAdQ&signed_in=true">
+    </script-->
 	    <script async defer
     src="https://maps.googleapis.com/maps/api/js?callback=initMap"> </script>
   </body>
