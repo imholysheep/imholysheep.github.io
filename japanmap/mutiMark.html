@@ -34,7 +34,6 @@
             line-height: 30px;
             padding-left: 10px;
         }
-
     </style>
     <script src="data.js"></script>
 </head>
@@ -121,13 +120,14 @@
             return x * Math.PI / 180;
         }
 
-        function find_closest_marker(map, searchloc, infowindow) {
+        function find_closest_marker(map, searchloc, infowindow, marker) {
             var lat = searchloc.lat();
             var lng = searchloc.lng();
-            var R = 5000; // radius of earth in km
+            var R = 6371; // 地球半徑
             var distances = [];
             var closest = -1;
             for (i = 0; i < markersArray.length; i++) {
+                //console.log('do');
                 var mlat = markersArray[i].position.lat();
                 var mlng = markersArray[i].position.lng();
                 var dLat = rad(mlat - lat);
@@ -139,51 +139,59 @@
                 distances[i] = d;
                 if (closest == -1 || d < distances[closest]) {
                     closest = i;
-
                 }
             }
             var blat = markersArray[closest].position.lat(),
-                blng = markersArray[closest].position.lng(), content = '<p>距離您最近的ATM是：'+markersArray[closest].name+'</p><p>直線距離為：'+Math.round(distances[closest]*10)/10+'公里</p>'
-            //var searchinfo = document.getElementById('search-info');
-            calcRoute(map, searchloc, markersArray[closest]);
-            //searchinfo.innerHTML = markersArray[closest].name + distances[closest]
+                blng = markersArray[closest].position.lng();
+            var searchinfo = document.getElementById('search-info');
+            if(distances[closest]<=10){
+                calcRoute(map, searchloc, markersArray[closest], infowindow);
+            }else{
+                
+                infowindow.setContent('您附近沒有可供跨國提款的ATM');
+                infowindow.open(map, marker);
+            }
+            //searchinfo.innerHTML = markersArray[closest].name +'直線距離'+distances[closest]
         }
 
         //繪製路線
         var Rarray = [];
         console.log(Rarray);
-
-        function calcRoute(map, a, b) {
+        function calcRoute(map, a, b, infowindow) {
             var directionsService = new google.maps.DirectionsService();
             var directionsDisplay = new google.maps.DirectionsRenderer();
-            var myDistance = '無法估算距離';
             var request = {
                 origin: a,
                 destination: b.position,
-                travelMode: 'WALKING',
+                travelMode: 'DRIVING',
                 unitSystem: google.maps.UnitSystem.IMPERIAL
             };
             directionsService.route(request, function(result, status) {
-                
                 if (status == 'OK') {
-                    if (Rarray.length != 0) {
-                        Rarray[0].setMap(null);
-                    } //清除上一個
-                    if(result.routes[0].legs[0] != undefined){
-                       myDistance = result.routes[0].legs[0].distance.value/1000+'公里';
-                       }
-                    
-                    directionsDisplay.setDirections(result);
-                    Rarray = []; //清空
-                    Rarray.push(directionsDisplay);
-                    Rarray[0].setMap(map);
-                    
-                    var content = '<p>距離您最近的ATM是：'+b.name+'</p><p>距離為：'+myDistance+'公里</p>';       
+                    var myDistance = result.routes[0].legs[0]; 
+                    if (myDistance != undefined) {
+                        myDistance = Math.round(result.routes[0].legs[0].distance.value / 100)/10 + '公里';
+                    }else{
+                        myDistance = '無法估算距離';
+                    }
+                    var content = '<p>距離您較近的ATM是：' + b.name + '</p><p>距離為：' + myDistance + '</p>';
                     infowindow.setContent(content);
-                    infowindow.setPosition(new google.maps.LatLng(b.position.lat(), b.position.lng()));
-                    console.log(b.position);
+                    infowindow.setPosition(b.position);
                     infowindow.open(map);
+                }else{
+                    console.log(a.lat());
+                    infowindow.setPosition(new google.maps.LatLng(a.lat(),a.lng()));
+                    infowindow.setContent('沒有可用路徑');
+                    infowindow.open(map);
+                   
                 }
+                if (Rarray.length != 0) {
+                    Rarray[0].setMap(null);
+                } //清除上一個
+                directionsDisplay.setDirections(result);
+                Rarray = []; //清空
+                Rarray.push(directionsDisplay);
+                Rarray[0].setMap(map);
             });
         }
 
@@ -208,7 +216,7 @@
                     });
                     Marray.push(marker1);
                     Marray[0].setMap(map);
-                    find_closest_marker(map, results[0].geometry.location,infowindow);
+                    find_closest_marker(map, results[0].geometry.location, infowindow, marker1);
                 } else {
                     alert('你確定有這地方? 錯誤訊息：' + status);
                 }
@@ -219,7 +227,6 @@
         function deleteMarkers() {
             Marray = [];
         }
-
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyDwDSYs7e92U9nP8IVodq-OEswsUlhCAdQ&signed_in=true">
     </script>
