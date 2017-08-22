@@ -144,11 +144,8 @@
             }
             var blat = markersArray[closest].position.lat(),
                 blng = markersArray[closest].position.lng(), content = '<p>距離您最近的ATM是：'+markersArray[closest].name+'</p><p>直線距離為：'+Math.round(distances[closest]*10)/10+'公里</p>'
-            infowindow.setContent(content);
-            infowindow.setPosition(new google.maps.LatLng(blat, blng));
-            var searchinfo = document.getElementById('search-info');
-            calcRoute(map, searchloc, markersArray[closest].position);
-            infowindow.open(map);
+            //var searchinfo = document.getElementById('search-info');
+            calcRoute(map, searchloc, markersArray[closest]);
             //searchinfo.innerHTML = markersArray[closest].name + distances[closest]
         }
 
@@ -159,9 +156,10 @@
         function calcRoute(map, a, b) {
             var directionsService = new google.maps.DirectionsService();
             var directionsDisplay = new google.maps.DirectionsRenderer();
+            var myDistance = '無法估算距離';
             var request = {
                 origin: a,
-                destination: b,
+                destination: b.position,
                 travelMode: 'WALKING',
                 unitSystem: google.maps.UnitSystem.IMPERIAL
             };
@@ -172,14 +170,19 @@
                         Rarray[0].setMap(null);
                     } //清除上一個
                     if(result.routes[0].legs[0] != undefined){
-                       var myDistance = result.routes[0].legs[0].distance.value/1000+'公里';
-                       console.log(myDistance);
+                       myDistance = result.routes[0].legs[0].distance.value/1000+'公里';
                        }
                     
                     directionsDisplay.setDirections(result);
                     Rarray = []; //清空
                     Rarray.push(directionsDisplay);
                     Rarray[0].setMap(map);
+                    
+                    var content = '<p>距離您最近的ATM是：'+b.name+'</p><p>距離為：'+myDistance+'公里</p>';       
+                    infowindow.setContent(content);
+                    infowindow.setPosition(new google.maps.LatLng(b.position.lat(), b.position.lng()));
+                    console.log(b.position);
+                    infowindow.open(map);
                 }
             });
         }
@@ -218,9 +221,9 @@
         }
 
     </script>
-    <!--script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyDwDSYs7e92U9nP8IVodq-OEswsUlhCAdQ&signed_in=true">
-    </script-->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&libraries=places"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyDwDSYs7e92U9nP8IVodq-OEswsUlhCAdQ&signed_in=true">
+    </script>
+    <!--script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&libraries=places"></script-->
 
 </body>
 
