@@ -4,7 +4,10 @@
     <meta name="generator" content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
     <script src="data.js"></script>
     <!-- custom scrollbar stylesheet -->
-    <link rel="stylesheet" href="jquery.mCustomScrollbar.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="asset/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="asset/style.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <!--script type="text/javascript" src="http://davidlynch.org/projects/maphilight/jquery.maphilight.min.js"></script-->
     <script type="text/javascript">
@@ -20,92 +23,169 @@
     </script>
     <title>資料撈出乃喔</title>
     <style>
-        body{margin: 0; padding: 0;background:#365d83;}
-        .img {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0px auto;
-            display: block;
-        }
 
-        .img-wide{width: 100%;}
-        .mark {
-            width: 50px;
-            height: 50px;
-            background: red;
-            display: block;
-            position: absolute;
-        }
-        .section{max-width:1200px; margin: 0px auto;width:100%; position: absolute;            margin-bottom:40px;}
-        .listarea {
-            height: 500px;
-            overflow: hidden;
-            background: rgba(240, 248, 255, 0.7);
-            padding: 20px;
-            width: 30%;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .list{height: 400px;}
-        .list ul{padding-left: 0px;}
-        .list li{list-style-type: none;}
-        .map{
-           width: 60%;
-           display: inline-block;
-            vertical-align: middle;
-        }
-        .mapimg{
-             width:500px;
-             margin: 0px auto;
-             display: block;
-        }
-        @mediascreen and (max-width:960px){
-            
-        }
+
     </style>
 </head>
+
 <body>
-<!--
-    <a class="mark" id="okado" style="left: 80%;
-    top: 600px;" onClick="listdata('大阪府');"></a>
-    <a class="mark" id="okado" style="left: 88%;
-    top: 800px;" onClick="listdata('札幌');"></a>
-    <a class="mark" id="okado" style="left: 82%;
-    top: 700px;" onClick="listdata('北海道');"></a>
-    <a class="mark" id="okado" style="left: 70%;
-    top: 650px;" onClick="listdata('東京都');"></a>
--->
-    <img src="img/header.png" class="img-wide"/>
-    <!--img src="img/longscroll.png" class="img"/-->
-    <div class="section sectionj">
-        <div id="listj" class="listarea">
-            <h2 id='title'>Initial Data</h2>
-            <div class="mCustomScrollbar list" >
-            <ul>Initial Data there</ul>
-            </div>
+    <div class="header" id="header">
+        <img src="img/ele-05.png" alt="" id="animate" style="width:100px; display: none;">
+        <img src="img/ele-06.png" alt="" id="animate1" style="width:100px; display: none; position: absolute;">
+        <img src="img/plane.png" id="plane" >
+        <img src="img/balloon.png" id="balloon"  >
+        <div class="earth"></div>
+        <!--          <div id="animate" style="width: 10px;height: 10px;background: red; "></div>-->
+        <div class="head-title">
+            <h1>
+                <div>帶著三信金融卡</div>
+                <div>出發去旅行吧</div>
+            </h1>
+            <h2>(金融卡跨國提款-日本、港澳出差旅遊)</h2>
+            <img src="img/ele-07.png" alt="" class="subtitle">
         </div>
-        <div class="map" id="areaj">
-            <img src="img/jmap.png" class="mapimg" usemap="#planetmap" />
+
+        <div class="button-wrap head-button">
+            <button class="btn" id="toJP">日本地區</button>
+            <button class="btn" id="toHK">港澳地區</button>
         </div>
-        <map name="planetmap">
-            <area class="marks" shape="circle" coords="90,58,100" alt="Mercury" href="#areaj">
-            <area class="marks" shape="circle" coords="377,74,20" alt="Venus" onClick="listdata('北海道');">
-        </map>
+
     </div>
-    <div class="section sectionh">
-        <div id="listh" class="listarea">
-            <h2 id='title'>Initial Data Hongkong</h2>
-            <div class="mCustomScrollbar list" >
-            <ul>Initial Data there</ul>
+
+    <!--img src="img/longscroll.png" class="img"/-->
+    <div class="" id="areaJP">
+        <div class="section-head">
+            <h2>日本地區</h2>
+            <div class="button-wrap">
+                <button class="btn active">跨國ATM</button>
+                <a href="http://www.smart2pay.com.tw/event_0524/page_2.html" class="btn outer-btn" target="_blank">特約商店</a>
             </div>
         </div>
-        <div class="map" id="areah">
-            <img src="img/hmap.png" class="mapimg" usemap="#hmap" />
-        </div>
-        <map name="hmap">
-            <area class="marks" shape="circle" coords="90,58,100" alt="Mercury" href="#areaj">
-            <area class="marks" shape="circle" coords="377,74,20" alt="Venus" onClick="listdata('北海道');">
+        <div class="section">
+            <div id="listj" class="listarea">
+                <h2 id='title1'>Initial Data</h2>
+                <div class="mCustomScrollbar list">
+                    <ul>Initial Data there</ul>
+                </div>
+            </div>
+            <div class="map">
+                <img src="img/jmap.png" class="mapimg" usemap="#jpmap" />
+                <div class="mobile-map">
+                    <!--<button class="map-button" onClick="listdata('札幌');">按鈕1</button>-->
+                    <img src="img/tagJ.png" alt="" usemap="#jpmap-m">
+                </div>
+            </div>
+            <map name="jpmap">
+            <area class="marksj" shape="rect" coords="370,36,480,116" alt="跨國提款地圖-日本" onClick="listdata('北海道');" href="#areaj">
+            <area class="marksj" shape="rect" coords="290,87,350,127" alt="跨國提款地圖-日本" onClick="listdata('札幌');" href="#areaj">
+            <area class="marksj" shape="rect" coords="350,117,480,177" alt="跨國提款地圖-日本" onClick="listdata('千歳市');" href="#areaj">
+            <area class="marksj" shape="rect" coords="347,240,480,280" alt="跨國提款地圖-日本" onClick="listdata('岩手');" href="#areaj">
+            <area class="marksj" shape="rect" coords="347,310,500,350" alt="跨國提款地圖-日本" onClick="listdata('宮城縣');" href="#areaj">
+            <area class="marksj" shape="rect" coords="202,373,276,424" alt="跨國提款地圖-日本" onClick="listdata('富山');" href="#areaj">
+            <area class="marksj" shape="rect" coords="335,384,400,436" alt="跨國提款地圖-日本" onClick="listdata('東京都');" href="#areaj">
+            <area class="marksj" shape="rect" coords="279,436,350,486" alt="跨國提款地圖-日本" onClick="listdata('神奈川');" href="#areaj">
+            <area class="marksj" shape="rect" coords="350,434,454,486" alt="跨國提款地圖-日本" onClick="listdata('千葉縣');" href="#areaj">
+
+            <area class="marksj" shape="rect" coords="187,432,250,482" alt="跨國提款地圖-日本" onClick="listdata('京都府');" href="#areaj">
+            <area class="marksj" shape="rect" coords="151,490,233,516" alt="跨國提款地圖-日本" onClick="listdata('大阪府');" href="#areaj">
+            <area class="marksj" shape="rect" coords="53,514,113,573" alt="跨國提款地圖-日本" onClick="listdata('福岡');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,677,94,752" alt="跨國提款地圖-日本" onClick="listdata('沖繩');" href="#areaj">
+
         </map>
+            <map name="jpmap-m">
+            <area class="marksj" shape="rect" coords="0,0,100,40" alt="跨國提款地圖-日本" onclick="listdata('北海道');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,40,100,80" alt="跨國提款地圖-日本" onclick="listdata('千歳市');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,80,100,120" alt="跨國提款地圖-日本" onclick="listdata('札幌');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,120,100,160" alt="跨國提款地圖-日本" onclick="listdata('岩手');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,160,100,200" alt="跨國提款地圖-日本" onclick="listdata('宮城縣');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,200,100,240" alt="跨國提款地圖-日本" onclick="listdata('東京都');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,240,100,280" alt="跨國提款地圖-日本" onclick="listdata('千葉縣');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,280,100,320" alt="跨國提款地圖-日本" onclick="listdata('神奈川');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,320,100,360" alt="跨國提款地圖-日本" onclick="listdata('富山縣');" href="#areaj">
+
+            <area class="marksj" shape="rect" coords="0,360,100,400" alt="跨國提款地圖-日本" onclick="listdata('京都府');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,400,100,440" alt="跨國提款地圖-日本" onclick="listdata('大阪府');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,440,100,480" alt="跨國提款地圖-日本" onclick="listdata('福岡');" href="#areaj">
+            <area class="marksj" shape="rect" coords="0,480,100,520" alt="跨國提款地圖-日本" onclick="listdata('沖繩');" href="#areaj">
+
+        </map>
+        </div>
+
+    </div>
+
+    <img src="img/ele-02.png" alt="" class="img-section">
+    <div class="" id="areaHK">
+        <div class="section-head">
+            <h2>港澳地區</h2>
+            <div class="button-wrap">
+                <button class="btn active">跨國ATM</button>
+                <a href="
+http://www.smart2pay.com.tw/event/event_0627/20170627.html" class="btn outer-btn" target="_blank">優惠活動</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <div id="listh" class="listarea">
+                <h2 id='title2'>Initial Data Hongkong</h2>
+                <div class="mCustomScrollbar list">
+                    <ul>Initial Data there</ul>
+                </div>
+            </div>
+            <div class="map">
+                <img src="img/hmap.png" class="mapimg" usemap="#hmap" />
+                <div class="mobile-map">
+                    <img src="img/tagH.png" alt="" usemap="#hmap-m">
+                </div>
+            </div>
+            <map name="hmap">
+            <area class="marksh" shape="rect" coords="253,107,310,180" alt="跨國提款地圖-港澳" onClick="listdata('新界');" href="#areah">
+            <area class="marksh" shape="rect" coords="338,174,389,244" alt="跨國提款地圖-港澳" onClick="listdata('九龍');" href="#areah">
+            <area class="marksh" shape="rect" coords="270,202,331,270" alt="跨國提款地圖-港澳" onClick="listdata('香港');" href="#areah">
+            <area class="marksh" shape="rect" coords="23,214,131,269" alt="跨國提款地圖-港澳" onClick="listdata('離島');" href="#areah">
+            <area class="marksh" shape="rect" coords="14,358,120,418" alt="跨國提款地圖-港澳" onClick="listdata('澳門');" href="#areah">
+        </map>
+            <map name="hmap-m">
+            <area class="marksh" shape="rect" coords="0,0,100,43" alt="跨國提款地圖-港澳" onclick="listdata('香港');" href="#areah">
+            <area class="marksh" shape="rect" coords="0,43,100,86" alt="跨國提款地圖-港澳" onclick="listdata('九龍');" href="#areah">
+            <area class="marksh" shape="rect" coords="0,86,100,129" alt="跨國提款地圖-港澳" onclick="listdata('新界');" href="#areah">
+            <area class="marksh" shape="rect" coords="0,129,100,172" alt="跨國提款地圖-港澳" onclick="listdata('離島');" href="#areah">
+            <area class="marksh" shape="rect" coords="0,172,100,215" alt="跨國提款地圖-港澳" onclick="listdata('澳門');" href="#areah">
+        </map>
+        </div>
+
+    </div>
+
+    <img src="img/ele-01.png" alt="" class="img-section">
+    <div id="footer">
+        <div class="section">
+            <div class="info">
+                <img src="img/foot1.png" alt="" class="img-wide">
+                <h3>跨國提款手續費</h3>
+                <p>日本提款手續費：<br> (單筆最低手續費日圓390元)
+                    <br> 日圓150元 + 交易金額 * 0.8%</p>
+                <p>港澳提款手續費：<br> (購物消費扣款免收手續費)
+                    <br> 均一價為新台幣 100 元</p>
+            </div>
+            <div class="info">
+                <img src="img/foot2.png" alt="" class="img-wide">
+                <h3>金融卡購物手續費</h3>
+                <p>於日本地區，使用金融卡購物免收手續費，再享2％現金回饋。</p>
+            </div>
+            <div class="info">
+                <img src="img/foot3.png" alt="" class="img-wide">
+                <h3>港澳提款</h3>
+                <p>HaagenDazs冰淇淋天天送</p>
+                <p>
+                    活動期間：<br> 106/07/10~106/12/31
+                    <br> 活動地點：
+                    <br> 港澳地區924台ATM
+                    <br>
+                    <br>
+                </p>
+                <a href="
+http://www.smart2pay.com.tw/event/event_0627/20170627.html" class="outer-btn-blue btn" target="_blank">活動詳情</a>
+            </div>
+        </div>
     </div>
     <!-- Google CDN jQuery with fallback to local -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -117,59 +197,175 @@
     <!-- custom scrollbar plugin -->
     <script src="jquery.mCustomScrollbar.concat.min.js"></script>
     <script>
+        var halfwidth = $(window).width() / 2;
+        var winwidth = $(window).width();
+        var headBottom = $('.header').height();
         (function($) {
-            $(window).on("load", function() {
-                addheight(); 
+            $(window).on("load", function() { //全部載完執行
+                addheight();
+                if (winwidth > 1200) {
+                    loop();
+                }
                 $("#content-1").mCustomScrollbar({
                     theme: "minimal"
                 });
-                var mCSB_1_container_1_container = $('#mCSB_1_container_1_container');
+                // var mCSB_1_container_1_container = $('#mCSB_1_container_1_container');
+                // var mCSB_1_container_2_container = $('#mCSB_1_container_2_container');
+                listdata('北海道');
+                listdata('香港');
+                
+                
+                var parallaxBox = document.getElementById('header');
+                var plane = document.getElementById('plane');
+                var balloon = document.getElementById('balloon');
+                parallaxBox.onmousemove = function (event) {
+                    event = event || window.event;
+                    var x = event.clientX - parallaxBox.offsetLeft,
+                        y = event.clientY - parallaxBox.offsetTop;
+                    mouse(plane,x,y,0.1,0.5,0.043);
+                    mouse(balloon,x,y,0.78,0.45,0.01);
+                    
+                }
             });
-            function addheight(){
-                var halfwidth = $(window).width()/2;
+
+            //不執行，算手機版標籤用
+            function mTages() {
+                if (winwidth <= 767) {
+                    var mtg = document.getElementsByClassName('marksh');
+                    for (i = 0; i < mtg.length; i++) {
+                        mtg[i].coords = '0,' + (i * 43) + ',100,' + (i + 1) * 43;
+                    }
+                }
+            }
+
+            function addheight() {
                 var height = halfwidth;
                 var num = 1200;
-                $('.sectionj,.sectionh').each(function(){
-                    $(this).css('top',halfwidth).css('left',halfwidth-num/2); 
-                    if(halfwidth<num/2){
-                        $(this).css('left',0); 
-                    }                                   
+                $('.sectionj,.sectionh').each(function() {
+                    $(this).css('top', halfwidth).css('left', halfwidth - num / 2);
+                    if (halfwidth < num / 2) {
+                        $(this).css('left', 0);
+                    }
                 });
-                $('.sectionh').css('top','+=1000');
-//                $('#areaj').css('left',halfwidth-num);
-//                $('#listj').css('right',halfwidth+num);
+                $('.sectionh').css('top', '+=1000');
+
             }
+            //-----------滑鼠位移動畫-------
+            function mouse(obj,x,y,left,top,speed){                 
+                var oleft = obj.style.left;     
+                console.log('oleft', oleft);
+                var otop = obj.style.top;     
+                obj.style.left= winwidth*left-x*speed;
+                    obj.style.top=headBottom*top-y*speed-speed;
+            }
+            //--------------拋物線動畫---------
+            function loop() {
+                $.fx.interval = 200;
+                //console.log('win', winwidth);
+                //console.log('hb', headBottom);
+                var w = winwidth;
+
+                function animation(obj, t) {
+                    var o = $(obj);
+                    var v = 0.1 / w; //1200-0.0003
+                    var initY = Math.pow(halfwidth, 2) * v; //X等於0時下推的高度
+                    o.offset({
+                        left: -200
+                    });
+                    o.animate({
+                        display: 'block',
+                        left: w + 10,
+                        percent: 100
+                    }, {
+                        duration: t,
+                        progress: function() {
+                            var x = parseInt(this.style.left) - halfwidth; //拋物線中心點是0
+                            var y = parseInt(this.style.top);
+                            y = x * x; //y=x^2+初始地平線-初始Y最低值
+                            y = y * v + headBottom - initY - $(obj).height();
+                            this.style.top = y;
+                            var ro = this.percent / 3 - 10;
+                           this.style.opacity = this.percent/100; this.style.transform = "rotate(" + ro + "deg)";
+                            
+                            if (w != winwidth) {
+
+                                $(obj).stop(true);
+                                this.style.display = 'none';
+                                this.style.left = 0;
+                                //this.style.transform = 'rotate(0deg)';
+                                this.percent = 0;
+                                loop();
+                            }
+                            console.log(this.percent);
+                        },
+                        complete: function() {
+                            this.style.display = 'none';
+                            this.style.left = 0;
+                            //this.style.transform = 'rotate(0deg)';
+                            this.percent = 0;
+                            loop();
+                        }
+                    });
+                }
+                animation('#animate', 8000);
+                animation('#animate1', 5000);
+            }
+
             $(window).resize(function() {
-                addheight();  
+                addheight();
+                winwidth = $(window).width();
+                headBottom = $('.header').height();
+                halfwidth = $(window).width() / 2;
             });
-        
-        
+            $.each(['JP', 'HK'], function(index, value) {
+                $('#to' + value).click(function() {
+                    var $body = (window.opera) ? (document.compatMode == "CSS1Compat" ? $('html') : $('body')) : $('html,body');
+                    $('html, body').animate({
+                        scrollTop: $("#area" + value).offset().top
+                    }, 1000);
+                });
+            })
+
         })(jQuery);
 
     </script>
     <script type="text/javascript">
         function listdata(name) {
-            var listj = document.getElementById('listj');
+            var listj = document.getElementById('listj'),
+                listh = document.getElementById('listh');
             var ul = document.createElement('ul');
-            document.getElementById('title').innerHTML = name;
+            var num, mCSB;
             for (i = 0; i < data.length; i++) {
                 if (data[i].city == name) {
                     var li = document.createElement('li');
                     ul.appendChild(li);
-                    li.innerHTML = '<b>' + data[i].name + '</b><p>' + data[i].addr +' <a href="" onClick=\'OpenMapPage(\"'+i+'\");\'>地圖</a></p>';
+                    li.innerHTML = '<div><b>' + data[i].name + '</b><p>' + data[i].addr + ' </p></div>';
+                    if (data[i].lat == 'null') {} else {
+                        li.innerHTML += '<a onClick=\'OpenMapPage(\"' + i + '\");\'><img src="img/mark.png" alt="" class="mark"></a>';
+                    }
+                    if (data[i].country == '日本') {
+                        num = 1;
+                    } else {
+                        num = 2
+                    }
                 }
             }
-            mCSB_1_container_1_container.appendChild(ul);
-            mCSB_1_container_1_container.insertBefore(ul, mCSB_1_container_1_container.childNodes[0]);
-        mCSB_1_container_1_container.removeChild(mCSB_1_container_1_container.lastElementChild);
+            (function(a) {
+                mCSB = document.getElementById('mCSB_1_container_' + a + '_container');
+                mCSB.appendChild(ul);
+                mCSB.insertBefore(ul, mCSB.childNodes[0]);
+                document.getElementById('title' + a).innerHTML = name+'/跨國提款ATM';
+            }(num))
+            mCSB.removeChild(mCSB.lastElementChild);
         }
         //開啟地圖
-        function OpenMapPage(loc){  
-            var WinSetting="/*menubar=no,toolbar=no,scrollbars=0,*/status=0,left=0,top=0,width=1000,height=1000,resizable=0";
-            var winATM=window.open("mutiMark.html?" +loc ,"winATM", WinSetting);
-           // winATM.focus();
-        }    
+        function OpenMapPage(loc) {
+            var WinSetting = "/*menubar=no,toolbar=no,scrollbars=0,*/status=0,left=0,top=0,width=1000,height=1000,resizable=0";
+            var winATM = window.open("mutiMark.html?" + loc, "winATM", WinSetting);
+            // winATM.focus();
+        }
 
     </script>
 </body>
+
 </html>
