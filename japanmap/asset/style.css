@@ -1,0 +1,306 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #365d83;
+    font-family: Microsoft JhengHei;
+    overflow-x: hidden;
+}
+.head-title h1>div{
+    display:inline-block;
+}
+.img-wide {
+    width: 100%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+.br{display:none;}
+.anitest {
+    width: 50px;
+    height: 50px;
+    background: red;
+    display: block;
+    position: absolute;
+}
+
+.section {
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 20px 0px;
+    width: 100%;
+}
+
+.section > div {
+    display: inline-block;
+}
+
+.img-section {
+    margin-left: -5px;
+    margin-right: -5px;
+    width: 100%;
+}
+
+.header {
+    border-bottom: dashed 2px rgba(248, 248, 248, 0.63);
+    background-image: url(../img/ele-08.png);
+    height: 800px;
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: bottom;
+    background-repeat: no-repeat;
+}
+
+.earth {
+    background: url('../img/ele-10.png');
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 800px;
+    width:100%;
+    margin: 0 auto;
+    display: block;
+    position: absolute;
+}
+
+.btn {
+    border-radius: 6px;
+    padding: 8px 20px;
+    border: 0px;
+    font-size: 18px;
+    transition: 0.5s;
+    text-decoration: none;
+    font-family: Microsoft JhengHei;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background: #0d385d;
+}
+
+.button-wrap button {
+    color: #fff;
+    background: #3a5d7c;
+    display: inline-block;
+}
+
+.button-wrap {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+}
+
+.listarea {
+    border-radius: 10px;
+    height: 500px;
+    overflow: hidden;
+    background: rgba(240, 248, 255, 0.6);
+    padding: 20px;
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}
+
+.listarea > h2 {
+    margin-bottom: 10px;
+}
+
+.listarea .mark {
+    background-color: transparent;
+    width: 30px;
+    padding: 10px;
+    height: auto;
+}
+
+.list {
+    padding-top: 15px;
+    border-top: 4px solid #cfe7ff;
+    height: 400px;
+}
+
+.list ul {
+    padding-left: 0px;
+    margin-top: 0px;
+}
+
+.list li {
+    list-style-type: none;
+    padding-left: 10px;
+    padding-top: 10px;
+    border-bottom: solid 1px #fff;
+    color: #fff;
+}
+
+.list li > div {
+    margin-right: 40px;
+    display: inline-block;
+}
+
+.list li > a {
+    width: 40px;
+    position: absolute;
+    right: 0;
+}
+
+.map {
+    width: 60%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mapimg {
+    width: 500px;
+    margin: 0px auto;
+    display: block;
+    /* border: solid;*/
+}
+
+.mobile-map {
+    display: none;
+}
+
+.head-title {
+    text-align: center;
+    padding: 40px;
+    padding-top: 10%;
+    z-index: 10;
+}
+
+#animate {
+    position: absolute;
+    left: 0px;
+}
+
+.section-head {
+    margin: 40px 0px;
+    text-align: center;
+    color: #fff;
+}
+
+.info {
+    width: 29%;
+    margin: 10px;
+    max-width: 400px;
+    box-sizing: border-box;
+    padding: 40px;
+    vertical-align: top;
+    background: rgba(255, 255, 255, 0.7);
+    color: #666;
+    border-radius: 10px;
+    height: 480px;
+}
+
+.info > img {
+    max-width: 150px;
+}
+
+.info > p {
+    text-align: left;
+}
+
+#footer {
+    text-align: center;
+    vertical-align: top;
+}
+
+.outer-btn {
+    border: 1px solid #cfe7ff;
+    color: #cfe7ff;
+    background-color: transparent;
+}
+
+.outer-btn-blue {
+    border: 1px solid #00BCD4;
+    background-color: transparent;
+    font-weight: 700;
+    color: #00BCD4;
+}
+
+.outer-btn-blue:hover {
+    background-color: #fff;
+}
+
+.btn.active {
+    background: #7ad2dd;
+}
+
+.subtitle {
+    width: 600px;
+}
+
+@media screen and (max-width:1366px) {
+    .header, .earth {
+        height: 600px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .header, .earth {
+        height: 500px;
+    }
+    .listarea {
+        width: 60%;
+        margin-left: 10px;
+    }
+
+    .map > img {
+        display: none;
+    }
+    .mobile-map {
+        display: block;
+        text-align: center;
+    }
+    .mobile-map > img {
+        width: 100px;
+    }
+    .map {
+        display: inline-block;
+        width: 30%;
+        position: absolute;
+        right: 10px;
+    }
+    .info {
+        width: 100%;
+        height: auto;
+    }
+    .subtitle {
+        width: 400px;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .header, .earth {height: 400px;}
+    .btn{font-size:12px;}
+    .head-title{
+        text-align: center;
+        padding:40px 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 15%;
+    }
+    .head-title h1{
+        font-size:24px;
+    }
+    .br{display:block;}
+    .head-title h2{
+        font-size:1em;
+    }
+    .subtitle {
+        width: 320px;
+    }
+        .listarea {
+        padding: 10px;
+    }
+    .info {
+        width: 90%;
+    }
+}
+
+
+#plane, #balloon {
+    width: 15%;
+    position: absolute;
+    left: 5%;
+    top: 30%;
+}
