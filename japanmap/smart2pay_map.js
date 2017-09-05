@@ -2,8 +2,8 @@
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 8,
                 center: {
-                    lat: 36.173357,
-                    lng: 138.515625
+                    lat: 24.173357,
+                    lng: 120.515625
                 }
             });
 
@@ -16,7 +16,7 @@
                     map: map,
                     icon: {
                         url: 'https://www.cotabank.com.tw/web/wp-content/uploads/markerG.png',
-                        scaledSize: new google.maps.Size(10, 10)
+                        scaledSize: new google.maps.Size(20, 20)
                     },
                     position: new google.maps.LatLng(data[i].lat, data[i].lng),
                     name: data[i].name, //增加給 marker 物件
@@ -101,14 +101,12 @@
                     infowindow.setPosition(pos);
                     infowindow.open(map);
                     infowindow.setContent('目前位置'+posL);
-                    console.log(posL);
                     map.setCenter(pos);
                     map.setZoom(8);
-                    find_closest_marker(map, posL, infowindow, marker);
+                    find_closest_marker(map, posL, infowindow);//0905
                 }
 
                 function error(err) {
-                    console.warn('ERROR(' + err.code + '): ' + err.message);
                     handleLocationError(true, infowindow, map.getCenter(), err);
                 }
 
@@ -131,7 +129,7 @@
                 //infowindow.setPosition(pos);
                 //infowindow.open(map);
                 panel(browserHasGeolocation ?
-                err.message + ',' + err.code + '：定位失敗' :
+                err.message + '：定位失敗' :
                 '：沒有定位功能');
             }
 
@@ -147,7 +145,7 @@
             return x * Math.PI / 180;
         }
 
-        function find_closest_marker(map, searchloc, infowindow, marker) {
+        function find_closest_marker(map, searchloc, infowindow) {//0905
             var lat = searchloc.lat();
             var lng = searchloc.lng();
             var R = 6371; // 地球半徑
@@ -175,6 +173,7 @@
             } else {
 
                 infowindow.setContent('您附近沒有可供跨國提款的ATM');
+				infowindow.setPosition(searchloc);//0905
                 infowindow.open(map);
             }
             //searchinfo.innerHTML = markersArray[closest].name +'直線距離'+distances[closest]
@@ -245,8 +244,7 @@
                     });
                     Marray.push(marker1);
                     Marray[0].setMap(map);
-                    find_closest_marker(map, results[0].geometry.location, infowindow, marker1);
-                    panel(results[0].geometry.location);
+                    find_closest_marker(map, results[0].geometry.location, infowindow);//0905
                 } else {
                     panel('很抱歉，找不到您所搜尋的地方!');
                 }
