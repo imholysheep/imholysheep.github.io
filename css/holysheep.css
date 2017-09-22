@@ -18,6 +18,11 @@ background-image:none;
 z-index:-2;
 /*background: #f5ddba;*/
 }
+
+.bg-texture{
+    background-image:url(../images/rockywall.png);
+}
+
 .mainbg{
 	position:fixed; 
 	z-index: -1; 

@@ -43,7 +43,7 @@ $(document).ready(function(){
         {
         singleItem: true,
         pagination : true,
-        autoPlay : 5000,
+        autoPlay : 10000,
         }
     );
 

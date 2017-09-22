@@ -63,7 +63,7 @@
             function search() {
                 var address = document.getElementById('address').value;
                 var set = new google.maps.Geocoder();
-                setcenter(set, map, address, infowindow);
+                geocodeSearch(set, map, address, infowindow);
                 return false;
             }
 
@@ -140,7 +140,7 @@
         //------end of init
 
         var markersArray = [];
-        //找最近點
+        //----找最近點----
         function rad(x) {
             return x * Math.PI / 180;
         }
@@ -179,9 +179,9 @@
             //searchinfo.innerHTML = markersArray[closest].name +'直線距離'+distances[closest]
         }
 
-        //繪製路線
+        //----繪製路線----
         var Rarray = [];
-
+        var Marray = [];
         function calcRoute(map, a, b, infowindow) {
             var directionsService = new google.maps.DirectionsService();
             var directionsDisplay = new google.maps.DirectionsRenderer();
@@ -191,6 +191,14 @@
                 travelMode: 'DRIVING',
                 unitSystem: google.maps.UnitSystem.IMPERIAL
             };
+            var marker1 = new google.maps.Marker({
+                        //map: map,
+                        icon: {
+                            url: 'https://www.cotabank.com.tw/web/wp-content/uploads/walker.png',
+                            scaledSize: new google.maps.Size(80, 104)
+                        },
+                        position: a
+                    });
             directionsService.route(request, function (result, status) {
                 if (status == 'OK') {
                     var myDistance = result.routes[0].legs[0];
@@ -212,38 +220,29 @@
                 }
                 if (Rarray.length != 0) {
                     Rarray[0].setMap(null);
-                } //清除上一個
+                } //清除上一個路徑
+                if (Marray.length != 0) {
+                    Marray[0].setMap(null);
+                } //清除上一個圖標
+                
                 directionsDisplay.setDirections(result);
-                Rarray = []; //清空
+                Rarray = []; 
+                Marray = [];//清空
                 Rarray.push(directionsDisplay);
+                Marray.push(marker1);
                 Rarray[0].setMap(map);
+                Marray[0].setMap(map);
             });
         }
 
-        //地址搜尋
-        var Marray = [];
-
-        function setcenter(geocoder, map, addrset, infowindow) {
+        //----地址搜尋----
+        function geocodeSearch(geocoder, map, addrset, infowindow) {
             geocoder.geocode({
                 'address': addrset
             }, function (results, status) {
-                if (Marray.length != 0) {
-                    Marray[0].setMap(null);
-                } //清除上一個
-                Marray = [];
                 if (status === 'OK') {
                     map.setCenter(results[0].geometry.location);
                     //map.setZoom(currentzoom + 1);
-                    var marker1 = new google.maps.Marker({
-                        //map: map,
-                        icon: {
-                            url: 'https://www.cotabank.com.tw/web/wp-content/uploads/walker.png',
-                            scaledSize: new google.maps.Size(80, 96.8)
-                        },
-                        position: results[0].geometry.location
-                    });
-                    Marray.push(marker1);
-                    Marray[0].setMap(map);
                     find_closest_marker(map, results[0].geometry.location, infowindow);//0905
                 } else {
                     panel('很抱歉，找不到您所搜尋的地方!');
