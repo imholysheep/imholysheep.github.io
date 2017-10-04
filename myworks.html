@@ -33,6 +33,8 @@
     <!--link rel="stylesheet" href="css/responsive.css"-->
     <link rel="stylesheet" href="css/holysheep.css" />
     <!-- Google Tag Manager -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="js/jquery.lazyload.mini.js"></script>
     <script>
         (function(w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -61,7 +63,11 @@
         //			 iframeTag.allowTransparency='ture';
         //			 iframeID.appendChild(iframeTag); 
         //		 }
-
+		$("img").lazyload({
+			threshold : 200,
+			effect : "fadeIn",
+			placeholder: "https://sites.google.com/site/puddingchen35/2011-06-blogger-image-lazy-load/grey.gif"
+		});
     </script>
     <style>
         img {
@@ -204,9 +210,9 @@
         <div class="container">
             <div class="row">
                <h2>工作所做的網站</h2><br>
-                <div class="col-md-6 col-sm-12 wow  ">
+                <div class="col-md-6 col-sm-12 wow ">
                    <h3>三信商銀官方網站</h3>
-                    <a href="https://www.cotabank.com.tw/web/"  target="_blank"><img src="images/works/cotaWP.png"></a>
+                    <a href="https://www.cotabank.com.tw/web/"  target="_blank"><img src="images/works/cotaWP.png" ></a>
                     <blockquote class="blockquote">平時上班主要負責的項目：維護、更新 三信官網、英文官網全站。更新三信企業網銀版面。</blockquote>
                 </div>
                 <div class="col-md-6 col-sm-12 wow  ">
@@ -216,7 +222,62 @@
             </div>
         </div>
     </section>
+	<section class="section contact bgWhite"">
+        <div class="container">
+            <div class="row">
 
+                    
+                    <div class="col-md-6 col-sm-12 wow  ">
+<h2>行銷作品</h2>
+					<a href="https://imholysheep.github.io/images/works/treeking-1.png"  target="_blank"><img src="images/works/treeking-1.png" /></a>
+                </div>
+				
+				<div class="col-md-6 col-sm-12 wow  ">
+<h2>圖片作品</h2>
+					<img src="images/works/app.jpg" />
+					<img src="images/works/ATM1.jpg" />
+                </div>
+                </div>
+            </div>
+
+    </section>
+	 <section class="section ">
+        <div class="container">
+            <div class="row">
+               <h2>其他作品</h2><br>
+                <div class="col-md-6 col-sm-12 wow  ">
+                   <h3>美江與莊圓大師的決鬥...</h3>
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/oBQaUcmFmvY?rel=0" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6 col-sm-12 wow  ">
+                    <h3>樹王公司：街訪影片</h3>
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/v5StSPtdg6A" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+			</section>
+				 <section class="section ">
+			<div class="container">
+			<div class="row">
+               <h3>饕餮食鐘</h3><br>
+                <div class="col-md-4 col-sm-12 wow  ">
+					<p>【日日好時--手作時鐘設計】2014桃、竹、苗校際徵件活動 優選</p></br>
+                    <p>
+					「民以食為天」，我們時時刻刻都能因為「吃」而感到滿足與快樂，但你知道嗎？現今食物多樣化，令人一日至少三次陷入抉擇。當你看完時鐘問身邊的人想吃什麼？卻往往沒有人能拿定主意。此時此刻，你需要一個神聖的力量作為主宰。饕餮，這隻以貪吃聞名的神獸將給你靈感。先轉動盤子後的籤，當這些寫著食物形容詞的籤停止轉動後，時針和分針所指的那兩個籤詞，將是你此時該吃到的滋味。現在轉動饕餮食鐘，享受神聖力量賦予你的好食光吧！快點下定決心，若你轉動了籤，卻心不誠志不堅，那貪吃的饕餮可是會伸長舌頭把你珍貴的時間給吃掉喔！
+					
+					</p><br>
+                </div>
+                <div class="col-md-3 col-sm-12 wow  ">
+
+					<img src="images/works/time1.jpg" />
+                </div>
+				 <div class="col-md-5 col-sm-12 wow  ">
+
+                    <img src="images/works/time2.jpg" />
+                </div>
+            </div>
+        </div>
+		</div>
+    </section>
 
     <section clas="wow fadeInUp">
         <div class="map-wrapper">
