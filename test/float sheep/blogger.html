@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+        var arr_label = [];
+
+        function allPostV3(post) {
+            for (var i in post.items) {
+                //取得物件數量
+                if (post.items.hasOwnProperty(i)) {
+                    var labels = post.items[i].labels;
+                    if (labels) {
+                        var catalog = labels[0].split("-")[0];
+                        let leng = arr_label.length;
+                        if (arr_label.indexOf(catalog) == -1) {
+                            arr_label.push(catalog);
+                        }
+                        console.log(arr_label);
+                    }
+                }
+            }
+
+
+
+        }
+
+    </script>
+    <script type="text/javascript" src="https://www.googleapis.com/blogger/v3/blogs/2807484762092336171/posts?key=AIzaSyBvkMl4AIkion5oneHPQtQLgM1JtZVhX9s&maxResults=100&callback=allPostV3"></script>
+</body>
+
+</html>
