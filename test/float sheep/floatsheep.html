@@ -199,21 +199,21 @@
                 let top = $(this).offset().top,
                     left = $(this).offset().left + ($(this).width()) / 2;
                 var mainPos = $('#main').offset().top + 200;
-                 if (scrollTop > 0) {
-                     $(this).css({
-                         paddingTop:
-                             (function(t) {
-                                 if (scrollTop * t.parent().data('depth') > 800) {
-                                     return '800px';
-                                 } else {
-                                     return scrollTop * t.parent().data('depth') + 'px';
-                                 }
-                             }($(this)))
-                     })
-                 }
+                if (scrollTop > 0) {
+                    $(this).css({
+                        paddingTop:
+                            (function(t) {
+                                if (scrollTop * t.parent().data('depth') > 800) {
+                                    return '800px';
+                                } else {
+                                    return scrollTop * t.parent().data('depth') + 'px';
+                                }
+                            }($(this)))
+                    })
+                }
 
                 /*泡泡閃開*/
-                if (mainPos > top && mainPos - 200 < top && half - 200 < left && half + 200 > left) {
+                if (mainPos + 200 > top && mainPos - 200 < top && half - 200 < left && half + 200 > left) {
                     $(this).offset(
                         function(i, cor) {
                             newPos = new Object();
@@ -222,21 +222,71 @@
                             } else {
                                 newPos.left = cor.left + 5000 / (left - half);
                             }
-                            
-                            let Y1 = window.pageYOffset;
+
+                            newPos.top = top + 200;
+
+                            /*let Y1 = window.pageYOffset;
                             scroll[0] = scroll[1];
                             scroll[1] = Y1;
-                            var num = (Y1 / 300).toFixed(0); //多長換下一個
                             if (scroll[1] > scroll[0]) { //下行
                                 newPos.top = top + 100;
                             } else if (scroll[1] < scroll[0]) { //上行
                                 newPos.top = top - 100;
-                            }
+                            }*/
                             return newPos;
                         });
                 }
             })
         }); /*[end of windowscroll]*/
+
+        setInterval(function() {
+            $('.buble').each(function(i, e) {
+                var windowPos = $(window).scrollTop(),
+                    half = $(window).width() / 2;
+                var scrollTop = windowPos - $(this).offset().top;
+                let top = $(this).offset().top,
+                    left = $(this).offset().left + ($(this).width()) / 2;
+                var mainPos = $('#main').offset().top + 200;
+                let ran1= Math.random(), ran2= Math.random();
+                
+                /*自由的泡泡*/
+                $(this).offset(
+                    function(i, cor) {
+                        newPos = new Object();
+                            newPos.left = cor.left-(ran1-ran2)*1000;
+                            newPos.top = cor.top-(ran1-ran2)*1000;
+
+                        return newPos;
+                    });
+                
+                
+                /*泡泡閃開*/
+                if (mainPos + 200 > top && mainPos - 200 < top && half - 200 < left && half + 200 > left) {
+                    $(this).offset(
+                        function(i, cor) {
+                            newPos = new Object();
+                            if (left < half) {
+                                newPos.left = cor.left - 5000 / (half - left);
+                            } else {
+                                newPos.left = cor.left + 5000 / (left - half);
+                            }
+
+                            newPos.top = top + 200;
+
+                            /*let Y1 = window.pageYOffset;
+                            scroll[0] = scroll[1];
+                            scroll[1] = Y1;
+                            if (scroll[1] > scroll[0]) { //下行
+                                newPos.top = top + 100;
+                            } else if (scroll[1] < scroll[0]) { //上行
+                                newPos.top = top - 100;
+                            }*/
+                            return newPos;
+                        });
+                }
+            })
+        }, 2000);
+
 
         /*s4btn.addEventListener('click', function() {
         	s4Sad.beginElement();
@@ -282,7 +332,6 @@
                 height: $(this).parent().data('depth') * 200 + 'px'
             })
         });
-
     </script>
 </body>
 
