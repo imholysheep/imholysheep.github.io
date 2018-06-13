@@ -1,7 +1,8 @@
         body {
-            background: #9bd0ff;
+            background: rgb(153, 207, 255);
             height:2000px;
-
+            overflow-x: hidden;
+            opacity: .4;
         }
 
         .main-wrap {}
@@ -13,14 +14,10 @@
             height: 200px;
             width: 200px;
             position: fixed;
-            top: 20%;
+            top: 20vh;
             left: 50vw;
             margin-left: -100px;
-<<<<<<< HEAD
-            opacity: 1;
-=======
-            opacity: .9;
->>>>>>> 7265c0ee33389f035ecf286afaea6223a7b5e189
+            opacity: .2;
 
         }
 
@@ -98,7 +95,7 @@
 
         .main path,
         .main circle {
-            stroke: #444;
+            stroke: rgba(68, 68, 68, 0.31);
             stroke-width: 2;
             /*fill:#fafafa;*/
         }
@@ -149,6 +146,7 @@
         section {
             height: 1000px;
             border-bottom: 1px solid #ddd;
+            pointer-events: auto !important;
         }
 
         @keyframes FlowSpeed {
@@ -200,12 +198,18 @@
     
         .buble{
             width:100px;
-           transition: 2s;
+           transition: 1s;
             transition-timing-function: ease-out;
             position:absolute;
             top:0px;
             left:0px;
+            z-index: 999;
+            cursor: pointer;
         }
+.buble.slow{
+    transition-delay: 3s;
+    transition: 1s;
+}
         section div{
             width:100%;
         }
