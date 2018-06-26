@@ -1,4 +1,4 @@
-        body {
+    html {
             background: rgb(153, 207, 255);
             height:2000px;
             overflow-x: hidden;
@@ -147,6 +147,7 @@
             height: 1000px;
             border-bottom: 1px solid #ddd;
             pointer-events: auto !important;
+
         }
 
         @keyframes FlowSpeed {
