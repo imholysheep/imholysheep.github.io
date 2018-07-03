@@ -8,11 +8,11 @@
         var mainTop = $('#main').offset().top;
         var score = 0;
         var bubles = [];
-        var total = 50;
+        var total = 20;
 
         /*----泡泡物件----*/
         function buble() {
-            this.depth = random(0, 1.5);
+            this.depth = random(0, 0.5);
             this.mood = '';
         }
 
@@ -39,7 +39,7 @@
         }
 
         function createBuble(total) {
-            var happy = Math.floor(total/5);
+            var happy = Math.floor(total/2);
             for (i = 0; i < total; i++) {
                 var b = new buble();
                 bubles.push(b);
