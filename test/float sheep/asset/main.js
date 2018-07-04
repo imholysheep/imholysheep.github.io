@@ -80,14 +80,15 @@
         }
 
         function comeback(posX, posY, e) {
-
             if (posX > half * 2 || posX < 0) {
                 posX = 0;
                 e.css({
                     marginLeft: 100
                 });
-            } else if (posY > window.outerHeight) {
-                posY = 0;
+            } else if (posY > $(document).height()) {
+                posY = 100;
+            }else if (posY < 0){
+                posY = $(document).height()-100;
             }
             return {
                 top: posY,
@@ -279,14 +280,23 @@
         });
 
         setTimeout(function () {
-            console.log('remove');
+            $('body').addClass('rain');
+        }, 60000);
+
+        setTimeout(function () {
             $('.buble').each(function (i, e) {
                 var t = $(this);
                 setTimeout(function () {
                     bubble_pa(t);
                 }, 200 * i);
             });
-        }, 60000);
+        }, 61000);
+        
+        setTimeout(function () {
+            $('html').addClass('end');
+        }, 63000);
+
+
 
 
         /*----各種功能----*/

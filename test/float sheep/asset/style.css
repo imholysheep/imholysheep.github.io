@@ -1,10 +1,77 @@
     html {
-        background: rgb(153, 207, 255);
-        /*background-image: url(../img/sky.jpg);*/
+
         overflow-x: hidden;
         opacity: 1;
     }
 
+    body {
+        margin: 0px;
+        background: #a0d8ef;
+        /* Old browsers */
+        background: -moz-linear-gradient(top, #a0d8ef 1%, #feffff 100%);
+        /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #a0d8ef 1%, #feffff 100%);
+        /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #a0d8ef 1%, #feffff 100%);
+        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    }
+
+    body.rain {
+        transition-delay: 1s;
+        background: #85b4c6;
+        /* Old browsers */
+        background: -moz-linear-gradient(top, #85b4c6 1%, #e8e8e8 100%);
+        /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #85b4c6 1%, #e8e8e8 100%);
+        /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #85b4c6 1%, #e8e8e8 100%);
+        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    }
+
+
+
+    .rain:before {
+        content: " ";
+        width: 100%;
+        height: 2000px;
+        display: block;
+        position: absolute;
+        z-index: 99;
+        filter: saturate(0);
+        opacity: .5;
+        background-image: url(../img/rain.gif);
+    }
+
+    html:before {
+        content: " ";
+        width: 100%;
+        height: 20px;
+        display: block;
+        background: transparent;
+        opacity: .5;
+        position: absolute;
+        transition: 2s;
+    }
+
+    .end:before {
+        content: " ";
+        width: 100%;
+        height: 2000px;
+        display: block;
+        position: absolute;
+        z-index: 910;
+        background: black;
+        opacity: .7;
+    }
+
+    html.end {
+        height: 100%;
+        overflow-y: hidden;
+    }
+    
+#endInfo{
+    z-index: 999;
+}
     .main-wrap {}
 
     .main {
@@ -120,8 +187,12 @@
         animation-delay: .5s;
     }
 
-    #s4-mouth.sad {
-        d: path('M19.38 39.9s4.86 5.29 12.77 -5.29c0.91 -5.29 12.77-0.29 12.77-0.29');
+    .rain #s4-mouth {
+        animation-name: RainSheep;
+        animation-duration: 2s;
+        animation-iteration-count: 3;
+        animation-timing-function: ease-in;
+        animation-fill-mode: backwards;
     }
 
     .inline-block {
@@ -150,7 +221,6 @@
 
     section {
         height: 2000px;
-        border-bottom: 1px solid #ddd;
         pointer-events: auto !important;
         overflow-x: hidden;
         overflow-y: hidden;
@@ -159,6 +229,19 @@
     .top-fixed {
         position: fixed;
         width: 95%;
+        padding: 10px;
+    }
+
+    @keyframes RainSheep {
+        0% {
+            d: path('M23.38 43.9s4.86 15.29 12.77 -6.29c0.91 -8.29 0.77-10.29 -12+5 Z');
+        }
+        70% {
+            d: path('M23.38 43.9s4.86 20.29 12.77 -6.29c0.91 -8.29 0.77-10.29 -12+5 Z');
+        }
+        100% {
+            d: path('M23.38 43.9s4.86 10.29 12.77 -6.29c0.91 -7.29 0.77-10.29 -12+5 Z');
+        }
     }
 
     @keyframes FlowSpeed {
@@ -229,6 +312,10 @@
         width: 100%;
     }
 
+    #scene {
+        z-index: 900;
+    }
+
     #scene2 {
         position: fixed;
         top: 0px;
@@ -270,4 +357,11 @@
     .pull-right {
         text-align: right;
         float: right;
+    }
+
+    .rain {}
+
+    .rain .grass {
+        transition: 2s;
+        -webkit-filter: saturate(0.5);
     }
