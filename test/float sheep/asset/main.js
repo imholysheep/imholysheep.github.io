@@ -9,10 +9,11 @@
         var score = 0;
         var bubles = [];
         var total = 20;
+        var end_time = 10000;
 
         /*----泡泡物件----*/
         function buble() {
-            this.depth = random(0, 0.5);
+            this.depth = random(0, 1);
             this.mood = '';
         }
 
@@ -281,7 +282,7 @@
 
         setTimeout(function () {
             $('body').addClass('rain');
-        }, 60000);
+        }, end_time);
 
         setTimeout(function () {
             $('.buble').each(function (i, e) {
@@ -290,11 +291,11 @@
                     bubble_pa(t);
                 }, 200 * i);
             });
-        }, 61000);
+        }, end_time+1000);
         
         setTimeout(function () {
             $('html').addClass('end');
-        }, 63000);
+        }, end_time+3000);
 
 
 
