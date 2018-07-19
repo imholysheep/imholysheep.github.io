@@ -8,8 +8,8 @@
         var mainTop = $('#main').offset().top;
         var score = 0;
         var bubles = [];
-        var total = 20;
-        var end_time = 10000;
+        var total = 30;
+        var end_time = 20000;
 
         /*----泡泡物件----*/
         function buble() {
@@ -40,7 +40,7 @@
         }
 
         function createBuble(total) {
-            var happy = Math.floor(total/2);
+            var happy = Math.floor(total/3);
             for (i = 0; i < total; i++) {
                 var b = new buble();
                 bubles.push(b);
@@ -142,6 +142,18 @@
             createBuble(total);
             $('#score').html(score);
 
+            $('#timer').each(function () {
+                $(this).text();
+                $(this).prop('Counter', end_time/1000).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: end_time,
+                    easing: 'linear',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                    }
+                });
+            });
             //https://stackoverflow.com/questions/3871547/js-iterating-over-result-of-getelementsbyclassname-using-array-foreach
             //dom元素不能直接當array使用
             //SMIL方法，原始的svg動畫tag，但已逐漸被淘汰
@@ -277,10 +289,11 @@
         /*---- resize ----*/
         $(window).resize(function () {
             half = $(window).width() / 2;
-
+            $('#final-wrap').css({'left':half-250});
         });
 
         setTimeout(function () {
+            $('#main-wrap').addClass('rain');
             $('body').addClass('rain');
         }, end_time);
 
@@ -291,13 +304,37 @@
                     bubble_pa(t);
                 }, 200 * i);
             });
+            
         }, end_time+1000);
         
         setTimeout(function () {
+            $('#main-wrap').addClass('end');
             $('html').addClass('end');
+            $('#final-wrap').css({'display':'block','top':window.scrollY,'left':half-250});
+            var f_text = "你一共得到 "+score+" 分";
+            var f_comment = "<br>我沒有什麼好說的。"
+            if(score<5){
+                $('#final').css('background-image','url(img/f_1.png)');
+                f_comment = "<br>爛到咩咩叫。"
+            }else if(score>=5 && score<8){
+                 $('#final').css('background-image','url(img/f_2.png)');
+                f_comment = "<br>瓜哩唒"
+            }else if(score>=8 && score<10){
+                 $('#final').css('background-image','url(img/f_4.png)');
+                f_comment = "<br>還不錯喔。送你羊"
+            }else if(score>=10){
+                 $('#final').css('background-image','url(img/f_5.png)');
+                f_comment = "<br>100億分之一的機率!!!恭喜你幸運中獎!!!"
+            }else{
+                $('#final').css('background-image','url(img/f_3.png)');
+            }
+            
+            $('#final-wrap p').html(f_text+f_comment);
         }, end_time+3000);
 
-
+        setTimeout(function () {
+            $('#final-wrap').css('opacity','1');
+        }, end_time+3500);
 
 
         /*----各種功能----*/

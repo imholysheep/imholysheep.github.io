@@ -46,9 +46,9 @@
         content: " 這只是個草稿，還在改進一些功能，比如最後的草圖等等";
         width: 100%;
         height: 20px;
-        color:red;
+        color: red;
         display: block;
-        padding:20px;
+        padding: 20px;
         box-sizing: border-box;
         background: transparent;
         opacity: .5;
@@ -56,7 +56,14 @@
         transition: 2s;
     }
 
-    .end:before {
+    #main-wrap:after {
+        content: " ";
+        height: 0px;
+        opacity: .5;
+        transition: 1s;
+    }
+
+    #main-wrap.end:after {
         content: " ";
         width: 100%;
         height: 2000px;
@@ -65,16 +72,47 @@
         z-index: 910;
         background: black;
         opacity: .7;
+        top: 0px;
+        transition: 1s;
     }
 
     html.end {
-        height: 100%;
+
         overflow-y: hidden;
     }
-    
-#endInfo{
-    z-index: 999;
-}
+
+    #final-wrap {
+        margin: 10% auto;
+        box-sizing: border-box;
+        z-index: 999;
+        background-repeat: no-repeat;
+        width: 500px;
+        height: 500px;
+        display: block;
+        position: absolute;
+        display: none;
+        opacity: 0;
+        transition: 1s;
+        padding: 10px;
+    }
+
+    #final {
+        width: 500px;
+        height: 500px;
+    }
+
+    #final-wrap p {
+        padding: 10px;
+        margin-top: 10px;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.6);
+        width: 500px;
+    }
+
+    #final-wrap a {
+        color: aliceblue;
+    }
+
     .main-wrap {}
 
     .main {
@@ -87,7 +125,7 @@
         top: 20vh!important;
         left: 50vw!important;
         margin-left: -100px;
-        opacity: 1;
+        opacity: .1;
         z-index: 999;
     }
 
@@ -178,7 +216,7 @@
     #poo.ani-FS {
         animation-name: FlowSpeed;
         animation-duration: 3s;
-        animation-iteration-count: infinite;
+        animation-iteration-count: 5;
         animation-timing-function: ease-in;
         margin-top: 200px;
     }
@@ -186,7 +224,7 @@
     #poo.ani-FS path:nth-child(odd) {
         animation-name: FlowSpeed;
         animation-duration: 3s;
-        animation-iteration-count: infinite;
+        animation-iteration-count: 5;
         animation-delay: .5s;
     }
 
@@ -207,6 +245,37 @@
         opacity: 0;
     }
 
+    section {
+        height: 2000px;
+        pointer-events: auto !important;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+
+    .top-fixed {
+        position: fixed;
+        width: 95%;
+        padding: 10px;
+    }
+
+    .top-fixed > div {
+        padding: 5px;
+    }
+
+    #timer {
+        background: tranparent;
+        color: black;
+        margin-right: 15px;
+        width: 20px;
+        animation-name: timeOut;
+        animation-duration: 1s;
+        animation-iteration-count: 5;
+        animation-fill-mode: forwards;
+        animation-delay: 15s;
+        text-align: center;
+        border-radius: 50%;
+    }
+
     @keyframes s4-jump {
         0% {
             padding-top: 0px;
@@ -222,18 +291,6 @@
         }
     }
 
-    section {
-        height: 2000px;
-        pointer-events: auto !important;
-        overflow-x: hidden;
-        overflow-y: hidden;
-    }
-
-    .top-fixed {
-        position: fixed;
-        width: 95%;
-        padding: 10px;
-    }
 
     @keyframes RainSheep {
         0% {
@@ -291,6 +348,17 @@
         }
         100% {
             transform: rotate(0deg);
+        }
+    }
+
+    @keyframes timeOut {
+        0% {
+            color: red;
+            background: rgba(255, 0, 0, 0.41);
+        }
+        100% {
+            color: black;
+            background: transparent;
         }
     }
 
@@ -368,7 +436,3 @@
         transition: 2s;
         -webkit-filter: saturate(0.5);
     }
-
-.end section{
-    overflow-y: hidden;
-}
