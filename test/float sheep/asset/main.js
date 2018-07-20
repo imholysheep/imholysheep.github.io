@@ -8,8 +8,10 @@
         var mainTop = $('#main').offset().top;
         var score = 0;
         var bubles = [];
-        var total = 30;
-        var end_time = 20000;
+        var total = 36;
+        var end_time = 30000;
+        var wind = 10;
+        var freq = 1000;
 
         /*----泡泡物件----*/
         function buble() {
@@ -40,7 +42,7 @@
         }
 
         function createBuble(total) {
-            var happy = Math.floor(total/3);
+            var happy = Math.floor(total / 3);
             for (i = 0; i < total; i++) {
                 var b = new buble();
                 bubles.push(b);
@@ -58,7 +60,7 @@
         function bubble_bounce() {
             $('.buble').each(function (i, e) {
                 mainPos = mainTop - parseInt($(this).css('padding-top'));
-                bounce(mainPos, $(this));
+                //bounce(mainPos, $(this));
             });
             requestAnimationFrame(bubble_bounce);
         }
@@ -71,8 +73,8 @@
                 $(this).offset(
                     function (i, cor) {
                         newPos = new Object();
-                        newPos.left = cor.left + 10;
-                        newPos.top = cor.top - (ran1 - ran2) * 10;
+                        newPos.left = cor.left - (ran1 - ran2) * wind;
+                        newPos.top = cor.top + 10;
                         newPos.top = comeback(newPos.left, newPos.top, $(this)).top;
                         newPos.left = comeback(newPos.left, newPos.top, $(this)).left;
                         return newPos;
@@ -88,8 +90,8 @@
                 });
             } else if (posY > $(document).height()) {
                 posY = 100;
-            }else if (posY < 0){
-                posY = $(document).height()-100;
+            } else if (posY < 0) {
+                posY = $(document).height() - 100;
             }
             return {
                 top: posY,
@@ -97,14 +99,11 @@
             };
         }
 
-        function bounce(mP, ele) {
+        /*function bounce(mP, ele) {
             let top, left;
             top = ele.offset().top;
             left = ele.offset().left + (ele.width()) / 2;
-
-            /*泡泡閃開*/
             if (mP + 400 > top && mP < top && half - 200 < left && half + 200 > left) {
-
                 ele.offset(
                     function (i, cor) {
                         newPos = new Object();
@@ -115,7 +114,47 @@
                         }
 
                         newPos.top = top + 100;
+                        let Y1 = window.pageYOffset;
+                        scroll[0] = scroll[1];
+                        scroll[1] = Y1;
+                        if (scroll[1] > scroll[0]) { //下行
+                        } else if (scroll[1] < scroll[0]) { //上行
+                            newPos.top = top - 200;
+                        }
+                        newPos.top = comeback(newPos.left, newPos.top, $(this)).top;
+                        newPos.left = comeback(newPos.left, newPos.top, $(this)).left;
+                        return newPos;
+                    });
+            }
+        }*/
+        function bounce(mP, ele) {
+            let top, left, mTop, mLeft;
+            top = ele.offset().top+ (ele.width()) / 2;
+            mTop= mP.top;
+            mLeft= mP.left;
+            left = ele.offset().left + (ele.width()) / 2;
+            if (mTop+240 > top && mTop-40 < top && mLeft-40< left && mLeft + 240 > left) {
+                console.log('do')
+                ele.offset(
+                    function (i, cor) {
+                        newPos = new Object();
+                        let mhalf = mLeft+100;
+                        let middle = mTop+100;
+                        if (left < mhalf && middle<top) {
+                            newPos.left = cor.left + 5000 / (mhalf - left);
+                            newPos.top = top + 100;
+                        } else if(left > mhalf && middle<top){
+                            newPos.left = cor.left + 5000 / (left - mhalf);
+                            newPos.top = top + 100;
+                        }else if(left < mhalf && middle>top){
+                            newPos.left = cor.left + 5000 / (mhalf - left);
+                            newPos.top = top - 100;
+                        }else if(left > mhalf && middle>top){
+                            newPos.left = cor.left + 5000 / (left - mhalf);
+                            newPos.top = top - 100;
+                        }
 
+                        
                         let Y1 = window.pageYOffset;
                         scroll[0] = scroll[1];
                         scroll[1] = Y1;
@@ -129,6 +168,18 @@
                     });
             }
         }
+        $('#main').draggable();
+        /*泡泡閃開*/
+        $('#main').on('click', function (e) {
+            mainTop = $('#main').offset().top;
+            console.log('11');
+            $('.buble').each(function (i, e) {
+                //mainPos = mainTop - parseInt($(this).css('padding-top'));
+                mainPos = $('#main').offset();
+                //bounce(mainPos, $(this));
+                bounce(mainPos, $(this));
+            });
+        });
 
         function bubble_pa(e) {
             e.attr("src", "img/pa.gif");
@@ -141,10 +192,10 @@
         document.getElementsByTagName("BODY")[0].onload = function () {
             createBuble(total);
             $('#score').html(score);
-
+            $('#main').css({'left':'50vw','margin-left':half-100,'top':'50vh'})
             $('#timer').each(function () {
                 $(this).text();
-                $(this).prop('Counter', end_time/1000).animate({
+                $(this).prop('Counter', end_time / 1000).animate({
                     Counter: $(this).text()
                 }, {
                     duration: end_time,
@@ -256,7 +307,7 @@
             	s4mouth.classList.add('sad');			
             });*/
             bubble_bounce();
-            setInterval(bubble_move, 1000);
+            setInterval(bubble_move, freq);
 
 
         } /*[end of window onload]*/
@@ -289,7 +340,9 @@
         /*---- resize ----*/
         $(window).resize(function () {
             half = $(window).width() / 2;
-            $('#final-wrap').css({'left':half-250});
+            $('#final-wrap').css({
+                'left': half - 250
+            });
         });
 
         setTimeout(function () {
@@ -304,41 +357,44 @@
                     bubble_pa(t);
                 }, 200 * i);
             });
-            
-        }, end_time+1000);
-        
+
+        }, end_time + 1000);
+
         setTimeout(function () {
             $('#main-wrap').addClass('end');
             $('html').addClass('end');
-            $('#final-wrap').css({'display':'block','top':window.scrollY,'left':half-250});
-            var f_text = "你一共得到 "+score+" 分";
+            $('#final-wrap').css({
+                'display': 'block',
+                'top': window.scrollY,
+                'left': half - 250
+            });
+            var f_text = "你一共得到 " + score + " 分";
             var f_comment = "<br>我沒有什麼好說的。"
-            if(score<5){
-                $('#final').css('background-image','url(img/f_1.png)');
+            if (score >= 0 && score < 5) {
+                $('#final').css('background-image', 'url(img/f_1.png)');
                 f_comment = "<br>爛到咩咩叫。"
-            }else if(score>=5 && score<8){
-                 $('#final').css('background-image','url(img/f_2.png)');
+            } else if (score >= 5 && score < 8) {
+                $('#final').css('background-image', 'url(img/f_2.png)');
                 f_comment = "<br>瓜哩唒"
-            }else if(score>=8 && score<10){
-                 $('#final').css('background-image','url(img/f_4.png)');
+            } else if (score >= 8 && score < 10) {
+                $('#final').css('background-image', 'url(img/f_4.png)');
                 f_comment = "<br>還不錯喔。送你羊"
-            }else if(score>=10){
-                 $('#final').css('background-image','url(img/f_5.png)');
+            } else if (score >= 10) {
+                $('#final').css('background-image', 'url(img/f_5.png)');
                 f_comment = "<br>100億分之一的機率!!!恭喜你幸運中獎!!!"
-            }else{
-                $('#final').css('background-image','url(img/f_3.png)');
+            } else {
+                $('#final').css('background-image', 'url(img/f_3.png)');
             }
-            
-            $('#final-wrap p').html(f_text+f_comment);
-        }, end_time+3000);
+
+            $('#final-wrap p').html(f_text + f_comment);
+        }, end_time + 3000);
 
         setTimeout(function () {
-            $('#final-wrap').css('opacity','1');
-        }, end_time+3500);
+            $('#final-wrap').css('opacity', '1');
+        }, end_time + 3500);
 
 
         /*----各種功能----*/
-
         //起始值，最大值，回傳這區間的一個數
         function random(min, max) {
             var num = (Math.random() * (max - min) + min).toFixed(1);

@@ -10,16 +10,17 @@
     <script src="asset/jquery-1.8.3.min.js"></script>
     <script src="asset/parallax.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body class="">
-   <div id="final-wrap">
-    <div id="final">
-        
+    <div id="final-wrap">
+        <div id="final">
+
+        </div>
+        <p>the final score</p>
+        <a href="">分享到臉書(目前還沒有這功能)</a>
     </div>
-    <p>the final score</p>
-    <a href="">分享到臉書(目前還沒有這功能)</a>
-   </div>
 
     <div class="main-wrap" id="main-wrap">
         <div class="top-fixed">
@@ -27,7 +28,7 @@
             <button data-feel="happy" class="s4-btn">happy</button>
             <button data-feel="soso" class="s4-btn">soso</button>
             <button data-feel="soso" id="s4-btn-css">CSS-sad</button-->
-            <div class="pull-right"><span>分數：</span><span id="score" ></span></div>
+            <div class="pull-right"><span>分數：</span><span id="score"></span></div>
             <div id="timer" class="pull-right"></div>
             <!--div id="endInfo" style="">
                 <img src="img/sky.jpg" alt="">
@@ -37,61 +38,7 @@
     </div>
     <div class="outer" style="">
         <section id="scene2">
-            <div id="main" class="main" data-depth="0.1">
-                <div id="ear">
-                    <div class="ear ear-left inline-block"></div>
-                    <div class="ear ear-right inline-block"></div>
-                </div>
-                <svg id="faceO" xmlns="http://www.w3.org/2000/svg" height="200" width="200" viewBox="0 -254 200 200">
-            <path fill="#fff" d="M91.975-63.022
-                c-22.001-1.784-34.894-21.376-34.894-21.376s-24.924-2.55-37.246-20.863c-12.322-18.313-2.921-43.4-2.921-43.4
-                S1.246-166.947,7.88-187.999c6.634-21.052,30.969-27.742,30.969-27.742s5.668-25.252,26.264-33.191
-                c20.597-7.939,40.515,6.535,40.515,6.535s23.763-10.931,42.81,0.221c19.049,11.152,22.551,37.608,22.551,37.608
-                s20.961,9.904,24.117,31.749c3.156,21.846-16.108,40.596-16.108,40.596s6.094,23.046-9.021,39.134
-                c-15.11,16.088-39.108,12.78-39.108,12.78S113.977-61.239,91.975-63.022z">
-			<!--path
-			d="M90.975-64.022 c-22.001-1.784-28.894-33.376-28.894-33.376s-30.924,9.45-43.246-8.863c-12.322-18.313,8.079-43.4,8.079-43.4 S0.246-167.947,6.88-188.999s38.969-20.742,38.969-20.742s-2.332-32.252,18.264-40.191c20.597-7.939,40.515,17.535,40.515,17.535 s23.762-21.931,42.809-10.779c19.049,11.152,11.551,42.608,11.551,42.608s31.961,4.904,35.117,26.749 c3.156,21.846-26.108,35.596-26.108,35.596s16.094,28.046,0.98,44.134c-15.111,16.088-44.109,1.78-44.109,1.78 S112.977-62.239,90.975-64.022z"-->
-			<animate class="s4-sad" begin="indefinite" fill="remove" attributeName="d" dur="1000ms" repeatCount="3" to="M91.975-63.022
-	c-22.001-1.784-28.894-37.376-28.894-37.376s-30.924,13.45-43.246-4.863c-12.322-18.313,18.079-43.4,18.079-43.4
-	S1.246-166.947,7.88-187.999c6.634-21.052,43.969-16.742,43.969-16.742s-7.332-36.252,13.264-44.191
-	c20.597-7.939,40.515,6.535,40.515,6.535s23.763-10.931,42.81,0.221c19.049,11.152,0.551,44.608,0.551,44.608
-	s42.962,2.904,46.117,24.749c3.156,21.846-37.107,34.596-37.107,34.596s27.094,29.046,11.979,45.134
-	c-15.109,16.088-44.107-6.22-44.107-6.22S113.977-61.239,91.975-63.022z"></animate>
-		</path>
-		</svg>
-                <svg id="face" xmlns="http://www.w3.org/2000/svg" height="200" width="200" viewBox="0 0 65 65">
-		  <path id="s4-mouth" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M19.38 39.9s4.86 5.29 12.77 5.29c7.91 0 12.77-5.29 12.77-5.29">
-			<animate id="s4-sad" begin="indefinite" fill="freeze" attributeName="d" dur="500ms" to="M19.38 39.9s4.86 5.29 12.77 -5.29c0.91 -5.29 12.77-0.29 12.77-0.29"></animate>
-			
-			<animate id="s4-happy" begin="indefinite" fill="freeze" attributeName="d" dur="500ms" to="M19.38 39.9s4.86 5.29 12.77 5.29c7.91 0 12.77-5.29 12.77-5.29"></animate>
-			
-			<animate id="s4-soso" begin="indefinite" fill="freeze" attributeName="d" dur="500ms" to="M19.38 39.9s4.86 0.29 12.77 0.29c5.91 0 12.77-0 12.77-0.1"></animate>
-			
-		  </path>
-		  <!--path id="s4-circle" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M60.593 31.913a28.6 28.6 0 1 1-57.19 0 28.6 28.6 0 1 1 57.19 0z"/-->	  
-		  <circle id="eyewL" cx="23" cy="20" r="8" fill="none" />
-		  <circle id="eyewR" cx="42" cy="20" r="8" fill="none" />
-		</svg>
 
-                <svg id="eyes" xmlns="http://www.w3.org/2000/svg" height="200" width="200" viewBox="0 0 65 65"> 
-			  <!--path d="M24.5 20.82a4.295 4.255 0 1 1-8.59 0 4.295 4.255 0 1 1 8.59 0z"/>
-			  <path d="M49.5 20.82a4.295 4.255 0 1 1-8.59 0 4.295 4.255 0 1 1 8.59 0z"/-->
-			  <circle id="eyewL" cx="23" cy="20" r="3"  />
-			  <circle id="eyewR" cx="42" cy="20" r="3" /> 
-		</svg>
-                <svg version="1.1" id="poo" class="ani-FS" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve">
-			<path style="fill:none;" d="M102.957,28.354c0,0-8.956,61.649,6.714,104.006
-				c3.985,10.773,14.038,41.944,45.92,29.911"/>
-			<path style="fill:none;" d="M131.793,57.986c0,0,2.167,27.525,13.208,46.332
-				c2.492,4.245,9.875,7.746,14.383,7.125c10.873-1.501,9-20.294,0-18"/>
-			<path style="fill:none;" d="M67.542,48.915
-				C65.438,62.8,62.214,79.3,54.403,89.599c-5.966,7.865-17.178,9.406-25.043,3.439c-6.007-4.555-7.183-13.118-2.627-19.125
-				c3.479-4.588,10.019-5.486,14.606-2.007c3.503,2.658,4.189,7.652,1.532,11.156c-2.029,2.676-5.843,3.2-8.519,1.169"/>
-			<path style="fill:none;" d="M80.5,84.75
-				c-9.231,27.403-10.688,45.851-12.958,55.75c-2.673,11.646-10.042,21.213-21.995,20.832c-9.121-0.291-12.425-3.667-14.047-10.832
-				c-1.539-6.798,2.156-15.5,14.25-15"/>
-		</svg>
-            </div>
             <div class="frame" data-depth="0.02">
                 <div class="grass2 grass"></div>
                 <img src="img/grass2.png" alt="">
@@ -103,7 +50,60 @@
 
         </section>
         <section id="scene">
+            <div id="main" class="main" data-depth="0.1">
+                <div id="ear">
+                    <div class="ear ear-left inline-block"></div>
+                    <div class="ear ear-right inline-block"></div>
+                </div>
+                <svg id="faceO" xmlns="http://www.w3.org/2000/svg" height="200" width="200" viewBox="0 -254 200 200">
+                    <path fill="#fff" d="M91.975-63.022
+                    c-22.001-1.784-34.894-21.376-34.894-21.376s-24.924-2.55-37.246-20.863c-12.322-18.313-2.921-43.4-2.921-43.4
+                    S1.246-166.947,7.88-187.999c6.634-21.052,30.969-27.742,30.969-27.742s5.668-25.252,26.264-33.191
+                    c20.597-7.939,40.515,6.535,40.515,6.535s23.763-10.931,42.81,0.221c19.049,11.152,22.551,37.608,22.551,37.608
+                    s20.961,9.904,24.117,31.749c3.156,21.846-16.108,40.596-16.108,40.596s6.094,23.046-9.021,39.134
+                    c-15.11,16.088-39.108,12.78-39.108,12.78S113.977-61.239,91.975-63.022z">
+                    <!--path
+                    d="M90.975-64.022 c-22.001-1.784-28.894-33.376-28.894-33.376s-30.924,9.45-43.246-8.863c-12.322-18.313,8.079-43.4,8.079-43.4 S0.246-167.947,6.88-188.999s38.969-20.742,38.969-20.742s-2.332-32.252,18.264-40.191c20.597-7.939,40.515,17.535,40.515,17.535 s23.762-21.931,42.809-10.779c19.049,11.152,11.551,42.608,11.551,42.608s31.961,4.904,35.117,26.749 c3.156,21.846-26.108,35.596-26.108,35.596s16.094,28.046,0.98,44.134c-15.111,16.088-44.109,1.78-44.109,1.78 S112.977-62.239,90.975-64.022z"-->
+                    <animate class="s4-sad" begin="indefinite" fill="remove" attributeName="d" dur="1000ms" repeatCount="3" to="M91.975-63.022
+                    c-22.001-1.784-28.894-37.376-28.894-37.376s-30.924,13.45-43.246-4.863c-12.322-18.313,18.079-43.4,18.079-43.4
+                    S1.246-166.947,7.88-187.999c6.634-21.052,43.969-16.742,43.969-16.742s-7.332-36.252,13.264-44.191
+                    c20.597-7.939,40.515,6.535,40.515,6.535s23.763-10.931,42.81,0.221c19.049,11.152,0.551,44.608,0.551,44.608
+                    s42.962,2.904,46.117,24.749c3.156,21.846-37.107,34.596-37.107,34.596s27.094,29.046,11.979,45.134
+                    c-15.109,16.088-44.107-6.22-44.107-6.22S113.977-61.239,91.975-63.022z"></animate>
+                </path>
+            </svg>
+            <svg id="face" xmlns="http://www.w3.org/2000/svg" height="200" width="200" viewBox="0 0 65 65">
+            <path id="s4-mouth" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M19.38 39.9s4.86 5.29 12.77 5.29c7.91 0 12.77-5.29 12.77-5.29">
+                <animate id="s4-sad" begin="indefinite" fill="freeze" attributeName="d" dur="500ms" to="M19.38 39.9s4.86 5.29 12.77 -5.29c0.91 -5.29 12.77-0.29 12.77-0.29"></animate>
+                <animate id="s4-happy" begin="indefinite" fill="freeze" attributeName="d" dur="500ms" to="M19.38 39.9s4.86 5.29 12.77 5.29c7.91 0 12.77-5.29 12.77-5.29"></animate>
 
+                <animate id="s4-soso" begin="indefinite" fill="freeze" attributeName="d" dur="500ms" to="M19.38 39.9s4.86 0.29 12.77 0.29c5.91 0 12.77-0 12.77-0.1"></animate>
+
+              </path>
+              <!--path id="s4-circle" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M60.593 31.913a28.6 28.6 0 1 1-57.19 0 28.6 28.6 0 1 1 57.19 0z"/-->	  
+              <circle id="eyewL" cx="23" cy="20" r="8" fill="none" />
+              <circle id="eyewR" cx="42" cy="20" r="8" fill="none" />
+            </svg>
+
+            <svg id="eyes" xmlns="http://www.w3.org/2000/svg" height="200" width="200" viewBox="0 0 65 65"> 
+			  <!--path d="M24.5 20.82a4.295 4.255 0 1 1-8.59 0 4.295 4.255 0 1 1 8.59 0z"/>
+			  <path d="M49.5 20.82a4.295 4.255 0 1 1-8.59 0 4.295 4.255 0 1 1 8.59 0z"/-->
+			  <circle id="eyewL" cx="23" cy="20" r="3"  />
+			  <circle id="eyewR" cx="42" cy="20" r="3" /> 
+		    </svg>
+            <svg version="1.1" id="poo" class="ani-FS" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="200px" height="200px" viewBox="0 0 200 200" style="enable-background:new 0 0 200 200;" xml:space="preserve">
+                <path style="fill:none;" d="M102.957,28.354c0,0-8.956,61.649,6.714,104.006
+                    c3.985,10.773,14.038,41.944,45.92,29.911"/>
+                <path style="fill:none;" d="M131.793,57.986c0,0,2.167,27.525,13.208,46.332
+                    c2.492,4.245,9.875,7.746,14.383,7.125c10.873-1.501,9-20.294,0-18"/>
+                <path style="fill:none;" d="M67.542,48.915
+                    C65.438,62.8,62.214,79.3,54.403,89.599c-5.966,7.865-17.178,9.406-25.043,3.439c-6.007-4.555-7.183-13.118-2.627-19.125
+                    c3.479-4.588,10.019-5.486,14.606-2.007c3.503,2.658,4.189,7.652,1.532,11.156c-2.029,2.676-5.843,3.2-8.519,1.169"/>
+                <path style="fill:none;" d="M80.5,84.75
+                    c-9.231,27.403-10.688,45.851-12.958,55.75c-2.673,11.646-10.042,21.213-21.995,20.832c-9.121-0.291-12.425-3.667-14.047-10.832
+                    c-1.539-6.798,2.156-15.5,14.25-15"/>
+		    </svg>
+            </div>
         </section>
         <!--section id="scene3">
 
