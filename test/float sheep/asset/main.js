@@ -9,7 +9,7 @@
         var score = 0;
         var bubles = [];
         var total = 36;
-        var end_time = 30000;
+        var end_time = 20000;
         var wind = 10;
         var freq = 1000;
 
