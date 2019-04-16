@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mapSearch_地圖頁面</title>
+    <script src="asset/jquery-1.8.3.min.js"></script>
+    <script src="asset/main.js"></script>
+    <script src="asset/data.js"></script>
+    <link rel="stylesheet" href="asset/style.css">
+</head>
+<body>
+    <a href="https://www.cotabank.com.tw/web/">
+<img class="map_header_logo_pc" src="https://www.cotabank.com.tw/web/wp-content/uploads/2016/03/Logo.png" alt="cota logo">    
+<img class="map_header_logo_mb" src="https://www.cotabank.com.tw/web/wp-content/uploads/2016/03/cotalogo.png" alt="cota logo">    
+</a>
+
+<div id="floating-panel">
+    <div style="display: flex;border-collapse: separate;">
+        <input id="address" type="textbox" placeholder="鍵入地名搜尋最近ATM">
+        <input id="submit" type="submit" value="搜尋" class="btn">
+        <div id="search-info"></div>
+    </div>
+</div>
+<div class="">
+    <a id="findme" class="btn" value="我的位置"><i class="fa fa-location-arrow" aria-hidden="true"></i>　我的位置</a>
+</div>
+
+<div onClick="window.close();" class="btn-close">x</div>
+</body>
+<script src="asset/smart2pay_map.v2.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?callback=initMap&key=AIzaSyC7TKcgAtxzE5XHy9qmDtIKxD_KiQj-pD4"></script>
+</html>

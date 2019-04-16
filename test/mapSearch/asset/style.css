@@ -1,0 +1,650 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    background: #365d83;
+    font-family: Microsoft JhengHei;
+    overflow-x: hidden;
+}
+
+.head-title h1 > div {
+    display: inline-block;
+}
+
+.head-title h1 {
+    font-size: 2em;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+
+.head-title h2 {
+    font-size: 1.5em;
+    -webkit-margin-before: 0.5em;
+    -webkit-margin-after: 0.5em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+
+.img-wide {
+    width: 100%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.br {
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.anitest {
+    width: 50px;
+    height: 50px;
+    background: red;
+    display: block;
+    position: absolute;
+}
+
+.section {
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 20px 0px;
+    width: 100%;
+}
+
+.section > div {
+    display: inline-block;
+}
+
+.img-section {
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-top: -5%;
+    margin-bottom: -5%;
+    width: 100%;
+}
+
+.myheader {
+    border-bottom: dashed 4px rgba(248, 248, 248, 0.8);
+    background-image: url(https://www.cotabank.com.tw/web/wp-content/uploads/header-pc.png);
+    height: 800px;
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: bottom;
+    background-repeat: no-repeat;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.ani-obj {
+    position: absolute;
+    transition: .5s;
+}
+
+#plane {
+    width: 15%;
+    left: 5%;
+    top: 10%;
+    transition: .8s;
+}
+
+#cloud {
+    top: 4%;
+    left: 5%;
+    width: 100%;
+    transition: 4s;
+}
+
+#balloon {
+    width: 15%;
+    top: 8%;
+    left: 80%;
+}
+
+.head-button {
+    position: absolute;
+}
+
+.earth {
+    background: url('https://www.cotabank.com.tw/web/wp-content/uploads/earth.png');
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 800px;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    position: absolute;
+}
+
+.btn {
+    border-radius: 6px;
+    padding: 8px 20px;
+    border: 0px;
+    font-size: 18px;
+    transition: 0.5s;
+    text-decoration: none;
+    font-family: Microsoft JhengHei;
+    white-space: nowrap;
+    margin: 0px 5px;
+}
+
+.btn:hover {
+    background: #0d385d;
+}
+
+.button-wrap button {
+    color: #fff;
+    background: #3a5d7c;
+    display: inline-block;
+}
+
+.button-wrap {
+    text-align: center;
+    width: 100%;
+}
+
+#areaJP {
+    padding-top: 5%;
+}
+
+#areaHK {
+    padding-top: 5%;
+}
+
+.listarea {
+    border-radius: 10px;
+    height: 500px;
+    overflow: hidden;
+    background: rgba(240, 248, 255, 0.6);
+    padding: 20px;
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+}
+
+.listarea > h2 {
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.listarea .mark {
+    background-color: transparent;
+    width: 30px;
+    padding: 10px;
+    height: auto;
+}
+
+.list {
+    padding-top: 15px;
+    border-top: 4px solid #d8fffe;
+    height: 400px;
+}
+
+.list ul {
+    padding-left: 0px;
+    margin-top: 0px;
+}
+
+.list li {
+    list-style-type: none;
+    padding-left: 10px;
+    padding-top: 10px;
+    border-bottom: solid 1px #fff;
+    color: #fff;
+}
+
+.list li > div {
+    margin-right: 40px;
+    display: inline-block;
+}
+
+.list li > a {
+    width: 40px;
+    position: absolute;
+    right: 0;
+}
+
+.map {
+    width: 60%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mapimg {
+    width: 500px;
+    max-width: 500px;
+    margin: 0px auto;
+    display: block;
+    /* border: solid;*/
+}
+
+.PC-map .marks {
+    width: 80px;
+    height: 40px;
+    /*background-image: url(../img/markerR.png);*/
+    background: rgba(238, 238, 238, 0.24);
+    background-size: contain;
+    position: relative;
+    border-radius: 50px;
+    opacity:0;
+}
+
+.PC-map-wrap {
+    /*--------------*/
+    width: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.pointer-disable {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    pointer-events: none;
+    cursor: default;
+}
+
+#marklight {
+    transition: 0.5s;
+    position: absolute;
+    visibility: hidden;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+#marklight.active {
+    background: rgba(247, 255, 48, 0.36);
+    border-radius: 50%;
+}
+
+#marklight svg {
+    padding: 5px;
+}
+
+@keyframes marklight {
+    from {
+        background-color: #fffccc;
+    }
+    to {
+        background-color: transparent;
+    }
+}
+
+.marksj {
+    pointer-events: fill;
+}
+
+.mobile-map {
+    display: none;
+}
+
+.head-title {
+    text-align: center;
+    padding: 40px;
+    padding-top: 8%;
+    z-index: 10;
+}
+
+#animate {
+    position: absolute;
+}
+
+.section-head {
+    margin: 40px 0px;
+    text-align: center;
+    color: #fff;
+}
+
+.info {
+    width: 29%;
+    margin: 10px;
+    max-width: 400px;
+    box-sizing: border-box;
+    padding: 40px;
+    vertical-align: top;
+    background: rgba(255, 255, 255, 0.7);
+    color: #666;
+    border-radius: 10px;
+    height: 480px;
+    text-align: center;
+}
+
+.info > img {
+    max-width: 150px;
+    margin-bottom: 15px;
+}
+
+
+.footer {
+    text-align: center;
+    vertical-align: top;
+    margin: 5% 0px;
+}
+
+.footer h3 {
+    color: inherit;
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.outer-btn {
+    border: 1px solid #cfe7ff;
+    color: #cfe7ff;
+    background-color: transparent;
+}
+
+.outer-btn-blue {
+    border: 1px solid #00BCD4;
+    background-color: transparent;
+    font-weight: 700;
+    color: #00BCD4;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.outer-btn-blue:hover {
+    background-color: #fff;
+    color: #00BCD4;
+}
+
+.btn.actived {
+    background: #7ad2dd;
+    border: 1px solid #7ad2dd;
+}
+
+.subtitle {
+    width: 600px;
+}
+
+@media screen and (max-width:1366px) {
+    .myheader,
+    .earth {
+        height: 600px;
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .nodisplay-mb {
+        display: none;
+    }
+    .info {
+        width: 40%;
+        height: auto;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .myheader,
+    .earth {
+        height: 500px;
+    }
+    .listarea {
+        width: 60%;
+        margin-left: 10px;
+    }
+    .mapimg {
+        /*---------*/
+        display: none;
+    }
+    .map > img {
+        display: none;
+    }
+    .mobile-map {
+        display: block;
+        text-align: center;
+    }
+    .mobile-map .marks {
+        /*------------*/
+        padding: 6px 10px 10px 6px;
+        background-image: url(https://www.cotabank.com.tw/web/wp-content/uploads/menuMB.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 80px;
+        margin: 5px auto;
+        color: white;
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .map {
+        display: inline-block;
+        width: 30%;
+        position: absolute;
+        right: 10px;
+        overflow: hidden;
+    }
+    .info {
+        width: 100%;
+        height: auto;
+    }
+    .subtitle {
+        width: 400px;
+    }
+    .earth {
+        display: none;
+    }
+    .ani-obj {
+        display: none;
+        position: absolute;
+    }
+    .myheader {
+        background-image: url(https://www.cotabank.com.tw/web/wp-content/uploads/header.jpg);
+    }
+}
+@media screen and (max-width:480px) {
+    .myheader,
+    .earth {
+        height: 400px;
+    }
+    .btn {
+        font-size: 12px;
+    }
+    .head-title {
+        text-align: center;
+        padding: 40px 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .head-title h1 {
+        font-size: 24px;
+    }
+    .br {
+        display: block;
+    }
+    .head-title h2 {
+        font-size: 1em;
+    }
+    .subtitle {
+        width: 320px;
+    }
+    .listarea {
+        padding: 10px;
+    }
+    .info {
+        width: 90%;
+    }
+    .map {
+        overflow: hidden;
+    }
+}
+
+
+/*map*/
+#map {
+    height: 800px;
+}
+body{
+    height:100%;
+    background: #0d385d;
+}
+
+/* Optional: Makes the sample page fill the window. */
+
+.map_header {
+    padding: 15px;
+    background: #fff;
+    Z-INDEX: 99;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-bottom: 1px solid rgb(214, 214, 214);
+}
+
+.map_header .wpb_wrapper > * {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.map_header_logo_mb,
+.map_header_logo_pc {
+    max-height: 28px;
+    padding: 10px;
+}
+
+#floating-panel {
+white-space: nowrap;
+    z-index: 5;
+    /* padding: 5px; */
+    padding-left: 10px;
+    margin: 5px;
+    text-align: center;
+    font-family: 'Microsoft JhengHei';
+    border: 1px solid #0d385d;
+    border-radius: 8px;
+}
+#floating-panel> div{
+        display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+#panel {
+    position: absolute;
+    left: 25%;
+    top: 98px;
+    z-index: 1;
+    background-color: #fffccc;
+    padding: 6px 20px;
+    text-align: center;
+    font-family: 'Microsoft JhengHei';
+    box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.14);
+    transition: .5s;
+    border-radius: 0px 20px 20px 20px;
+}
+
+.hidden {
+    opacity: 0;
+    top: 10px !important;
+    visibility: hidden;
+}
+
+#address {
+    border:0px;
+    height: 24px;
+
+}
+
+#submit {
+        border-bottom-left-radius: 0px;
+        border-top-left-radius: 0px;
+    -webkit-box-flex-grow: 1;
+  -moz-box-flex-grow: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-grow: 1;
+          flex-grow: 1;
+}
+
+.btn {
+    border-radius: 6px;
+    padding: 6px 20px;
+    border: 0px;
+    font-size: 12px;
+    transition: 0.5s;
+    text-decoration: none;
+    font-family: 'Microsoft JhengHei';
+    background: #3a5d7c;
+    color: #fff;
+}
+
+.btn-gray-o {
+    background: #FFF;
+    color: #3a5d7c;
+    border: 1px solid #3a5d7c;
+}
+
+.btn:hover {
+    background: #0d385d;
+}
+
+.map_header_logo_mb {
+    display: none;
+}
+
+.btn-close {
+    padding: 10px;
+    border-left: dashed 1px #eee;
+    color: red;
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+@media screen and (max-width:767px) {
+    .map_header_logo_mb {
+        display: block;
+    }
+    .map_header_logo_pc {
+        display: none;
+    }
+    .btn {
+        padding: 6px 10px;
+    }
+    #address {
+        width: 140px;
+    }
+    .map_header_logo_mb,
+    .map_header_logo_pc {
+        padding: 0px;
+    }
+}
+
+@media screen and (max-width:440px) {
+    .btn-close {
+        right: 0px;
+        top: 15px;
+        position: absolute;
+    }
+    #findme {
+        margin-left: 60px;
+        clear: both;
+    }
+    .map_header {
+        padding: 10px;
+        position: fixed;
+    }
+    #panel {
+        left: 15%;
+    }
+    #map{
+        top: 90px;
+    }
+}
