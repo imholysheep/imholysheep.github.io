@@ -77,7 +77,7 @@
 
 .myheader {
     border-bottom: dashed 4px rgba(248, 248, 248, 0.8);
-    background-image: url(https://www.cotabank.com.tw/web/wp-content/uploads/header-pc.png);
+    background-image: url(../img/header-pc.png);
     height: 800px;
     background-size: cover;
     background-position-x: center;
@@ -118,7 +118,7 @@
 }
 
 .earth {
-    background: url('https://www.cotabank.com.tw/web/wp-content/uploads/earth.png');
+    background: url('../img/earth.png');
     background-position: bottom center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -412,7 +412,7 @@
     .mobile-map .marks {
         /*------------*/
         padding: 6px 10px 10px 6px;
-        background-image: url(https://www.cotabank.com.tw/web/wp-content/uploads/menuMB.png);
+        background-image: url(../img/menuMB.png);
         background-repeat: no-repeat;
         background-size: contain;
         width: 80px;
@@ -443,7 +443,7 @@
         position: absolute;
     }
     .myheader {
-        background-image: url(https://www.cotabank.com.tw/web/wp-content/uploads/header.jpg);
+        background-image: url(../img/header.jpg);
     }
 }
 @media screen and (max-width:480px) {

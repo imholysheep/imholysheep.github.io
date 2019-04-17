@@ -291,7 +291,7 @@
                 var marker = new google.maps.Marker({
                     map: map,
                     icon: {
-                        url: 'https://www.cotabank.com.tw/web/wp-content/uploads/markerG.png',
+                        url: 'img/markerG.png',
                         scaledSize: new google.maps.Size(10, 10)
                     },
                     position: new google.maps.LatLng(data[i].lat, data[i].lng),
@@ -321,7 +321,7 @@
                 var marker = new google.maps.Marker({
                     map: map,
                     icon: {
-                        url: 'https://www.cotabank.com.tw/web/wp-content/uploads/markerR.png',
+                        url: 'img/markerR.png',
                         scaledSize: new google.maps.Size(30, 30)
                     },
                     position: new google.maps.LatLng(lat, lng)
@@ -468,7 +468,7 @@
             var marker1 = new google.maps.Marker({
                         //map: map,
                         icon: {
-                            url: 'https://www.cotabank.com.tw/web/wp-content/uploads/walker.png',
+                            url: 'img/walker.png',
                             scaledSize: new google.maps.Size(80, 104)
                         },
                         position: a
