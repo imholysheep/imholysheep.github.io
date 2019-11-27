@@ -11,9 +11,10 @@
 	<body>
 	<canvas id="scene"></canvas>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r72/three.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+		<script src="https://threejs.org/build/three.js "></script>
 		<script src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/OBJLoader.js"></script>
-		<script>
+		<script src="/OrbitControls.js"></script>
+		<script type="module">
 /**************官方範例一******************/
 /*var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -41,7 +42,24 @@ animate();*/
 //This demo is using the plugin "OBJLoader". Don't forget to include it into your page ;)
 //You can find it here : https://github.com/mrdoob/three.js/tree/cf584a60bdfd24c42eaa81d484533364742bda44/examples/js/loaders
 
-var renderer, scene, camera, banana,cube;
+//import * as THREE from 'https://threejs.org/build/three.module.js';
+//
+	//		import { OrbitControls } from '/OrbitControls.js';
+
+var renderer, scene, camera, banana,cube,cube1,controls;
+
+
+
+var Colors = {
+    red:0xf25346,
+    white:0xd8d0d1,
+    brown:0x59332e,
+    brownDark:0x23190f,
+    pink:0xF5986E,
+    yellow:0xf4ce93,
+    blue:0x68c3c0,
+
+};
 
 var ww = window.innerWidth,
 	wh = window.innerHeight;
@@ -54,30 +72,47 @@ function init(){
 	scene = new THREE.Scene();
 
 	camera = new THREE.PerspectiveCamera(50,ww/wh, 0.1, 10000 );
-	camera.position.set(0,0,500);
-	scene.add(camera);
 	
-	//add cube
-	var geometry = new THREE.BoxGeometry( 100, 100, 100 );
-	var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-	cube = new THREE.Mesh( geometry, material );
-	scene.add( cube );
+		controls = new THREE.OrbitControls( camera, renderer.domElement);
+
+
+	
+	
+	camera.position.set(0,0,500);
+	controls.update();
+	scene.add(camera);
+
 
 	//camera.position.z = 5;
-	
-	
-	
-
 	//Add a light in the scene
-	directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
-	directionalLight.position.set( 0, 0, 350 );
-	directionalLight.lookAt(new THREE.Vector3(0,0,0));
+	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
+	directionalLight.position.set( 100, 100, 350 );
+	directionalLight.lookAt(new THREE.Vector3(0,10,10));
 	scene.add( directionalLight );
 
 	//Load the obj file
 	loadOBJ();
+	addCube();
+	addCube1();
 }
-
+ 
+var addCube1 = function(){
+	//add cube
+	var geometry = new THREE.BoxGeometry( 150, 20, 5 );
+	var material = new THREE.MeshPhongMaterial( { color: Colors.pink } );
+	cube1 = new THREE.Mesh( geometry, material );
+	cube1.position.set(-100, 200, -300);
+	scene.add( cube1 );
+}
+var addCube = function(){
+	//add cube
+	var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+	var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
+	cube = new THREE.Mesh( geometry, material );
+	
+	scene.add( cube );
+}
+ 
 var loadOBJ = function(){
 
 	//Manager from ThreeJs to track a loader and its status
@@ -89,6 +124,8 @@ var loadOBJ = function(){
 	loader.load( 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/banana.obj', addBananaInScene);
 
 };
+
+
 
 var addBananaInScene = function(object){
 	banana = object;
@@ -105,10 +142,10 @@ var addBananaInScene = function(object){
 			child.geometry.computeVertexNormals();
 		}
 	});
-	//Add the 3D object in the scene
+	
+		banana.position.set(10, -100, 20);
+	
 	scene.add(banana);
-	console.log(cube)
-	scene.add(cube);
 	render();
 };
 
@@ -117,9 +154,11 @@ var render = function () {
 	requestAnimationFrame(render);
 
 	//Turn the banana
-	banana.rotation.z += .01;
-					cube.rotation.x += 0.01;
-				cube.rotation.y += 0.01;
+	/*banana.rotation.z += .01;
+	cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;
+	cube1.rotation.y += 0.01;*/
+	controls.update();
 	renderer.render(scene, camera);
 };
 
