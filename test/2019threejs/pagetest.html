@@ -13,8 +13,8 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r72/three.min.js"></script>
 		<script src="https://threejs.org/build/three.js "></script>
 		<script src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/OBJLoader.js"></script>
-		<script src="/OrbitControls.js"></script>
-		<script type="module">
+		<script src="OrbitControls.js"></script>
+		<script>
 /**************官方範例一******************/
 /*var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -68,20 +68,14 @@ function init(){
 
 	renderer = new THREE.WebGLRenderer({canvas : document.getElementById('scene')});
 	renderer.setSize(ww,wh);
-
 	scene = new THREE.Scene();
-
 	camera = new THREE.PerspectiveCamera(50,ww/wh, 0.1, 10000 );
-	
-		controls = new THREE.OrbitControls( camera, renderer.domElement);
-
-
-	
+	//set controls
+	controls = new THREE.OrbitControls( camera, renderer.domElement);
 	
 	camera.position.set(0,0,500);
 	controls.update();
 	scene.add(camera);
-
 
 	//camera.position.z = 5;
 	//Add a light in the scene
@@ -102,7 +96,7 @@ var addCube1 = function(){
 	var material = new THREE.MeshPhongMaterial( { color: Colors.pink } );
 	cube1 = new THREE.Mesh( geometry, material );
 	cube1.position.set(-100, 200, -300);
-	scene.add( cube1 );
+	//scene.add( cube1 );
 }
 var addCube = function(){
 	//add cube
@@ -110,7 +104,7 @@ var addCube = function(){
 	var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
 	cube = new THREE.Mesh( geometry, material );
 	
-	scene.add( cube );
+	//scene.add( cube );
 }
  
 var loadOBJ = function(){
@@ -125,8 +119,28 @@ var loadOBJ = function(){
 
 };
 
+var drawCount; 
+var madeline = function(){
+	var obj;
+	var geometry = new THREE.BufferGeometry();
+	var MAX_POINTS = 300;
+	// attributes
+	var positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
+	geometry.setAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+	// draw range
+	drawCount = 2; // draw the first 2 points, only
+	geometry.setDrawRange( 0, drawCount );
 
+	var material = new THREE.LineDashedMaterial( { color: 0x0000ff } );
+	/*geometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
+	geometry.vertices.push(new THREE.Vector3( 0, 100, 0) );
+	geometry.vertices.push(new THREE.Vector3( 100*Math.random(), 0, 0) );*/
+	obj = new THREE.Line( geometry, material );
 
+	return obj;
+}
+
+var line = madeline();
 var addBananaInScene = function(object){
 	banana = object;
 	//Move the banana in the scene
@@ -145,20 +159,60 @@ var addBananaInScene = function(object){
 	
 		banana.position.set(10, -100, 20);
 	
-	scene.add(banana);
+	//scene.add(banana);
 	render();
 };
 
+// update positions
+function updatePositions() {
+
+	var positions = line.geometry.attributes.position.array;
+
+	var x = y = z = index = 0;
+
+	for ( var i = 0, l = 300; i < l; i ++ ) {
+
+		positions[ index ++ ] = x;
+		positions[ index ++ ] = y;
+		positions[ index ++ ] = z;
+
+		x += ( Math.random() - 0.5 ) * 100;
+		y += ( Math.random() - 0.5 ) * 100;
+		z += ( Math.random() - 0.5 ) * 100;
+
+	}
+
+}
 
 var render = function () {
 	requestAnimationFrame(render);
+	drawCount = ( drawCount + 1 ) % 300;
+	line.geometry.setDrawRange( 0, drawCount );
+	
+	cube.add(cube1);
+	cube.add(banana);
+	scene.add(cube);
+	scene.add(line);
 
+	if ( drawCount === 0 ) {
+
+		// periodically, generate new data
+
+		updatePositions();
+
+		line.geometry.attributes.position.needsUpdate = true; // required after the first render
+
+		line.material.color.setHSL( Math.random(), 1, 0.5 );
+
+	}
+
+	
 	//Turn the banana
-	/*banana.rotation.z += .01;
+	banana.rotation.z += .01;
 	cube.rotation.x += 0.01;
 	cube.rotation.y += 0.01;
-	cube1.rotation.y += 0.01;*/
-	controls.update();
+	cube1.rotation.y += 0.01;
+	//controls.update();
 	renderer.render(scene, camera);
 };
 
