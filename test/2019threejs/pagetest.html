@@ -46,10 +46,14 @@ animate();*/
 //
 	//		import { OrbitControls } from '/OrbitControls.js';
 
-var renderer, scene, camera, banana,cube,cube1,controls;
+	
+var renderer, scene, camera, banana,cube,cube1,controls,SpotLight;
 
-
-
+var cubes;
+var meshObj = [];
+//滑鼠滑過事件
+var mouseOver = { x: 0, y: 0 };
+var overObj = [];
 var Colors = {
     red:0xf25346,
     white:0xd8d0d1,
@@ -67,27 +71,111 @@ var ww = window.innerWidth,
 function init(){
 
 	renderer = new THREE.WebGLRenderer({canvas : document.getElementById('scene')});
+	renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
 	renderer.setSize(ww,wh);
+	
 	scene = new THREE.Scene();
 	camera = new THREE.PerspectiveCamera(50,ww/wh, 0.1, 10000 );
 	//set controls
 	controls = new THREE.OrbitControls( camera, renderer.domElement);
 	
-	camera.position.set(0,0,500);
-	controls.update();
+	camera.position.set(0,0,1000);
 	scene.add(camera);
 
 	//camera.position.z = 5;
 	//Add a light in the scene
-	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
+/*	var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.8 );
 	directionalLight.position.set( 100, 100, 350 );
-	directionalLight.lookAt(new THREE.Vector3(0,10,10));
-	scene.add( directionalLight );
+	directionalLight.lookAt(new THREE.Vector3(0,10,10));*/
+	
+/*	SpotLight = new THREE.SpotLight( Colors.yellow, 0.8 );
+	SpotLight.position.set( 200,200,400);
+	//directionalLight1.lookAt(new THREE.Vector3(40,40,40));
+	SpotLight.castShadow = true;
+	//Set up shadow properties for the light
+	SpotLight.shadow.mapSize.width = 2;  // default
+	SpotLight.shadow.mapSize.height = 3; // default
+	SpotLight.shadow.camera.near = 200;       // default
+	SpotLight.shadow.camera.far = 400;     // default
+	SpotLight.distance =500;     // default
+	//scene.add( directionalLight );
+	scene.add( SpotLight);*/
+	
+	// lights
+
+	//全域光
+	scene.add( new THREE.AmbientLight( 0x666666 ) );
+	var light = new THREE.DirectionalLight( 0xdfebff, 1 );
+	light.position.set( 0, 200, 200 );
+	light.position.multiplyScalar( 1.3 );
+
+	light.castShadow = true;
+
+	var d = 400;
+
+	light.shadow.camera.left = - d;
+	light.shadow.camera.right = d;
+	light.shadow.camera.top = d;
+	light.shadow.camera.bottom = - d;
+
+	light.shadow.camera.far = 1000;
+	scene.add( light );
+	
+	// ground
+	//載入材質
+	var loader = new THREE.TextureLoader();
+	var groundTexture = loader.load( 'https://threejs.org/examples/textures/terrain/grasslight-big.jpg' );
+	groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+	groundTexture.repeat.set( 25, 25 );
+	groundTexture.anisotropy = 16;
+
+	var groundMaterial = new THREE.MeshLambertMaterial( { map: groundTexture } );
+
+	var  ground = new THREE.Mesh( new THREE.PlaneBufferGeometry( 20000, 20000 ), groundMaterial );
+	 ground.position.y = - 250;
+	 ground.rotation.x = - Math.PI / 2;
+	 ground.receiveShadow = true;
+	scene.add(  ground );
 
 	//Load the obj file
-	loadOBJ();
+	/*loadOBJ();
 	addCube();
-	addCube1();
+	addCube1();*/
+ cubes = [
+  //makeInstance(new THREE.TetrahedronGeometry(100, 0), 0x8844aa, -100,0,0,'PWD',1),
+  //makeInstance(new THREE.TetrahedronGeometry(100, 0), 0x8844aa, -100,-100,0,'PWD',1),
+  //makeInstance(new THREE.ConeGeometry( 50, 100, 8 ), 0x8844aa, 100,0,0,'Google',1),
+  makeInstance(new THREE.ConeGeometry( 50, 100, 8 ), 0x8844aa, 100,0,0,'Google',1),
+  makeInstance(new THREE.CylinderBufferGeometry(100,100,10,20), 0xaa8844,  300,-100,0,'FB-wrap',1),
+  makeInstance(new THREE.BoxGeometry(200,200,-10), 0xaa8844,  300,0,0,'over',0),
+  makeInstance(new THREE.CylinderBufferGeometry(100,100,10,20), 0xaa8844,  -250,-100,0,'KEY-wrap',1),
+  makeInstance(new THREE.BoxGeometry(200,200,-10), 0xaa8844,  -250,0,0,'over',0),
+ makeInstance(new THREE.BoxGeometry(0,0,0), 0xaa8844,  300,-100,0,'FB',1),
+  makeInstance(new THREE.BoxGeometry(20,20,40), Colors.white, 40,150,0,'FB-1',1,'FB'),
+  makeInstance(new THREE.BoxGeometry(60,20,40), Colors.white,  25,100,0,'FB-2',1,'FB'),
+  makeInstance(new THREE.BoxGeometry(20,120,40), Colors.white,  20,100 ,0,'FB-3',1,'FB'),
+  makeInstance(new THREE.BoxGeometry(150,150,10), Colors.blue,  0,110,0,'FB-4',1,'FB')
+
+  /*makeInstance(new THREE.BoxGeometry(400,8,400), 0x00ffcc,  0,-200,0),
+  makeInstance(new THREE.BoxGeometry(400,400,8), 0x00ffcc,  0,0,-200),*/
+];
+
+	loadOBJ();
+	//addCube();
+	//meshObj.push(cube);
+	//addCube1();
+	
+	
+	//meshObj.push(cube1);
+	
+	render();
+	//Create a helper for the shadow camera (optional)
+var helper = new THREE.CameraHelper( light.shadow.camera);
+//var helper1 = new THREE.CameraHelper(SpotLight.shadow.camera);
+scene.add( helper );
+//scene.add( helper1 );
+	
 }
  
 var addCube1 = function(){
@@ -96,15 +184,14 @@ var addCube1 = function(){
 	var material = new THREE.MeshPhongMaterial( { color: Colors.pink } );
 	cube1 = new THREE.Mesh( geometry, material );
 	cube1.position.set(-100, 200, -300);
-	//scene.add( cube1 );
+	scene.add( cube1 );
 }
 var addCube = function(){
 	//add cube
 	var geometry = new THREE.BoxGeometry( 100, 100, 100 );
 	var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
 	cube = new THREE.Mesh( geometry, material );
-	
-	//scene.add( cube );
+	scene.add( cube );
 }
  
 var loadOBJ = function(){
@@ -115,9 +202,42 @@ var loadOBJ = function(){
 	var loader = new THREE.OBJLoader( manager );
   
 	//Launch loading of the obj file, addBananaInScene is the callback when it's ready 
-	loader.load( 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/banana.obj', addBananaInScene);
+	//loader.load( 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/banana.obj', addBananaInScene);
+	loader.load( 'key/key.obj', addBananaInScene);
 
 };
+
+
+var addBananaInScene = function(object){
+	banana = object;
+	//Move the banana in the scene
+	///banana.rotation.x = Math.PI/2;
+	
+	//Go through all children of the loaded object and search for a Mesh
+	object.traverse( function ( child ) {
+		//This allow us to check if the children is an instance of the Mesh constructor
+		if(child instanceof THREE.Mesh){
+			child.material.color = new THREE.Color(Colors.yellow);
+			//Sometimes there are some vertex normals missing in the .obj files, ThreeJs will compute them
+			child.geometry.computeVertexNormals();
+		}
+	});
+	
+		banana.position.set(-250,100,0);
+		banana.children[0].scale.x=40;
+		banana.children[0].scale.y=40;
+		banana.children[0].scale.z=40;
+		banana.rotateX(Math.PI/2);
+		banana.name= "key";
+		banana.children[0].castShadow = true;
+		banana.children[0].receiveShadow = true;
+	meshObj.push(banana.children[0]);
+	//meshObj.push(banana);
+	scene.add(banana);
+	
+};
+
+// update positions
 
 var drawCount; 
 var madeline = function(){
@@ -141,29 +261,6 @@ var madeline = function(){
 }
 
 var line = madeline();
-var addBananaInScene = function(object){
-	banana = object;
-	//Move the banana in the scene
-	banana.rotation.x = Math.PI/2;
-	banana.position.y = -200;
-	banana.position.z = 50;
-	//Go through all children of the loaded object and search for a Mesh
-	object.traverse( function ( child ) {
-		//This allow us to check if the children is an instance of the Mesh constructor
-		if(child instanceof THREE.Mesh){
-			child.material.color = new THREE.Color(0X00FFcc);
-			//Sometimes there are some vertex normals missing in the .obj files, ThreeJs will compute them
-			child.geometry.computeVertexNormals();
-		}
-	});
-	
-		banana.position.set(10, -100, 20);
-	
-	//scene.add(banana);
-	render();
-};
-
-// update positions
 function updatePositions() {
 
 	var positions = line.geometry.attributes.position.array;
@@ -186,7 +283,7 @@ function updatePositions() {
 
 var render = function () {
 	requestAnimationFrame(render);
-	drawCount = ( drawCount + 1 ) % 300;
+	/*drawCount = ( drawCount + 1 ) % 300;
 	line.geometry.setDrawRange( 0, drawCount );
 	
 	cube.add(cube1);
@@ -204,19 +301,148 @@ var render = function () {
 
 		line.material.color.setHSL( Math.random(), 1, 0.5 );
 
-	}
+	}*/
 
 	
 	//Turn the banana
-	banana.rotation.z += .01;
-	cube.rotation.x += 0.01;
+	if(banana){
+	banana.rotation.z += .008;
+	}
+	
+	/*cube.rotation.x += 0.01;
 	cube.rotation.y += 0.01;
-	cube1.rotation.y += 0.01;
+	cube1.rotation.y += 0.01;*/
 	//controls.update();
+	/*  cubes.forEach((cube, ndx) => {
+	  if(ndx<3){
+		const speed = 1 + ndx * .1;
+		const rot = 0.01 * speed;
+		cube.rotation.x += rot;
+		cube.rotation.y += rot;
+	  }
+	  
+	  
+
+  });*/
+	scene.getObjectByName('FB').rotation.y+= 0.01;
+
 	renderer.render(scene, camera);
 };
 
 init();
+
+function makeInstance(geometry, color, x,y,z,sName,opacity,parent) {
+      const material = new THREE.MeshPhongMaterial({
+      color,
+      opacity: opacity,
+      transparent: true,
+    });
+ 
+  const cube = new THREE.Mesh(geometry, material);
+  cube.castShadow = true;
+  cube.receiveShadow = true;
+  
+  cube.position.x = x;
+  cube.position.y = y;
+  cube.position.z = z;
+  if(sName){
+  cube.name = sName;
+  }
+
+  if(parent){
+  //當群組用：
+	  /*if(scene.getObjectByName(parent)){
+		scene.getObjectByName(parent).add(cube)
+	  }else{
+		var group = new THREE.Group();
+		group.name = parent;
+		group.add(cube)
+		scene.add(group);
+		//meshObj.push(group);
+	  }*/
+	  
+	  //當父層用
+	  if(scene.getObjectByName(parent)){
+		scene.getObjectByName(parent).add(cube)
+	  }
+  }else{
+    scene.add(cube);
+  }
+    if(sName=="over"){
+	overObj.push(cube);
+	 cube.castShadow = false;
+  cube.receiveShadow = false;
+	}
+	
+	meshObj.push(cube);
+  return cube;
+}
+
+
+function onMouseDown(event) {
+    raycaster = new THREE.Raycaster();
+    mouse = new THREE.Vector2();
+    mouse.x = (event.clientX / renderer.domElement.width) * 2 - 1;
+    mouse.y = -(event.clientY / renderer.domElement.height) * 2 + 1;
+    setFromCamera(raycaster, mouse, camera);
+    var intersects = raycaster.intersectObjects(meshObj);
+    //currentcolor = intersects[0].object.material.color.getHex();
+	console.log(intersects);
+	//選中的元素
+	if(intersects.length>0){
+		intersects[0].object.material.color.setRGB(Math.random()*2.55,Math.random()*2.55,Math.random()*2.55); 
+		//一般JS事件
+		//console.log(intersects[0]);
+	}
+	
+	console.log(intersects);
+    console.log('Down');
+}
+
+
+function onMouseOver(event) {
+var vector = new THREE.Vector3( mouseOver.x, mouseOver.y, 1 );
+	//projector.unprojectVector( vector, camera );
+	var ray = new THREE.Raycaster();
+	setFromCamera(ray, vector, camera);
+	// create an array containing all objects in the scene with which the ray intersects
+	var intersects = ray.intersectObjects( overObj );
+	if(intersects.length>0){
+		//intersects[0].object.material.color.setRGB(Math.random()*2.55,Math.random()*2.55,Math.random()*2.55); 
+		var x= intersects[0].object.position.x;
+		var y= intersects[0].object.position.y;
+		camera.position.set(x,y,500);
+		//一般JS事件
+		//console.log(intersects[0]);
+	}else{
+	if(camera.position.z!=1000){
+	//camera.position.set(0,0,1000);
+	}
+	}
+    //console.log(intersects);
+    //console.log('Over');
+}
+
+function onDocumentMouseMove( event ) 
+{
+	// the following line would stop any other event handler from firing
+	// (such as the mouse's TrackballControls)
+	// event.preventDefault();
+	
+	// update the mouse variable
+	mouseOver.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouseOver.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+	onMouseOver(event);
+}
+
+function setFromCamera(raycaster, coords, origin) {
+	raycaster.ray.origin.copy(camera.position);
+	raycaster.ray.direction.set(coords.x, coords.y, 0.5).unproject(camera).sub(camera.position).normalize();
+	}
+document.addEventListener('mousedown', onMouseDown, false);  
+	// when the mouse moves, call the given function
+document.addEventListener( 'mousemove', onDocumentMouseMove, false ); 
+
 		</script>
 	</body>
 </html>
