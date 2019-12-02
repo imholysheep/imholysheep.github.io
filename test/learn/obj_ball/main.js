@@ -14,12 +14,32 @@ function random(min,max) { //起始值，最大值，回傳這區間的一個數
 }
 //設定球體模型 (建構子) 屬性
 function Ball() {
-  this.x = random(0,width);
-  this.y = random(0,height);
-  this.velX = random(-10,10);
-  this.velY = random(-10,10);
-  this.color = 'rgb(' + random(20,255) + ',' + random(20,255) + ',' + random(200,255) +')';
-  this.size = random(10,30);
+  /*this.x = random(0,width);
+  this.y = random(0,height);*/
+  this.x = width/2;
+  this.y = height/2;
+  this.oldX = random(90,420);
+  //this.xF = 1;
+  if(random(1,100)%2 == 1){
+	  this.xF=1;
+  }else{
+	  this.xF=-1;
+  }
+  
+  if(random(1,100)%2 == 1){
+	  this.yF=1;
+  }else{
+	  this.yF=-1;
+  }
+
+  this.yF = 1;
+  this.maxvalue = random(90,420);
+  this.count = 0;
+  this.velX = 1//random(-10,10);
+  this.velY = 1//random(-10,10);
+  //this.color = 'rgb(' + random(20,255) + ',' + random(20,255) + ',' + random(200,255) +')';
+  this.color = 'rgb(255,'+random(100,200)+',' + random(80,200) +')';
+  this.size = random(2,8);
 }
 
 //繪製球體 建構子函式 原型繼承
@@ -51,10 +71,10 @@ Ball.prototype.draw = function() {
 		//判斷邊緣相撞
       if (distance < this.size + balls[j].size) {
      // if (distance < 1) {
-        balls[j].color = this.color = 'rgb(' + random(0,255) + ',' + random(0,255) + ',' + random(0,255) +')';
-		//balls[j].velX = -(this.velX);
-		//balls[j].velY = -(this.velY);
-			  console.log(this.velY);
+        balls[j].color ='rgb(100,'+random(200,255)+ ','+ random(200,255) +')';
+		balls[j].velX = -(this.velX);
+		balls[j].velY = -(this.velY);
+			 // console.log(this.velY);
 				
       }
     }
@@ -78,9 +98,56 @@ Ball.prototype.update = function() {
   if((this.y - this.size) <= 0) {
     this.velY = -(this.velY);
   }
+  //console.log(this.oldX);
+  //console.log(this.x);
+  if(this.xF == 1)
+  {
+	this.x += 1;
+	if(this.x > width)
+	{
+		this.xF = 0;
+		this.oldX = random(0,width);
+	}
+  }
+  else
+  {
+	  this.x -= 1;
+	if(this.x < 0)
+	{
+		this.xF = 1;
+		this.oldX = random(0,width);
+	}
+  }
+  
+  if(this.y > height)
+  {
+	  this.yF = -1;
+  }
+  if(this.y < 0)
+  {
+	  this.yF = 1;
+  }
+  
 
-  this.x += this.velX;
-  this.y += this.velY;
+	if((this.count%240) < 60)
+	{
+		this.y += 0.7*this.yF*Math.sin(((this.x - this.oldX)/this.oldX) * Math.PI);	
+	
+	}
+	else if((this.count%240) < 70)
+	{
+		this.y += 0.7*this.yF*Math.cos(((this.x - this.oldX)/this.oldX) * Math.PI);	
+	}
+	else
+	{
+		this.y += this.yF*Math.tan((this.x - this.oldX)/this.oldX * Math.PI);	
+	}
+	
+	
+
+	
+	this.count++;
+  //console.log('aftercount',this.x);
   //console.log(balls[1].x);
 }
 
@@ -89,18 +156,25 @@ var balls = [];
 
 //造球
 function loop() {
-  ctx.fillStyle = 'rgba(220,200,220,0.25)'; //畫格填滿的顏色
+//畫格填滿的顏色
+ctx.fillStyle = 'rgba(225,255,225,0.05)'; 
   ctx.fillRect(0,0,width,height); //填滿區
-
-  while(balls.length < 5) {
+  while(balls.length < 10) {
     var ball = new Ball();
     balls.push(ball);
   }
 
   for(i = 0; i < balls.length; i++) {
+	if(balls[i].y > height || balls[i].y < 0)
+	{
+		balls.splice(i,1)
+	}
+	else
+	{
     balls[i].draw();
     balls[i].update();
-    balls[i].collisionDetect();
+    balls[i].collisionDetect();	
+	}
   }
 
   requestAnimationFrame(loop);//與瀏覽器繪製時間配合的
