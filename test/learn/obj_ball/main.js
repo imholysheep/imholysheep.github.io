@@ -157,7 +157,7 @@ var balls = [];
 //造球
 function loop() {
 //畫格填滿的顏色
-ctx.fillStyle = 'rgba(225,255,225,0.05)'; 
+ctx.fillStyle = 'rgba(225,255,225,0.01)'; 
   ctx.fillRect(0,0,width,height); //填滿區
   while(balls.length < 10) {
     var ball = new Ball();
