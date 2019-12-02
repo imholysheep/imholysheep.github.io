@@ -1,0 +1,1257 @@
+<html>
+  <head>
+    <meta name="generator"
+    content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
+	
+    <title></title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
+<style>
+@import url(//fonts.googleapis.com/css?family=Share+Tech+Mono);
+
+html, body, div {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  overflow: hidden;
+  background: radial-gradient(#202020, #000000);
+}
+
+.fontSizeMain {
+   font-size: 18px;
+}
+
+.fontSizeSub {
+   font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .fontSizeMain {
+     font-size: 14px;
+  }
+
+  .fontSizeSub {
+     font-size: 8px;
+  }
+}
+
+@media (max-width: 300px) {
+  .fontSizeMain {
+     font-size: 12px;
+  }
+
+  .fontSizeSub {
+     font-size: 6px;
+  }
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.nobreak {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>
+  </head>
+  <body>
+	<canvas id="canvas" style=""></canvas>
+		<script>
+//---
+
+//https://github.com/dataarts/radiohead
+//https://github.com/derouinw/house-of-cards
+
+//---
+
+console.clear();
+console.log( 'Radiohead - House Of Cards' );
+
+//---
+
+//const capturer = new CCapture( { format: 'png', framerate: 60, verbose: true } );
+
+const filePath = 'https://www.nkunited.de/ExternalImages/jsfiddle/radiohead/optimizedCSV/';
+
+let canvas = document.createElement( 'canvas' );
+let gl = canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' );
+
+const framesToLoad = 2101;
+let framesLoaded = 0;
+let frames = [];
+let framesCurrent = 0;
+
+let lastTimestamp = 0;
+const maxFPS = 30;
+const timestep = 1000 / maxFPS;
+
+//---
+
+let debugModel = true;
+
+//---
+
+let w = 1024;
+let h = 512;
+
+let scale = 1;//25;
+const normalLength = 50;
+
+//---
+
+const fov = Math.PI * 0.5;
+
+const zNear = 1; 
+const zFar = 200;
+
+const viewDistance = 50;
+
+const projections = {
+    PERSPECTIVE: 'Perspective',
+    ORTOGRAPHIC: 'Ortographic'
+}
+
+let projection = projections.ORTOGRAPHIC;
+
+//---
+
+const center = { x: w / 2, y: h / 2 };
+
+//---
+
+let mouseActive = false;
+let mouseDown = false;
+let mousePos = { x: center.x, y: center.y };
+
+const rotationSpeed = -5.00;
+const rotationSpeedFactor = { x: 0, y: 0 };
+
+//---
+
+let animationFrame = null;
+
+//---
+
+const modelVertexShaderCode = `
+  attribute vec3 position;
+  attribute vec4 color;
+
+  uniform mat4 model;
+  uniform mat4 view;
+  uniform mat4 projection;
+
+  varying vec4 vColor;
+
+  void main(void) {
+
+    vColor = color;
+
+    gl_Position = projection * view * model * vec4( position, 1.0 );
+    gl_PointSize = 1.0;
+
+  }
+`
+
+const modelFragmentShaderCode = `
+  precision lowp float;
+
+  varying vec4 vColor;
+
+  void main(void) {
+
+    gl_FragColor = vColor;
+
+  }
+`
+
+let model = {};
+
+const centerX = -8, centerY = -18, centerZ = 13;
+
+//---
+
+let request = null;
+
+//---
+
+function initGUI() {
+
+  const updateScale = () => {
+  	
+    scale = guiSetting[ 'Scale' ];
+
+    //canvas.style.transform = 'scale(' + scale + ')';
+    
+    //resize();
+  
+  }
+	/*
+  const updateColor = () => {
+  
+  	const newColorArray = guiSetting[ 'Object color' ];
+
+    objectColor.r = Math.round( newColorArray[ 0 ] );
+    objectColor.g = Math.round( newColorArray[ 1 ] );
+    objectColor.b = Math.round( newColorArray[ 2 ] );
+
+  }
+  */
+  /*
+  const start = () => {
+  
+    capturer.start();
+  
+  }
+  
+  const stopAndSave = () => {
+  
+    capturer.save();
+  
+  }
+  */
+  const linkTo = () => {
+  
+    window.open( 'https://twitter.com/niklaswebdev', '_blank' ); 
+  
+  }
+  
+  const guiSetting = {
+  	
+    'Scale': scale,
+    /*'Object color': [ objectColor.r, objectColor.g, objectColor.b ],
+    'Start capturing': start,
+    'Stop and save capturing': stopAndSave,
+		*/
+    '@niklaswebdev': linkTo
+    
+  }
+
+  const gui = new dat.GUI();
+  
+  gui.close();
+  gui.add( guiSetting, 'Scale' ).min( 0.1 ).max( 5.0 ).step( 0.1 ).onChange( updateScale );
+  //gui.addColor( guiSetting, 'Object color' ).onChange( updateColor );
+	//gui.add( guiSetting, 'Start capturing' );
+  //gui.add( guiSetting, 'Stop and save capturing' );
+  gui.add( guiSetting, '@niklaswebdev' );
+
+}
+
+//---
+
+function initLoading() {
+
+	request = new XMLHttpRequest();
+  
+  //---
+
+  load( filePath + ( framesLoaded + 1 ).toString() + '.csv' );
+
+}
+
+function load( requestURL ) {
+
+  //const request = new XMLHttpRequest();
+
+  request.open( 'GET', requestURL );
+  request.onprogress = loadProgress;
+  request.onload = loadDone;
+  request.onerror = request.onabort = loadError;
+  request.send();
+
+}
+
+function loadProgress( event ) {
+
+  const loadedPercent = event.loaded / event.total * 100;
+
+}
+
+function loadDone( event ) {
+
+  if ( event.target.status >= 200 && event.target.status < 300 ) {
+    
+    const csv = event.target.response;
+    const csvLines = csv.replace( '\r', '' ).split( '\n' );
+    
+    const model = buildModel( csvLines, centerX, centerY, centerZ );
+    
+    frames.push( { vertexBuffer: createBuffer( gl, gl.ARRAY_BUFFER, new Float32Array( model.vertices ), gl.STATIC_DRAW ), length: model.vertices.length / 3 } );  
+
+    //---
+    
+    if ( framesLoaded > 1 && framesLoaded < framesToLoad - 1 ) {
+    
+      const percentLoaded = Math.round( framesLoaded / ( framesToLoad - 1 ) * 100 );
+
+      updateHeader( '<span>' + headerText + '</span><span class="fontSizeSub">&nbsp;&nbsp;/&nbsp;&nbsp;LOADED: ' + percentLoaded.toString() + '% FRAMES</span>' );
+    
+    } else if ( framesLoaded === framesToLoad - 1 ) {
+    
+      updateHeader( '<span>' + headerText + '</span>' );
+      
+      request = null;
+    
+    }
+
+    //---
+    
+    if ( framesLoaded < framesToLoad - 1 ) {
+    
+      if ( framesLoaded === 0 ) {
+      
+        init( csvLines );
+      
+      }
+    
+      framesLoaded++;
+      
+      load( filePath + ( framesLoaded + 1 ).toString() + '.csv' );
+    
+    }
+
+  } else {
+
+    loadError( event );
+
+  }
+
+}
+
+function loadError( event ) {
+
+  //console.log( 'error loading csv ', event.target.responseURL, ' with status: ', event.target.status );
+
+}
+
+//---
+
+let header = null;
+let headerText = 'RA DIOHEA_D / HOU SE OF_C ARDS';
+
+function addHeader() {
+
+  header = document.createElement( 'div' );
+  header.classList.add( 'fontSizeMain' );
+  
+  header.style.position = 'absolute';
+  header.style.top = '0px';
+  header.style.left = '0px';
+  header.style.color = '#fff';
+  header.style.fontFamily = 'Share Tech Mono, monospace';
+  header.style.marginTop = '18px';
+  header.style.marginLeft = '20px';
+
+  document.body.appendChild( header );
+  
+  updateHeader( '<span>' + headerText + '</span>' );//<font size="1">This is some text!</font>
+
+}
+
+function updateHeader( str ) {
+
+  header.innerHTML = str;
+
+}
+
+//---
+
+let controlBar = null;
+let controlBarContext = null;
+let controlBarHeight = 20;
+let controlBarActive = false;
+let controlBarTooltip = null;
+
+function addControlBar() {
+
+  controlBar = document.createElement( 'canvas' );
+
+  controlBar.style.position = 'absolute';
+  controlBar.style.bottom = '0px';
+  controlBar.style.left = '0px';
+  controlBar.style.cursor = 'Pointer';
+  controlBar.addEventListener( 'mousedown', controlBarMouseDownHandler, false );
+  document.addEventListener( 'mouseup', controlBarMouseUpHandler, false );
+  document.addEventListener( 'mousemove', controlBarMouseMoveHandler, false );
+
+  document.body.appendChild( controlBar );
+  
+  //---
+  
+  controlBarContext = controlBar.getContext( '2d' );
+  
+  //---
+  
+  controlBarTooltip = document.createElement( 'div' );
+  controlBarTooltip.style.position = 'absolute';
+  controlBarTooltip.style.bottom = '0px';
+  controlBarTooltip.style.color = '#fff';
+  controlBarTooltip.style.fontSize = '10px';
+  controlBarTooltip.style.fontFamily = 'Share Tech Mono, monospace';
+  controlBarTooltip.style.overflow = 'hidden';
+
+  document.body.appendChild( controlBarTooltip );
+
+}
+
+function updateControlBar() {
+
+  controlBarHeight = Math.max( 10, h / 50 );
+
+  //---
+
+  controlBar.width = w;
+  controlBar.height = controlBarHeight;
+
+  //---
+  
+  const percentFrames = framesCurrent / framesToLoad;
+  
+  const position = Math.round( percentFrames * w );
+  const color = Math.round( percentFrames * 255 );
+  const colorNegative = 255 - color;
+  
+  controlBarContext.fillStyle = 'rgb(' + color + ',' + color + ',' + color + ')';
+  controlBarContext.fillRect( 0, 0, position, controlBarHeight );
+  
+  controlBarContext.fillStyle = 'rgb(' + colorNegative + ',' + colorNegative + ',' + colorNegative + ')';
+  controlBarContext.fillRect( position, 0, w - position, controlBarHeight );
+  
+  controlBarContext.fillStyle = 'rgb(' + 0 + ',' + 0 + ',' + 0 + ')';
+  controlBarContext.fillRect( position, 0, 5, controlBarHeight );
+  
+  //---
+
+	if ( controlBarActive === true ) {
+  
+  	controlBarContext.fillStyle = 'rgb(' + 0 + ',' + 0 + ',' + 0 + ')';
+  	controlBarContext.fillRect( controlBarMousePos.x, 0, 2, controlBarHeight );
+  
+  	controlBarTooltip.style.bottom = controlBarHeight + 'px';
+    //controlBarTooltip.style.left = ( position - controlBarTooltip.clientWidth / 2 + 2 ) + 'px';
+    controlBarTooltip.style.left = ( controlBarMousePos.x - controlBarTooltip.clientWidth / 2 + 2 ) + 'px';
+
+    controlBarTooltip.innerHTML = '<span class="noselect nobreak">' + controlBarTextFormat( framesCurrent, 4 ) + ' / ' + framesToLoad + '</span>';
+    //controlBarTooltip.innerHTML = '<span class="noselect nobreak">' + controlBarTextFormat( Math.round( percentFrames * 100 ), 3 ) + '% / ' + '100%' + '</span>' + '<br/>' + '<span class="noselect nobreak">' + controlBarTextFormat( framesCurrent, 4 ) + ' / ' + framesToLoad + '</span>';
+
+    const percentLoaded = framesLoaded / framesToLoad;
+    const percentControlBar = controlBarMousePos.x / w;
+    let framesCurrentCalc = Math.floor( percentControlBar * framesToLoad );
+
+    if ( percentControlBar > percentLoaded ) {
+
+      controlBarTooltip.innerHTML = '<span class="noselect nobreak">' + 'FRAME ' + framesCurrentCalc + ' NOT LOADED YET' + '</span>'
+
+    }
+  
+  }
+  
+  //---
+  
+  if ( controlBarActive === true ) {
+  
+  	controlBarTooltip.style.display = 'block';
+  
+  } else {
+  
+  	controlBarTooltip.style.display = 'none';
+  
+  }
+  
+
+}
+
+function controlBarTextFormat( input, length = 3 ) {
+
+  input = input.toString();
+
+  while( input.length < length ) {
+
+    input = '0' + input;
+
+  }
+
+  return input;
+
+}
+
+function controlBarMouseDownHandler( event ) {
+
+  controlBarActive = true;
+  
+  controlBarMouseMoveHandler( event );
+
+}
+
+function controlBarMouseUpHandler( event ) {
+
+  controlBarActive = false;
+  
+  controlBar.style.cursor = 'Pointer';
+
+}
+
+function controlBarMouseMoveHandler( event ) {
+
+  if ( controlBarActive === true ) {
+  
+    controlBarMousePos = getMousePos( controlBar, event );
+		
+    const percentControlBar = controlBarMousePos.x / w;
+    const percentFrames = framesLoaded / framesToLoad;
+    
+    if ( percentControlBar <= percentFrames ) {
+    
+    	controlBar.style.cursor = 'Pointer';
+
+      let framesCurrentCalc = Math.floor( percentControlBar * framesToLoad );
+
+      if ( framesCurrentCalc < 0 ) {
+
+        framesCurrentCalc = 0;
+
+      } else if ( framesCurrentCalc > framesLoaded - 1 ) {
+
+        framesCurrentCalc = framesLoaded - 1;
+
+      }
+
+      framesCurrent = framesCurrentCalc;
+
+    } else {
+    
+    	controlBar.style.cursor = 'default';
+    
+    }
+
+  }
+
+}
+
+//---
+
+function init( positionArray ) {
+
+  canvas.width = w;
+  canvas.height = h;
+  canvas.addEventListener( 'mousedown', mouseDownHandler, false );
+  canvas.addEventListener( 'mouseup', mouseUpHandler, false );
+  canvas.addEventListener( 'mousemove', mouseMoveHandler, false );
+  canvas.addEventListener( 'mouseenter', mouseEnterHandler, false ); 
+  canvas.addEventListener( 'mouseleave', mouseLeaveHandler, false ); 
+
+  gl.enable( gl.CULL_FACE );
+  gl.enable( gl.DEPTH_TEST );
+  
+  document.body.appendChild( canvas );
+  
+  //---
+  
+  addHeader();
+  addControlBar();
+  
+  //---
+  
+  model = buildModel( positionArray, centerX, centerY, centerZ );  
+  
+  //---
+
+  const modelVertShader = createShader( gl, modelVertexShaderCode, gl.VERTEX_SHADER );
+  const modelFragShader = createShader( gl, modelFragmentShaderCode, gl.FRAGMENT_SHADER );
+
+  model.shaderProgram = createShaderProgram( gl, modelVertShader, modelFragShader );
+
+  model.buffers.vertexBuffer = createBuffer( gl, gl.ARRAY_BUFFER, new Float32Array( model.vertices ), gl.STATIC_DRAW );
+  model.buffers.colorBuffer = createBuffer( gl, gl.ARRAY_BUFFER, new Float32Array( model.colors ), gl.STATIC_DRAW );
+
+  model.locations.projection = gl.getUniformLocation( model.shaderProgram, 'projection' );
+  model.locations.view = gl.getUniformLocation( model.shaderProgram, 'view' );
+  model.locations.model = gl.getUniformLocation( model.shaderProgram, 'model' );
+  model.locations.color = gl.getAttribLocation( model.shaderProgram, 'color' );
+  
+  model.locations.position = gl.getAttribLocation( model.shaderProgram, 'position' );
+
+  //---
+  
+  window.addEventListener( 'resize', onResize, false );
+  
+  restart();
+  
+}
+
+//---
+
+function onResize( event ) {
+    
+  restart();
+
+}
+
+function restart() {
+
+  w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+  canvas.width = w;
+  canvas.height = h;
+
+  //---
+  
+  center.x = w / 2;
+  center.y = h / 2;
+  
+  mousePos.x = center.x;// + Math.random() * center.x;//center.x;
+  mousePos.y = center.y;// + Math.random() * center.y;//center.y;
+  
+  rotationSpeedFactor.x = rotationSpeed / center.x;
+  rotationSpeedFactor.y = rotationSpeed / center.y;
+  
+  //---
+  
+  gl.viewport( 0, 0, w, h );
+  
+  //---
+  
+  computeViewMatrix( model );
+
+  computeProjectionMatrix( model );
+
+  //---
+  
+  if ( animationFrame != null ) {
+  
+    cancelAnimFrame( animationFrame );
+  
+  }
+  
+  animationFrame = requestAnimFrame( render );
+  
+  //---
+  
+  updateControlBar();
+
+}
+
+//---
+
+function buildModel( positionArray, centerX = 0, centerY = 0, centerZ = 0 ) {
+
+  const model = parseModel( positionArray, centerX, centerY, centerZ  );
+  
+  return model;
+
+}
+
+function parseModel( positionArray, centerX, centerY, centerZ ) {
+  
+  let vertices = [];
+  let colors = [];
+  let buffers = {};
+  let transforms = {};
+  let locations = {};
+  
+  //---
+
+  for ( let i = 0, l = positionArray.length; i < l; i++ ) {
+
+    const line = positionArray[ i ];
+    const tokens = line.split( ',' );
+
+    const x = parseFloat( tokens[ 0 ] ) / 10 + centerX;
+    const y = parseFloat( tokens[ 1 ] ) / 10 + centerY;
+    const z = parseFloat( tokens[ 2 ] ) / 10 + centerZ;
+    
+    vertices.push( x, y, z );
+    
+    const r = 0.01;//Math.random();
+    const g = 0.75;//Math.random();
+    const b = 0.89;//Math.random();
+    const a = 1.00;
+
+    colors.push( r, g, b, a );
+
+  }
+
+  //---
+  
+  return { vertices: vertices, VertexFetch: vertices.length / 3, colors: colors, buffers: buffers, transforms: transforms, locations: locations };
+
+}
+
+//---
+
+function mouseDownHandler( event ) {
+
+  mouseDown = true;
+
+}
+
+function mouseUpHandler( event ) {
+
+  mouseDown = false;
+
+}
+
+function mouseEnterHandler( event ) {
+
+  mouseActive = true;
+
+}
+
+function mouseLeaveHandler( event ) {
+
+  mouseActive = false;
+  
+  mouseDown = false;
+
+}
+
+function mouseMoveHandler( event ) {
+
+  mousePos = getMousePos( canvas, event );
+
+}
+
+function getMousePos( canvas, event ) {
+
+  const rect = canvas.getBoundingClientRect();
+
+  return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+
+}
+
+//---
+
+function createBuffer( gl, target, bufferArray, usage ) {
+
+  const buffer = gl.createBuffer();
+
+  gl.bindBuffer( target, buffer );
+  gl.bufferData( target, bufferArray, usage );
+
+  return buffer;
+
+}
+
+//---
+
+function createShader( gl, shaderCode, type ) {
+
+  const shader = gl.createShader( type );
+
+  gl.shaderSource( shader, shaderCode );
+  gl.compileShader( shader );
+  
+  if ( !gl.getShaderParameter( shader, gl.COMPILE_STATUS ) ) {
+
+    console.log( 'Could not compile WebGL program. \n\n' + gl.getShaderInfoLog( shader ) );
+    
+  }
+  
+  return shader;
+
+}
+
+//---
+
+function createShaderProgram( gl, vertexShader, fragmentShader ) {
+
+  const shaderProgram = gl.createProgram();
+
+  gl.attachShader( shaderProgram, vertexShader );
+  gl.attachShader( shaderProgram, fragmentShader );
+
+  gl.linkProgram( shaderProgram );
+
+  if ( !gl.getProgramParameter( shaderProgram, gl.LINK_STATUS ) ) {
+
+    console.log( 'Could not compile WebGL program. \n\n' + gl.getProgramInfoLog( shaderProgram ) );
+    
+  }
+
+  return shaderProgram;
+
+}
+
+//---
+
+function computeProjectionMatrix( model ) {
+
+  const aspectRatio = w / h;
+
+  if ( projection === projections.PERSPECTIVE ) {
+  
+    model.transforms.projection = createPerspectiveMatrix( fov, aspectRatio, zNear, zFar );
+  
+  } else if ( projection === projections.ORTOGRAPHIC ) {
+  
+    model.transforms.projection = createOrthographicMatrix( -viewDistance, viewDistance, -viewDistance / aspectRatio, viewDistance / aspectRatio, zNear, zFar );
+  
+  }
+
+}
+
+function computeViewMatrix( model ) {
+
+  model.transforms.view = invertMatrix( translateMatrix( 0, 0, viewDistance ) );
+
+}
+
+function computeModelMatrix( model, scale, x, y ) {
+
+  const s = scaleMatrix( scale, scale, scale );
+  const rx = rotateXMatrix( y );
+  const ry = rotateYMatrix( x );
+
+  model.transforms.model = multiplyArrayOfMatrices( [ s, rx, ry ] );
+
+}
+
+function computeNormalMatrix( model ) {
+
+  model.transforms.normalMatrix = normalMatrix( multiplyMatrices( model.transforms.view, model.transforms.model ) );
+  
+}
+
+//---
+//https://jsfiddle.net/NiklasKnaack/m3xa120u/2/
+//https://webglfundamentals.org/webgl/lessons/webgl-3d-perspective.html
+
+function createPerspectiveMatrix( fieldOfViewInRadians, aspectRatio, near, far ) {
+
+  const f = 1.0 / Math.tan( fieldOfViewInRadians / 2 );
+  const rangeInv = 1 / ( near - far );
+
+  return [
+    f / aspectRatio, 0,                           0,  0,
+    0,               f,                           0,  0,
+    0,               0,   ( near + far ) * rangeInv, -1,
+    0,               0,   near * far * rangeInv * 2,  0
+  ];
+
+}
+
+function createOrthographicMatrix( left, right, bottom, top, near, far ) {
+
+  const lr = 1 / ( left - right );
+  const bt = 1 / ( bottom - top );
+  const nf = 1 / ( near - far );
+  
+  const row4col1 = ( left + right ) * lr;
+  const row4col2 = ( top + bottom ) * bt;
+  const row4col3 = ( far + near ) * nf;
+  
+  return [
+     -2 * lr,        0,        0, 0,
+           0,  -2 * bt,        0, 0,
+           0,        0,   2 * nf, 0,
+    row4col1, row4col2, row4col3, 1
+  ];
+  
+}
+
+function rotateXMatrix( a ) {
+
+  const cos = Math.cos;
+  const sin = Math.sin;
+
+  return [
+    1,       0,        0,     0,
+    0,  cos(a),  -sin(a),     0,
+    0,  sin(a),   cos(a),     0,
+    0,       0,        0,     1
+  ];
+
+}
+
+function rotateYMatrix( a ) {
+
+  const cos = Math.cos;
+  const sin = Math.sin;
+
+  return [
+    cos(a),   0, sin(a),   0,
+    0,   1,      0,   0,
+    -sin(a),   0, cos(a),   0,
+    0,   0,      0,   1
+  ];
+
+}
+
+function rotateZMatrix( a ) {
+
+  const cos = Math.cos;
+  const sin = Math.sin;
+
+  return [
+    cos(a), -sin(a),    0,    0,
+    sin(a),  cos(a),    0,    0,
+    0,       0,    1,    0,
+    0,       0,    0,    1
+  ];
+
+}
+
+function translateMatrix( x, y, z ) {
+
+  return [
+    1,    0,    0,   0,
+    0,    1,    0,   0,
+    0,    0,    1,   0,
+    x,    y,    z,   1
+  ];
+
+}
+
+function scaleMatrix( w, h, d ) {
+
+  return [
+    w,    0,    0,   0,
+    0,    h,    0,   0,
+    0,    0,    d,   0,
+    0,    0,    0,   1
+  ];
+
+}
+
+function matrixArrayToCssMatrix( array ) {
+
+  return 'matrix3d(' + array.join( ',' ) + ')';
+  
+}
+
+function multiplyPoint( matrix, point ) {
+  
+  const x = point[ 0 ], y = point[ 1 ], z = point[ 2 ], w = point[ 3 ];
+  
+  const c1r1 = matrix[  0 ], c2r1 = matrix[  1 ], c3r1 = matrix[  2 ], c4r1 = matrix[  3 ],
+        c1r2 = matrix[  4 ], c2r2 = matrix[  5 ], c3r2 = matrix[  6 ], c4r2 = matrix[  7 ],
+        c1r3 = matrix[  8 ], c2r3 = matrix[  9 ], c3r3 = matrix[ 10 ], c4r3 = matrix[ 11 ],
+        c1r4 = matrix[ 12 ], c2r4 = matrix[ 13 ], c3r4 = matrix[ 14 ], c4r4 = matrix[ 15 ];
+  
+  return [
+    x * c1r1 + y * c1r2 + z * c1r3 + w * c1r4,
+    x * c2r1 + y * c2r2 + z * c2r3 + w * c2r4,
+    x * c3r1 + y * c3r2 + z * c3r3 + w * c3r4,
+    x * c4r1 + y * c4r2 + z * c4r3 + w * c4r4
+  ];
+  
+}
+
+function multiplyMatrices( a, b ) {
+
+  const result = [];
+
+  let a00 = a[  0 ], a01 = a[  1 ], a02 = a[  2 ], a03 = a[  3 ],
+      a10 = a[  4 ], a11 = a[  5 ], a12 = a[  6 ], a13 = a[  7 ],
+      a20 = a[  8 ], a21 = a[  9 ], a22 = a[ 10 ], a23 = a[ 11 ],
+      a30 = a[ 12 ], a31 = a[ 13 ], a32 = a[ 14 ], a33 = a[ 15 ];
+
+  let b0 = b[ 0 ], 
+      b1 = b[ 1 ], 
+      b2 = b[ 2 ], 
+      b3 = b[ 3 ];
+      
+  result[  0 ] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
+  result[  1 ] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
+  result[  2 ] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
+  result[  3 ] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+
+  b0 = b[  4 ]; 
+  b1 = b[  5 ]; 
+  b2 = b[  6 ]; 
+  b3 = b[  7 ];
+  
+  result[  4 ] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
+  result[  5 ] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
+  result[  6 ] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
+  result[  7 ] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+
+  b0 = b[  8 ]; 
+  b1 = b[  9 ]; 
+  b2 = b[ 10 ]; 
+  b3 = b[ 11 ];
+  
+  result[  8 ] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
+  result[  9 ] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
+  result[ 10 ] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
+  result[ 11 ] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+
+  b0 = b[ 12 ]; 
+  b1 = b[ 13 ]; 
+  b2 = b[ 14 ]; 
+  b3 = b[ 15 ];
+  
+  result[ 12 ] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30;
+  result[ 13 ] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
+  result[ 14 ] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
+  result[ 15 ] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
+
+  return result;
+
+}
+
+function multiplyArrayOfMatrices( matrices ) {
+
+  let inputMatrix = matrices[ 0 ];
+
+  for ( let i = 1, l = matrices.length; i < l; i++ ) {
+
+    inputMatrix = multiplyMatrices( inputMatrix, matrices[ i ] );
+
+  }
+
+  return inputMatrix;
+
+}
+
+function normalMatrix( matrix ) {
+
+  const a00 = matrix[  0 ], a01 = matrix[  1 ], a02 = matrix[  2 ], a03 = matrix[  3 ],
+        a10 = matrix[  4 ], a11 = matrix[  5 ], a12 = matrix[  6 ], a13 = matrix[  7 ],
+        a20 = matrix[  8 ], a21 = matrix[  9 ], a22 = matrix[ 10 ], a23 = matrix[ 11 ],
+        a30 = matrix[ 12 ], a31 = matrix[ 13 ], a32 = matrix[ 14 ], a33 = matrix[ 15 ],
+
+        b00 = a00 * a11 - a01 * a10,
+        b01 = a00 * a12 - a02 * a10,
+        b02 = a00 * a13 - a03 * a10,
+        b03 = a01 * a12 - a02 * a11,
+        b04 = a01 * a13 - a03 * a11,
+        b05 = a02 * a13 - a03 * a12,
+        b06 = a20 * a31 - a21 * a30,
+        b07 = a20 * a32 - a22 * a30,
+        b08 = a20 * a33 - a23 * a30,
+        b09 = a21 * a32 - a22 * a31,
+        b10 = a21 * a33 - a23 * a31,
+        b11 = a22 * a33 - a23 * a32;
+
+  let determinant = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
+
+  if ( !determinant ) {
+  
+    return null; 
+    
+  }
+  
+  determinant = 1.0 / determinant;
+  
+  const result = []
+
+  result[ 0 ] = (a11 * b11 - a12 * b10 + a13 * b09) * determinant;
+  result[ 1 ] = (a12 * b08 - a10 * b11 - a13 * b07) * determinant;
+  result[ 2 ] = (a10 * b10 - a11 * b08 + a13 * b06) * determinant;
+
+  result[ 3 ] = (a02 * b10 - a01 * b11 - a03 * b09) * determinant;
+  result[ 4 ] = (a00 * b11 - a02 * b08 + a03 * b07) * determinant;
+  result[ 5 ] = (a01 * b08 - a00 * b10 - a03 * b06) * determinant;
+
+  result[ 6 ] = (a31 * b05 - a32 * b04 + a33 * b03) * determinant;
+  result[ 7 ] = (a32 * b02 - a30 * b05 - a33 * b01) * determinant;
+  result[ 8 ] = (a30 * b04 - a31 * b02 + a33 * b00) * determinant;
+
+  return result;
+  
+}
+
+function normalize( vector ) {
+
+  const length = Math.sqrt( vector[ 0 ] * vector[ 0 ] + vector[ 1 ] * vector[ 1 ] + vector[ 2 ] * vector[ 2 ] );
+  
+  return [ vector[ 0 ] / length, vector[ 1 ] / length, vector[ 2 ] / length ];
+  
+}
+
+function subVectors( vectorA, vectorB ) {
+
+  return [ vectorA[ 0 ] - vectorB[ 0 ], vectorA[ 1 ] - vectorB[ 1 ], vectorA[ 2 ] - vectorB[ 2 ] ];
+
+}
+
+function invertMatrix( matrix ) {
+
+  const result = [];
+
+  const n11 = matrix[ 0 ], n12 = matrix[ 4 ], n13 = matrix[  8 ], n14 = matrix[ 12 ];
+  const n21 = matrix[ 1 ], n22 = matrix[ 5 ], n23 = matrix[  9 ], n24 = matrix[ 13 ];
+  const n31 = matrix[ 2 ], n32 = matrix[ 6 ], n33 = matrix[ 10 ], n34 = matrix[ 14 ];
+  const n41 = matrix[ 3 ], n42 = matrix[ 7 ], n43 = matrix[ 11 ], n44 = matrix[ 15 ];
+
+  result[  0 ] = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44;
+  result[  4 ] = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44;
+  result[  8 ] = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44;
+  result[ 12 ] = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
+  result[  1 ] = n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44;
+  result[  5 ] = n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44;
+  result[  9 ] = n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44;
+  result[ 13 ] = n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34;
+  result[  2 ] = n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44;
+  result[  6 ] = n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44;
+  result[ 10 ] = n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44;
+  result[ 14 ] = n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34;
+  result[  3 ] = n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43;
+  result[  7 ] = n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43;
+  result[ 11 ] = n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43;
+  result[ 15 ] = n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33;
+
+  const determinant = n11 * result[ 0 ] + n21 * result[ 4 ] + n31 * result[ 8 ] + n41 * result[ 12 ];
+
+  if ( determinant === 0 ) {
+  
+    return null; 
+    
+  }
+  
+  for ( let i = 0, l = result.length; i < l; i++ ) {
+  
+    result[ i ] /= determinant;
+    
+  }
+
+  return result;
+  
+}
+
+//---
+
+function dotProduct( vectorA, vectorB ) {
+  
+  return ( ( vectorA[ 0 ] * vectorB[ 0 ] ) + ( vectorA[ 1 ] * vectorB[ 1 ] ) +( vectorA[ 2 ] * vectorB[ 2 ] ) );
+  
+}
+
+//---
+
+function setModelUniforms() {
+
+  gl.uniformMatrix4fv( model.locations.projection, false, new Float32Array( model.transforms.projection ) );
+  gl.uniformMatrix4fv( model.locations.view, false, new Float32Array( model.transforms.view ) );
+  gl.uniformMatrix4fv( model.locations.model, false, new Float32Array( model.transforms.model ) );
+
+}
+
+function setModelBuffersAndAttributes() {
+
+  gl.enableVertexAttribArray( model.locations.position );
+  gl.bindBuffer( gl.ARRAY_BUFFER, model.buffers.vertexBuffer );
+  gl.vertexAttribPointer( model.locations.position, 3, gl.FLOAT, false, 0, 0 );
+  
+  gl.enableVertexAttribArray( model.locations.color );
+  gl.bindBuffer( gl.ARRAY_BUFFER, model.buffers.colorBuffer );
+  gl.vertexAttribPointer( model.locations.color, 4, gl.FLOAT, false, 0, 0 );
+
+}
+
+//---
+
+function draw( timestamp ) {
+
+  const now = Date.now();
+  
+  //---
+  
+  const fx = rotationSpeedFactor.x * mousePos.x - rotationSpeed;
+  const fy = rotationSpeed - rotationSpeedFactor.y * mousePos.y;
+
+  //--- 
+  
+  if ( mouseActive === true ) {
+
+    computeModelMatrix( model, scale, fx, fy );
+
+  } else {
+
+    computeModelMatrix( model, scale, now * 0.0003, now * 0.0005 );
+
+  }
+
+  computeNormalMatrix( model );
+
+  //---
+
+  gl.useProgram( model.shaderProgram );
+
+  //---
+
+  setModelUniforms();
+  setModelBuffersAndAttributes();
+
+  //---
+
+  const frame = frames[ framesCurrent ];
+  
+  model.buffers.vertexBuffer = frame.vertexBuffer;
+
+  gl.drawArrays( gl.POINTS, 0, 10500 );
+
+  if ( timestamp - lastTimestamp > timestep ) {
+
+    lastTimestamp = timestamp;
+    
+    if ( controlBarActive === false && mouseDown === false ) {
+    
+      framesCurrent++;
+    
+    }
+    
+    if ( framesCurrent > frames.length - 1 ) {
+
+      framesCurrent = 0;
+
+    }
+    
+    updateControlBar();
+    
+  }
+
+}
+
+//---
+
+function render( timestamp ) {
+
+  draw( timestamp );
+  
+  //capturer.capture( canvas );
+
+  animationFrame = requestAnimFrame( render );
+
+}
+
+window.requestAnimFrame = ( function() {
+
+    return  window.requestAnimationFrame       ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame    ||
+            window.msRequestAnimationFrame     ||
+            function( callback ) {
+                window.setTimeout( callback, 1000 / 60 );
+            };
+
+} )();
+
+window.cancelAnimFrame = ( function() {
+
+    return  window.cancelAnimationFrame       ||
+            window.mozCancelAnimationFrame;
+
+} )();
+
+//---
+
+initGUI();
+initLoading();
+
+//---
+	</script>
+  </body>
+</html>

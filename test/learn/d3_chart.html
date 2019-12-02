@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!--  -------------------JS INCLUDE------------->
+    <script src="https://d3js.org/d3.v3.js"></script>
+    <script src="jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+    <div id="main">
+
+    </div>
+    <script>
+	//這裡是示範巢狀資料也可以更新
+	//其實有更好的寫法，可以將enter與trans寫在一起不用分開 20180103
+        var data = [
+            [55, 66, [155,166]],
+            [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        ];
+        var empty = []
+        var p = d3.select('#main').selectAll('div')
+            .data(data).enter()
+            .append('div').attr({
+                "class": "block"
+            })
+        upart();
+        
+        function upart() {
+            p.selectAll('div')
+                .data(function(d) {
+                    return d
+                }).enter()
+                .append('div')
+                .attr({
+                    "class": "fill"
+                })
+                .text(function(d) {
+                    return d
+                })
+                .style({
+                    "width": function(d) {
+                        return d + 'px'
+                    },
+                    "background": "#ddd"
+                })
+				p.selectAll('div').selectAll('.fill')
+				.data(function(d) {
+                    return d
+                }).enter()
+                .append('div')               
+				.attr({
+                    "class": "fill2"
+                })
+                .text(function(d) {
+                    return d
+                })				
+				.style({
+                    "width": function(d) {
+                        return d + 'px'
+                    },
+                    "background": "#aaa"
+                });
+        }
+
+        setInterval(function() {
+            //for (i in data[0]) {
+                for (j in data[0][2])
+                   data[0][2][j] = (Math.random() * 100).toFixed(0)
+           // }
+            trans(data);
+        }, 1000)
+
+        function trans() {
+         p = d3.select('#main').selectAll('.block')
+            .data(data)
+    /*     p.selectAll('.fill')
+            .data(function(d) {
+                return d
+            })
+            .attr({
+                "class": "fill"
+            }).transition().duration(1000)
+            .text(function(d) {
+                return d
+            })
+            .style({
+                "width": function(d) {
+                    return d + 'px'
+                },
+                "background": "#ddd"
+            });*/
+			p.selectAll('.fill') 
+			.data(function(d) {
+                return d
+            }).selectAll('.fill2')
+			.data(function(d) {
+                return d
+            })
+			.text(function(d) {
+                return d
+            })
+			.style({
+                    "width": function(d) {
+                        return d + 'px'
+                    },
+                    "background": "#444"
+              });
+
+//            var allblock = d3.select('#main').selectAll('.block')
+//            d3.select('#main').selectAll('div').data(data).enter()
+//                .append('div').attr({
+//                    "class": "block"
+//                })
+//                .selectAll('div')
+//                .data(function(d) {
+//                    return d
+//                }).enter()
+//                .append('div')
+//                .attr({
+//                    "class": "fill"
+//                })
+//                .transition().duration(1000)
+//                .text(function(d) {
+//                    return d
+//                })
+//                .style({
+//                    "width": function(d) {
+//                        return d + 'px'
+//                    },
+//                    "background": "#ddd"
+//                });
+//
+          
+        }
+
+    </script>
+</body>
+
+</html>

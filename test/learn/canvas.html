@@ -1,0 +1,198 @@
+<html>
+  <head>
+    <meta name="generator"
+    content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
+	
+    <title></title>
+
+  </head>
+  <body>
+	<canvas id="myCanvas" style=""></canvas>
+		<script>
+	//window.onload = function() {
+		var canvas = document.getElementById('myCanvas');
+		var mouse = {x: 0, y: 0, down: false}
+		var boundWidth = 1200;
+		var boundHeight = 800;
+		canvas.width=boundWidth;
+		canvas.height=boundHeight;
+		
+		if (canvas.getContext){
+			var ctx = canvas.getContext('2d');
+			// ctx.fillRect(25,25,100,100);
+			// ctx.clearRect(45,45,60,60);
+			// ctx.strokeRect(50,50,50,50);
+			// fillRect(x, y, width, height)
+			// 畫出一個填滿的矩形。
+			// strokeRect(x, y, width, height)
+			// 畫出一個矩形的邊框
+			// clearRect(x, y, width, height)
+			//ctx.arc(圓心X,圓心Y,半徑,0(弧度),0(起始),Math.PI*2(代表沿著弧形曲線上的起始點與結束點的弧度),true(順逆時針));
+			// 清除指定矩形區域內的內容，使其變為全透明。
+			
+			//-------------------畫三角形
+			ctx.beginPath();
+			ctx.moveTo(10,0);
+			ctx.lineTo(50,25);
+			ctx.lineTo(10,50);
+			ctx.fill();
+			
+			// beginPath()
+			// 產生一個新路徑，產生後再使用繪圖指令來設定路徑。
+			// closePath()
+			// 閉合路徑好讓新的繪圖指令來設定路徑。
+			// 路徑 API
+			// 路徑 API，這些 API 便是繪圖指令
+			// stroke()
+			// 畫出圖形的邊框。
+			// fill()
+			// 填滿路徑內容區域來產生圖形。
+			
+			//-----------------畫笑臉
+			ctx.beginPath();
+			ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
+			ctx.moveTo(110,75);
+			ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
+			ctx.moveTo(65,65);
+			ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
+			ctx.moveTo(95,65);
+			ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+			ctx.stroke();
+			
+			//-----------畫一排黃色小方塊
+			for(i=0;i<=10;i++){
+			ctx.fillStyle = "yellow";
+			ctx.beginPath();	
+			ctx.rect(100+i*20,10, 10, 10);
+			ctx.fill();
+			}
+			
+			function roundedRect(ctx,x,y,width,height,radius){//-----------函數的圖形(畫圓角矩)
+			  ctx.beginPath();
+			  ctx.moveTo(x,y+radius);
+			  ctx.lineTo(x,y+height-radius);
+			  ctx.quadraticCurveTo(x,y+height,x+radius,y+height);
+			  ctx.lineTo(x+width-radius,y+height);
+			  ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);
+			  ctx.lineTo(x+width,y+radius);
+			  ctx.quadraticCurveTo(x+width,y,x+width-radius,y);
+			  ctx.lineTo(x+radius,y);
+			  ctx.quadraticCurveTo(x,y,x,y+radius);
+			  ctx.stroke();
+			}
+			roundedRect(ctx,200,50,50,50,10);//叫出函數工廠製圖
+			
+			//------------漸層填色
+			var radgrad = ctx.createRadialGradient(170,80,10,160,80,30); //(start 小圓 x0, y0, r0, end x1, y1, r1 大圓)
+			  radgrad.addColorStop(0, '#A7D30C');
+			  radgrad.addColorStop(0.9, '#019F62');
+			  radgrad.addColorStop(1, 'rgba(1,159,98,0)');
+			  ctx.fillStyle = radgrad;
+			  ctx.fillRect(10,10,250,250);
+	//};
+	
+			//Path 2D 先畫好圖形存起，要的時候再叫出
+            /*物件VS函數：物件讓程式碼變簡潔，彈性大，比較快(好像沒有beginpath?
+			)，函數則是全部包好一次完成*/
+			var myCir = new Path2D();
+			var p = new Path2D("M10 10 h 80 v 80 h -80 Z");
+			
+			canvas.addEventListener('click', click, false);
+			var mouseClicked = false;
+			function click(e){	
+				myCir.moveTo(e.layerX, e.layerY);
+				myCir.arc(e.layerX, e.layerY, 20, 12, 2*Math.PI, true);
+				ctx.fillStyle = "pink";
+				ctx.fill(myCir);//stroke or fill
+				ctx.fill(p);//stroke or fill
+				mouseClicked = !mouseClicked;
+			}
+			
+			//-------------物件練習：建構子
+			function Obj(x,y){
+				this.x = x;
+				this.y = y;
+				this.color = 'red';
+				this.size = 10;
+			}
+			
+			Obj.prototype.draw = function(){
+				ctx.beginPath();
+				ctx.fillStyle = this.color;
+				ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+				ctx.fill();
+			}
+			canvas.addEventListener('mousemove', hover, false);
+			
+			function hover(e){
+				if (mouseClicked){
+					var newobj = new Obj(e.layerX, e.layerY);
+					newobj.draw();
+				}
+			}
+			
+			
+			//萬花筒函式
+			function Spirograph(ctx,R,r,O){
+			  var x1 = R-O;
+			  var y1 = 0;
+			  var i  = 1;
+			  ctx.beginPath();
+			  ctx.moveTo(x1,y1);
+			  do {
+				if (i>20000) break;
+				var x2 = (R+r)*Math.cos(i*Math.PI/72) - (r+O)*Math.cos(((R+r)/r)*(i*Math.PI/72))
+				var y2 = (R+r)*Math.sin(i*Math.PI/72) - (r+O)*Math.sin(((R+r)/r)*(i*Math.PI/72))
+				ctx.lineTo(x2,y2);
+				x1 = x2;
+				y1 = y2;
+				i++;
+			  } while (x2 != R-O && y2 != 0 );
+			  ctx.stroke();
+			}
+			
+			//畫布平移至抹點開始畫
+			function drawSpirograph(ctx) {
+			  ctx.fillRect(0,0,300,300);
+			  for (var i=0;i<3;i++) {//y軸平移
+				for (var j=0;j<3;j++) {//x軸平移
+				  ctx.save();
+				  ctx.strokeStyle = "#9CFF00";
+				  ctx.translate(50+j*100,200+i*100);
+				  Spirograph(ctx,20*(j+2)/(j+1),-8*(i+3)/(i+1),10);
+				  ctx.restore();
+				}
+			  }
+			}
+			drawSpirograph(ctx);
+	}		
+	//自動畫線
+	/*var i=0;
+	function update(){
+		
+		ctx.beginPath();
+		
+		ctx.arc(i-1,i-1,20,0,Math.PI*2,true); // Outer circle
+		ctx.fillStyle = "#ffffff";
+		ctx.closePath();
+		ctx.fill();
+		
+		
+		ctx.beginPath();
+		ctx.arc(i,i,10,0,Math.PI*2,true); // Outer circle
+		ctx.fillStyle = "blue";
+		ctx.closePath();
+		ctx.fill();
+		
+
+		
+		if(i<500){
+			i++
+		}
+	}
+	setInterval( update, 100 );*/
+	</script>
+  </body>
+</html>
+//https://developer.mozilla.org/zh-TW/docs/Web/API/Canvas_API/Tutorial/Transformations
+//http://curran.github.io/HTML5Examples/ 動畫
