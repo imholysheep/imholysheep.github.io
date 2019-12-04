@@ -15,6 +15,8 @@
         var width = canvas.width = window.innerWidth;
         var height = canvas.height = window.innerHeight;
         var count = 0;
+		        //儲存彩球 
+        var balls = [];
         // function to generate random number
 
         function random(min, max) { //起始值，最大值，回傳這區間的一個數
@@ -22,13 +24,13 @@
             return num;
         }
         //設定球體模型 (建構子) 屬性
-        function Ball() {
-            this.x = width / 2 //random(0, width);
-            this.y = height / 2 // random(0, height);
+        function Ball(x,y) {
+            this.x = x;//random(0, width);
+            this.y = y; / 2 // random(0, height);
             this.velX = 0.01;
             this.velY = 0.01;
             this.color = 'rgb(' + random(20, 255) + ',' + random(20, 255) + ',' + random(200, 255) + ')';
-            this.size = random(1, 2);
+            this.size = 2     //random(1, 2);
         }
 
         //繪製球體 建構子函式 原型繼承
@@ -36,15 +38,8 @@
             ctx.beginPath(); //聲明要在紙上畫出
             ctx.fillStyle = this.color; //要呈現的顏色
             ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI); //arc畫弧形 (中心xy，size半徑，始終角度0-2*180)
-            ctx.fill(); //已完成形狀，並填滿fillStyle顏色
+			ctx.fill(); //已完成形狀，並填滿fillStyle顏色
         }
-
-        // //建立新的球
-        // var testBall = new Ball();
-        // testBall.x
-        // testBall.size
-        // testBall.color
-        // testBall.draw()
 
         //碰撞換色
         Ball.prototype.collisionDetect = function() {
@@ -109,8 +104,7 @@
 
         }
 
-        //儲存彩球 
-        var balls = [];
+
 
         //萬花筒函式
         function Spirograph(ctx, R, r, O) {
@@ -144,28 +138,109 @@
                 }
             }
         }
-        drawSpirograph(ctx);
-
+        //drawSpirograph(ctx);
+		var XposAry1=[];
+		var YposAry1=[];
+		var XposAry2=[];
+		var YposAry2=[];
+		var ballNum=1000;
+		var zeroX = width/2;
+		var zeroY = height/2;
+		var radius = 200;
+		var beginX = zeroX - radius;
+		var endX = zeroX - radius;
+		var changeX = (radius*2/ballNum);
+		for(var i=0;i<ballNum;i++)
+		{
+				XposAry1.push(i*2);
+				YposAry1.push(100);
+				
+				XposAry2.push(beginX+changeX*i);
+				var distanceX = Math.abs(XposAry2[i]-zeroX);
+				var newY = Math.sqrt((radius*radius)-(distanceX*distanceX));
+			if(i%2 == 0)
+			{
+				YposAry2.push(zeroY+newY);
+			}
+			else
+			{
+				YposAry2.push(zeroY-newY);
+			}
+			
+		}
+		
+		
+		while (balls.length < ballNum) {
+			var ball = new Ball(400,400);
+			balls.push(ball);
+		}
+		
+		
         //造球
+		var finish = false;
         function loop() {
-            ctx.fillStyle = 'rgba(220,200,220,0.25)'; //畫格填滿的顏色
-            //ctx.fillRect(0, 0, width, height); //填滿區
+            ctx.fillStyle = 'rgba(220,200,220,0.05)'; //畫格填滿的顏色
+            ctx.fillRect(0, 0, width, height); //填滿區
 
-            while (balls.length < 1) {
-                var ball = new Ball();
-                balls.push(ball);
-            }
 
-            for (i = 0; i < balls.length; i++) {
+
+        for (i = 0; i < balls.length; i++) {
+		
+		if(!finish){
+			if(balls[i].x-5 >XposAry1[i]||balls[i].x+5 <XposAry1[i]||balls[i].y-5 >YposAry1[i]||balls[i].y+5 <YposAry1[i] ){
+				balls[i].x += (XposAry1[i]-balls[i].x)/10*Math.random();
+				balls[i].y += (YposAry1[i]-balls[i].y)/10*Math.random();
+			}else{
+				balls[i].color = '#000000';
+				balls[i].x=XposAry1[i];
+				balls[i].y=YposAry1[i];
+				//setTimeout(function(){
+				finish=true;
+				//},2000);
+				
+			}
+		
+		}else{
+		if(balls[i].x-5 >XposAry2[i]||balls[i].x+5 <XposAry2[i]||balls[i].y-5 >YposAry2[i]||balls[i].y+5 <YposAry2[i] ){
+				balls[i].x += (XposAry2[i]-balls[i].x)/10*Math.random();
+				balls[i].y += (YposAry2[i]-balls[i].y)/10*Math.random();
+			}else{
+			
+				balls[i].color = 'red';
+				balls[i].x=XposAry2[i];
+				balls[i].y=YposAry2[i];
+				setTimeout(function(){
+				finish=false;
+				},2000);
+			}
+		}
+
+			
+			/*if(balls[i].x-5 >XposAry2[i]||balls[i].x+5 <XposAry2[i]||balls[i].y-5 >YposAry2[i]||balls[i].y+5 <YposAry2[i] ){
+				balls[i].x += (balls[i].x-XposAry2[i])/100;
+				balls[i].y += (balls[i].y-YposAry2[i])/100;
+			}*/
+			/*else {
+				balls[i].color = '#000000';
+				balls[i].x=XposAry1[i];
+				balls[i].y=YposAry1[i];
+			}*/
+			
+			
+
+
                 balls[i].draw();
-                balls[i].collisionDetect();
-                balls[i].edgeDetect();
-
-                balls[i].update();
+                //balls[i].collisionDetect();
+                //balls[i].edgeDetect();
+				//console.log('x',balls[i].x)
+				//console.log('y',balls[i].y)
+                //balls[i].update();
+				
 
             }
-
-            if (count < 10000) {
+			count++;//從update搬來這裡
+			
+            if (count < 80000) {
 
                 requestAnimationFrame(loop); //與瀏覽器繪製時間配合的
                 //setTimeout(loop, 1000); //必較不好的繪製法
