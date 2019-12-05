@@ -10,7 +10,7 @@
 <body>
     <input type="button" value="change" onclick="changeShap()" />
     <input id="shapID" type="input" value="" />
-    <canvas></canvas>
+    <canvas id="myCanvas"></canvas>
 
     <script>
         // setup canvas
@@ -18,11 +18,21 @@
         var ctx = canvas.getContext('2d');
         var width = canvas.width = window.innerWidth;
         var height = canvas.height = window.innerHeight;
+		    var zeroX = width / 2;
+            var zeroY = height / 2;
         var count = 0;
         //儲存彩球 
         var balls = [];
         // function to generate random number
-
+        var XposAry1 = [];
+        var YposAry1 = [];
+		var baseShap =makeBaseAnimine();
+        var XposAry2 = baseShap[0];
+        var YposAry2 = baseShap[1];
+        var ballNum = 100;
+		
+		
+		
         function random(min, max) { //起始值，最大值，回傳這區間的一個數
             var num = Math.floor(Math.random() * (max - min)) + min;
             return num;
@@ -32,8 +42,8 @@
             this.x = x; //random(0, width);
             this.y = y;
             / 2 / / random(0, height);
-            this.velX = 0.01;
-            this.velY = 0.01;
+            this.velX = 10;
+            this.velY = 10;
             this.color = 'rgb(' + random(20, 255) + ',' + random(20, 255) + ',' + random(200, 255) + ')';
             this.size = 2 //random(1, 2);
         }
@@ -70,22 +80,15 @@
         }
 
         //偵測碰撞4ㄍ邊緣
+		//(重置)
         Ball.prototype.edgeDetect = function() {
-            if ((this.x + this.size) >= width) {
-                this.velX = -(this.velX);
+			
+			if ((this.y - this.size) <= 0||(this.x + this.size) >= width||(this.y + this.size) >= height||(this.y - this.size) <= 0) {
+                //this.velY = -(this.velY);
+				this.x = zeroX;
+				this.y = zeroY;
             }
-
-            if ((this.x - this.size) <= 0) {
-                this.velX = -(this.velX);
-            }
-
-            if ((this.y + this.size) >= height) {
-                this.velY = -(this.velY);
-            }
-
-            if ((this.y - this.size) <= 0) {
-                this.velY = -(this.velY);
-            }
+			
         }
 
         //更新球的資料 
@@ -144,11 +147,7 @@
             }
         }
         //drawSpirograph(ctx);
-        var XposAry1 = [];
-        var YposAry1 = [];
-        var XposAry2 = [];
-        var YposAry2 = [];
-        var ballNum = 1000;
+
 
 
         while (balls.length < ballNum) {
@@ -158,66 +157,43 @@
 
 
         //造球
-        var finish = false;
+        var finish = true;
         var change = 0;
 
         function loop() {
+		console.log(finish)
             ctx.fillStyle = 'rgba(220,200,220,0.05)'; //畫格填滿的顏色
             ctx.fillRect(0, 0, width, height); //填滿區
-
-            for (i = 0; i < balls.length; i++) {
-                //自動換型
-                /*if(!finish){
-                	if(balls[i].x-5 >XposAry1[i]||balls[i].x+5 <XposAry1[i]||balls[i].y-5 >YposAry1[i]||balls[i].y+5 <YposAry1[i] ){
-                		balls[i].x += (XposAry1[i]-balls[i].x)/10*Math.random();
-                		balls[i].y += (YposAry1[i]-balls[i].y)/10*Math.random();
-                	}else{
-                		balls[i].color = '#000000';
-                		balls[i].x=XposAry1[i];
-                		balls[i].y=YposAry1[i];
-                		//setTimeout(function(){
-                		finish=true;
-                		//},2000);
-                		
-                	}
 		
-                }else{
-                if(balls[i].x-5 >XposAry2[i]||balls[i].x+5 <XposAry2[i]||balls[i].y-5 >YposAry2[i]||balls[i].y+5 <YposAry2[i] ){
-                		balls[i].x += (XposAry2[i]-balls[i].x)/10*Math.random();
-                		balls[i].y += (YposAry2[i]-balls[i].y)/10*Math.random();
-                	}else{
-                		balls[i].color = 'red';
-                		balls[i].x=XposAry2[i];
-                		balls[i].y=YposAry2[i];
-                		setTimeout(function(){
-                		finish=false;
-                		},2000);
-                	}
-                }*/
-                if (change == 0) {
-
-                } else {
+            for (i = 0; i < balls.length; i++) {
+				balls[i].edgeDetect();
+                if (finish == false) {
                     if (balls[i].x - 5 > XposAry1[i] || balls[i].x + 5 < XposAry1[i] || balls[i].y - 5 > YposAry1[i] || balls[i].y + 5 < YposAry1[i]) {
                         balls[i].x += (XposAry1[i] - balls[i].x) / 10 * Math.random();
                         balls[i].y += (YposAry1[i] - balls[i].y) / 10 * Math.random();
                     } else {
-                        balls[i].color = '#000000';
+                        //balls[i].color = '#000000';
                         balls[i].x = XposAry1[i];
                         balls[i].y = YposAry1[i];
-                        //setTimeout(function(){
+                        setTimeout(function(){
                         finish = true;
-                        //},2000);
+                        },5000);
                     }
-                }
+                }else{
+				
+				//回到基底動畫位置
+					if (balls[i].x - 5 > XposAry2[i] || balls[i].x + 5 < XposAry2[i] || balls[i].y - 5 > YposAry2[i] || balls[i].y + 5 < YposAry2[i]) {
+                        balls[i].x += (XposAry2[i] - balls[i].x) / 10 * Math.random();
+                        balls[i].y += (YposAry2[i] - balls[i].y) / 10 * Math.random();
+                    } else {
+					//基底動畫
+                        balls[i].x +=random(-20, 20);
+                        balls[i].y +=random(-10	, 10) ;
+                    }
 
+				}
 
                 balls[i].draw();
-                //balls[i].collisionDetect();
-                //balls[i].edgeDetect();
-                //console.log('x',balls[i].x)
-                //console.log('y',balls[i].y)
-                //balls[i].update();
-
             }
             count++; //從update搬來這裡
 
@@ -229,70 +205,69 @@
             };
 
         }
+		
+		function makeBaseAnimine(){
+			var outAryX = [];
+            var outAryY = [];
+			var group = "";
+			for (var i = 0; i < ballNum; i++) {
+			outAryX.push(100*i);
+			outAryY.push(222);
+				//for (var j = 0; j < group; j++) {}
+			}
+		    return [outAryX, outAryY]
+		}
 
-        function makeCircle(shapID) {
-            var zeroX = width / 2;
-            var zeroY = height / 2;
-            var radius = 200;
-            var beginX = zeroX - radius;
-            var endX = zeroX - radius;
+        function makeCircle(oX,oY) {
+            var radius = random(50,200);
+            var beginX = oX - radius;
+            var endX = oX - radius;
             var changeX = (radius * 2 / ballNum);
             var outAryX = [];
             var outAryY = [];
-            //            for (var i = 0; i < ballNum; i++) {
-            //                XposAry1.push(i * 2);
-            //                YposAry1.push(100);
-            //
-            //                XposAry2.push(beginX + changeX * i);
-            //                var distanceX = Math.abs(XposAry2[i] - zeroX);
-            //                var newY = Math.sqrt((radius * radius) - (distanceX * distanceX));
-            //                if (i % 2 == 0) {
-            //                    YposAry2.push(zeroY + newY);
-            //                } else {
-            //                    YposAry2.push(zeroY - newY);
-            //                }
-            //
-            //            }
+			var shapID = random(1,3)
+			console.log(shapID)
             if (shapID == 1) {
                 for (var i = 0; i < ballNum; i++) {
-                    XposAry1.push(i * 2);
-                    YposAry1.push(100);
+                    //XposAry1.push(i * 2);
+                    //YposAry1.push(10);
 
                     outAryX.push(beginX + changeX * i);
-                    var distanceX = Math.abs(outAryX[i] - zeroX);
+                    var distanceX = Math.abs(outAryX[i] - oX);
                     var newY = Math.sqrt((radius * radius) - (distanceX * distanceX));
                     if (i % 2 == 0) {
-                        outAryY.push(zeroY + newY);
+                        outAryY.push(oY + newY);
                     } else {
-                        outAryY.push(zeroY - newY);
+                        outAryY.push(oY - newY);
                     }
 
                 }
 
             } else if (shapID == 2) {
                 for (var i = 0; i < ballNum; i++) {
-                    outAryX.push(100*i);
-                    outAryY.push(100*i);
+                    outAryX.push(oX+i);
+                    outAryY.push(oY+i);
 
                 }
             }
-
 
             return [outAryX, outAryY]
 
         }
 
 
-        function changeShap() {
-            change = 1;
-            var shapID = $("#shapID").val();
-
-            XposAry1 = makeCircle(shapID)[0];
-            YposAry1 = makeCircle(shapID)[1];
+        function changeShap(oX,oY) {
+			finish = false;//觸發繪圖
+            //var shapID = $("#shapID").val();
+			var shap =makeCircle(oX,oY);
+            XposAry1 = shap[0];
+            YposAry1 = shap[1];
         }
 
         loop();
-
+		document.getElementById("myCanvas").addEventListener("click", function( event ) {
+			changeShap(event.clientX,event.clientY)
+		}, false);
     </script>
 </body>
 
