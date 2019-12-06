@@ -27,7 +27,7 @@
         var XposAry1 = [];
         var YposAry1 = [];
         var ballNum = 1000;
-        var baseShap = makeBaseAnimine();
+        var baseShap = makeBaseAnimine(0);
         var XposAry2 = baseShap[0];
         var YposAry2 = baseShap[1];
 
@@ -45,7 +45,7 @@
             / 2 / / random(0, height);
             this.velX = 10;
             this.velY = 10;
-            this.color = "gray" //'rgb(' + random(20, 255) + ',' + random(20, 255) + ',' + random(200, 255) + ')';
+            this.color = 'rgb(' + random(20, 255) + ',' + random(20, 255) + ',' + random(200, 255) + ')';
             this.size = 2 //random(1, 2);
         }
 
@@ -111,42 +111,9 @@
 
         }
 
-        //萬花筒函式
-        function Spirograph(ctx, R, r, O) {
-            var x1 = R - O;
-            var y1 = 0;
-            var i = 1;
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            do {
-                if (i > 20000) break;
-                var x2 = (R + r) * Math.cos(i * Math.PI / 72) - (r + O) * Math.cos(((R + r) / r) * (i * Math.PI / 72))
-                var y2 = (R + r) * Math.sin(i * Math.PI / 72) - (r + O) * Math.sin(((R + r) / r) * (i * Math.PI / 72))
-                ctx.lineTo(x2, y2);
-                x1 = x2;
-                y1 = y2;
-                i++;
-            } while (x2 != R - O && y2 != 0);
-            ctx.stroke();
-        }
-
-        //畫布平移至抹點開始畫
-        function drawSpirograph(ctx) {
-            ctx.fillRect(0, 0, 300, 300);
-            for (var i = 0; i < 3; i++) { //y軸平移
-                for (var j = 0; j < 3; j++) { //x軸平移
-                    ctx.save();
-                    ctx.strokeStyle = "#9CFF00";
-                    ctx.translate(50 + j * 100, 200 + i * 100);
-                    Spirograph(ctx, 20 * (j + 2) / (j + 1), -8 * (i + 3) / (i + 1), 10);
-                    ctx.restore();
-                }
-            }
-        }
-        //drawSpirograph(ctx);
-
         while (balls.length < ballNum) {
             var ball = new Ball(400, 400);
+			ball.color = 'rgb(' +(120+balls.length/60) + ','+(180-balls.length/10)+',220)';
             balls.push(ball);
         }
 
@@ -154,18 +121,20 @@
         //造球
         var finish = true;
         var change = 0;
-
+		var wave =0;
+		var toggle= 1;
         function loop() {
-            console.log(finish)
-            ctx.fillStyle = 'rgba(200,200,200,0.8)'; //畫格填滿的顏色
+            //console.log(finish)
+            ctx.fillStyle = 'rgba(30,20,40,0.5)'; //畫格填滿的顏色
             ctx.fillRect(0, 0, width, height); //填滿區
-            var wave =0;
+            baseShap = makeBaseAnimine(wave);
             for (i = 0; i < balls.length; i++) {
                 //balls[i].edgeDetect();
-                if (finish == false && change > 100) {
+                if (finish == false && change > 150) {
                     //定時時間到，回基底動畫
                     finish = true;
                 } else if (finish == false) {
+					balls[i].color = 'rgb(' +(200+i/50) + ','+random(0, 255)+',100)';
                     if (balls[i].x - 5 > XposAry1[i] || balls[i].x + 5 < XposAry1[i] || balls[i].y - 5 > YposAry1[i] || balls[i].y + 5 < YposAry1[i]) {
                         balls[i].x += (XposAry1[i] - balls[i].x) / 10 * Math.random();
                         balls[i].y += (YposAry1[i] - balls[i].y) / 10 * Math.random();
@@ -173,7 +142,9 @@
                         //到達變形定位;
                         balls[i].x = XposAry1[i];
                         balls[i].y = YposAry1[i];
+						balls[i].color = 'rgb(' +(255-change/2) + ','+random(0, 200)+',150)';
                         if (i == balls.length - 1) {
+						
                             //到定位計時
                             change++;
                         }
@@ -186,13 +157,7 @@
                         balls[i].y += (YposAry2[i] - balls[i].y) / 10 * Math.random();
                     } else {
                         //基底動畫
-                        if(wave<100){
-                            wave++;
-                        }else{
-                            //wave=-10;
-                        }
-                        
-                        baseShap = makeBaseAnimine(wave);
+                        balls[i].color = 'rgb(' +(120+i/60) + ','+(180-i/10)+',220)';
                         XposAry2 = baseShap[0];
                         YposAry2 = baseShap[1];
                         balls[i].x += 0.1 //* random(-20, 20);
@@ -204,6 +169,18 @@
                 balls[i].draw();
             }
             count++; //從update搬來這裡
+			
+			if(wave==100 && toggle<0){
+				toggle=-toggle;
+				wave+=toggle;
+			}else if(wave==1000 ){
+				toggle=-toggle;
+				wave+=toggle;
+			}else if(wave<1000){
+				wave+=toggle;
+			}
+			
+			
             if (count < 80000) {
                 requestAnimationFrame(loop); //與瀏覽器繪製時間配合的
                 //setTimeout(loop, 1000); //必較不好的繪製法
@@ -214,13 +191,19 @@
         function makeBaseAnimine(wave) {
             var outAryX = [];
             var outAryY = [];
+			var slowlyWave = wave;
+			if(wave>250){
+				slowlyWave=wave/50+250;
+				}
             var group = "";
             for (var i = 0; i < ballNum; i++) {
-                var _A = Math.abs(4 * Math.cos(2 * i));
-                var pos = Math.exp(-_A * i / width) * Math.sin(4 * Math.PI * (i + 10) / width);
-                outAryX.push(i-zeroX);
-                outAryY.push(pos * wave + zeroY);
-                //for (var j = 0; j < group; j++) {}
+                var _A = Math.abs(4 * Math.cos(4 * i/2));
+				
+                var pos = Math.exp(-_A * i/ width) * Math.sin(3 * Math.PI * (i + 10+wave*2) / width);
+				
+                outAryX.push(width/ballNum*i);
+
+                outAryY.push(pos * slowlyWave+ zeroY+100);
             }
             return [outAryX, outAryY]
         }
@@ -304,6 +287,16 @@
             changeShap(event.clientX, event.clientY)
         }, false);
 
+		function Timer(time){
+			setTimeout(function(){
+			changeShap(zeroX,zeroY)
+				Timer(random(10000,20000))
+			},time)	
+		}
+		
+		Timer(5000)
+		
+		
     </script>
 </body>
 
