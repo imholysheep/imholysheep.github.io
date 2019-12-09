@@ -1,4 +1,4 @@
-//¡i²y¡jª«¥ó
+//ã€çƒã€‘ç‰©ä»¶
 function Ball(x, y) {
 	this.x = x; //random(0, width);
 	this.y = y;
@@ -8,10 +8,10 @@ function Ball(x, y) {
 	this.size = random(1, 4);
 }	
 
-//¡i²y¡j¸I¼²¨Æ¥ó
+//ã€çƒã€‘ç¢°æ’äº‹ä»¶
 /*Ball.prototype.collisionDetect = function() {
 	for (j = 0; j < balls.length; j++) {
-		//§PÂ_¬°¤£¦P²y
+		//åˆ¤æ–·ç‚ºä¸åŒçƒ
 		if ((!(this.x === balls[j].x && this.y === balls[j].y && this.velX === balls[j].velX && this.velY === balls[j].velY))) {
 			//var dx = this.x;
 			var dx = this.x - balls[j].x;
@@ -19,7 +19,7 @@ function Ball(x, y) {
 			var dy = this.y - balls[j].y;
 			var distance = Math.sqrt(dx * dx + dy * dy);
 
-			//§PÂ_Ãä½t¬Û¼²
+			//åˆ¤æ–·é‚Šç·£ç›¸æ’
 			if (distance < this.size + balls[j].size) {
 				// if (distance < 1) {
 				balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
@@ -30,7 +30,7 @@ function Ball(x, y) {
 		}
 	}
 }*/
-//¡i²y¡jÃä¬É°»´ú
+//ã€çƒã€‘é‚Šç•Œåµæ¸¬
 /*Ball.prototype.edgeDetect = function() {
 	if ((this.y - this.size) <= 0 || (this.x + this.size) >= width || (this.y + this.size) >= height || (this.y - this.size) <= 0) {
 		this.x = zeroX + this.x;
@@ -38,15 +38,15 @@ function Ball(x, y) {
 	}
 }*/
 
-//¡i²y¡jÃ¸»s
+//ã€çƒã€‘ç¹ªè£½
 Ball.prototype.draw = function() {
-	ctx.beginPath(); //Án©ú­n¦b¯È¤Wµe¥X
-	ctx.fillStyle = this.color; //­n§e²{ªºÃC¦â
-	ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI); //arcµe©·§Î (¤¤¤ßxy¡Asize¥b®|¡A©l²×¨¤«×0-2*180)
-	ctx.fill(); //¤w§¹¦¨§Îª¬¡A¨Ã¶ñº¡fillStyleÃC¦â
+	ctx.beginPath(); //è²æ˜è¦åœ¨ç´™ä¸Šç•«å‡º
+	ctx.fillStyle = this.color; //è¦å‘ˆç¾çš„é¡è‰²
+	ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI); //arcç•«å¼§å½¢ (ä¸­å¿ƒxyï¼ŒsizeåŠå¾‘ï¼Œå§‹çµ‚è§’åº¦0-2*180)
+	ctx.fill(); //å·²å®Œæˆå½¢ç‹€ï¼Œä¸¦å¡«æ»¿fillStyleé¡è‰²
 }
 
-//¡i²y¡j¹êÅé¤Æ
+//ã€çƒã€‘å¯¦é«”åŒ–
 function makeBalls(num,group,x,y){
 	while (group.length < num) {
 		var i = group.length;
@@ -56,7 +56,7 @@ function makeBalls(num,group,x,y){
 	}
 }
 
-//¡i²y¡j§ó·s
+//ã€çƒã€‘æ›´æ–°
 /*Ball.prototype.update = function() {
 
 	//this.x += this.velX * 0.01;
@@ -69,13 +69,13 @@ function makeBalls(num,group,x,y){
 
 function loop() {
 	//console.log(finish)
-	ctx.fillStyle = 'rgba(30,20,40,0.5)'; //µe®æ¶ñº¡ªºÃC¦â
-	ctx.fillRect(0, 0, width, height); //¶ñº¡°Ï
+	ctx.fillStyle = 'rgba(30,20,40,0.5)'; //ç•«æ ¼å¡«æ»¿çš„é¡è‰²
+	ctx.fillRect(0, 0, width, height); //å¡«æ»¿å€
 	baseShap(wave);
 	for (var i = 0; i < balls.length; i++) {
 		//balls[i].edgeDetect();
 		if (finish == false && change > 150) {
-			//©w®É®É¶¡¨ì¡A¦^°ò©³°Êµe
+			//å®šæ™‚æ™‚é–“åˆ°ï¼Œå›åŸºåº•å‹•ç•«
 			finish = true;
 		} else if (finish == false) {
 			balls[i].color = 'rgb(' +(200+i/50) + ','+random(0, 255)+',100)';
@@ -83,24 +83,24 @@ function loop() {
 				balls[i].x += (XposAry1[i] - balls[i].x) / 10 * Math.random();
 				balls[i].y += (YposAry1[i] - balls[i].y) / 10 * Math.random();
 			} else {
-				//¨ì¹FÅÜ§Î©w¦ì;
+				//åˆ°é”è®Šå½¢å®šä½;
 				balls[i].x = XposAry1[i];
 				balls[i].y = YposAry1[i];
 				balls[i].color = 'rgb(' +(255-change/2) + ','+random(0, 200)+',150)';
 				if (i == balls.length - 1) {
-					//¨ì©w¦ì­p®É
+					//åˆ°å®šä½è¨ˆæ™‚
 					change++;
 				}
 
 			}
 		} else if (finish == true) {
 			change = 0;
-			//¦^¨ì°ò©³°Êµe¦ì¸m
+			//å›åˆ°åŸºåº•å‹•ç•«ä½ç½®
 			if (balls[i].x - 5 > XposAry2[i] || balls[i].x + 5 < XposAry2[i] || balls[i].y - 5 > YposAry2[i] || balls[i].y + 5 < YposAry2[i]) {
 				balls[i].x += (XposAry2[i] - balls[i].x) / 10 * Math.random();
 				balls[i].y += (YposAry2[i] - balls[i].y) / 10 * Math.random();
 			} else {
-				//°ò©³°Êµe
+				//åŸºåº•å‹•ç•«
 				balls[i].color = 'rgb(' +(120+i/60) + ','+(180-i/10)+',220)';
 				//XposAry2 = baseShap[0];
 				//YposAry2 = baseShap[1];
@@ -113,12 +113,14 @@ function loop() {
 		balls[i].draw();
 	}
 	
-	for(var i = 0; i < ballsInfo.length; i++){
+	//ç¬¬äºŒçµ„æ±‚æ¸¬è©¦
+	
+	/*for(var i = 0; i < ballsInfo.length; i++){
 		ballsInfo[i].x=XposAry3[i];
 		ballsInfo[i].y=YposAry3[i];
 		ballsInfo[i].draw();
-	}
-	count++; //®É¶¡­p¼Æ
+	}*/
+	count++; //æ™‚é–“è¨ˆæ•¸
 	
 	if(wave==100 && toggle<0){
 		toggle=-toggle;
@@ -195,8 +197,8 @@ function makeCircle(oX, oY) {
 		var y1 = 0;
 		var x2, y2;
 
-		for (var i = 0; i < 3; i++) { //y¶b¥­²¾
-			for (var j = 0; j < 3; j++) { //x¶b¥­²¾
+		for (var i = 0; i < 3; i++) { //yè»¸å¹³ç§»
+			for (var j = 0; j < 3; j++) { //xè»¸å¹³ç§»
 			     R = random(12, 89) * (j + 2) / (j + 1);
 				//R = 20 * (j + 2) / (j + 1);
 				r = random(-50, 63) * (i + 3) / (i + 1);
@@ -204,7 +206,7 @@ function makeCircle(oX, oY) {
 				for (var i = 0; i < ballNum; i++) {
 					x2 = (R + r) * Math.cos(i*d * Math.PI / 72) - (r + O) * Math.cos(((R + r) / r) * (i*d * Math.PI / 72)) + oX
 					y2 = (R + r) * Math.sin(i*d * Math.PI / 72) - (r + O) * Math.sin(((R + r) / r) * (i*d * Math.PI / 72)) + oY
-					//­ìÂI¬°x2 == R-O && y2 == 0 
+					//åŸé»ç‚ºx2 == R-O && y2 == 0 
 					if(i%3==0){
 					outAryX.push(x2);
 					outAryY.push(y2);
@@ -218,7 +220,7 @@ function makeCircle(oX, oY) {
 }
 
 function changeShap(oX, oY) {
-	finish = false; //Ä²µoÃ¸¹Ï
+	finish = false; //è§¸ç™¼ç¹ªåœ–
 	//var shapID = $("#shapID").val();
 	var shap = makeCircle(oX, oY);
 	XposAry1 = shap[0];
@@ -231,7 +233,7 @@ function baseShap(wave) {
 	YposAry2 = shap[1];
 }
 
-function random(min, max) { //°_©l­È¡A³Ì¤j­È¡A¦^¶Ç³o°Ï¶¡ªº¤@­Ó¼Æ
+function random(min, max) { //èµ·å§‹å€¼ï¼Œæœ€å¤§å€¼ï¼Œå›å‚³é€™å€é–“çš„ä¸€å€‹æ•¸
 	var num = Math.floor(Math.random() * (max - min)) + min;
 	return num;
 }
