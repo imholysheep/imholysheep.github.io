@@ -115,11 +115,11 @@ function loop() {
 	
 	//第二組求測試
 	
-	/*for(var i = 0; i < ballsInfo.length; i++){
-		ballsInfo[i].x=XposAry3[i];
-		ballsInfo[i].y=YposAry3[i];
+	for(var i = 0; i < ballsInfo.length; i++){
+		ballsInfo[i].x=XposAry3[i]*3+100;
+		ballsInfo[i].y=YposAry3[i]*3+100;
 		ballsInfo[i].draw();
-	}*/
+	}
 	count++; //時間計數
 	
 	if(wave==100 && toggle<0){
