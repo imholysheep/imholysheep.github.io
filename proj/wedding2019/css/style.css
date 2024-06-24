@@ -1,0 +1,402 @@
+html,body{
+	height:auto;
+	background:gray;
+	padding:0px;
+	font-family: Microsoft JhengHei;
+}
+nav.bgCanvas{
+	background:#1d1327;
+	
+	
+}
+
+a:hover{
+text-decoration:none;	
+}
+
+nav.bgCanvas a{
+	color:white;
+}
+
+#myCanvas{
+  position:absolute;
+  top:0px;
+}
+
+
+
+.loginBox{
+	padding-top:20px;
+	
+}
+.loginBox .section{
+	padding:10px;
+	margin-bottom:20px;
+	height:160px;
+	border-radius:10px;
+	background-color:rgba(255,255,255,0.8);
+}
+
+.loginBox .section.pwd{
+	height:400px;
+}
+
+
+/*按鈕*/
+a.threeDee:hover{
+	color:white;
+	text-decoration: none;
+}
+.threeDee::before, .threeDee::after {
+  position: absolute;
+  content: '';
+  transition: all .5s;
+  -webkit-transition: all .5s;
+}
+
+.threeDee {
+  display: inline-block;
+  padding: 10px;
+  color: white;
+  width:90%;
+  height:124px;;
+  transform: translate(0%, 0%);
+  -webkit-transform: translate(0%, 0%);
+  vertical-align: bottom;
+  
+  font-family: inherit;
+  
+  text-decoration: none;
+font-size: 86px;
+    text-align: right;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  background-color: #4c5677;
+}
+.threeDee::before {
+  bottom: -15px;
+  height: 15px;
+  width: 100%;
+  left: 8px;
+  transform: skewX(45deg);
+  -webkit-transform: skewX(45deg);
+  background-color: #5d6a94;
+}
+.threeDee::after {
+  right: -15px;
+  height: 100%;
+  width: 15px;
+  bottom: -8px;
+  transform: skewY(45deg);
+  -webkit-transform: skewY(45deg);
+  background-color: #1a1a42d4;
+}
+.threeDee:active {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.threeDee:active::before {
+  bottom: -5px;
+  height: 5px;
+  left: 3px;
+}
+.threeDee:active::after {
+  right: -5px;
+  width: 5px;
+  bottom: -3px;
+}
+
+.google .threeDee{
+	font-size:40px;
+	line-height: 95px;
+	background-color: #ffffff;
+}
+
+.google .threeDee:before{
+	background-color: #c1c1c1;
+}
+.google .threeDee:after{
+	background-color: #6d6d6f;
+}
+
+/*登入表單*/
+.loginBox {
+  max-width: 800px;
+  background-color: #f5f5f5;
+  border-top: 0px;
+  margin-bottom: 40px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: 0px 10px 14px -10px rgba(0,0,0,.2);
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 20px 15px;
+
+  border-top: 5px solid #007f33;
+  border-radius: 0px;
+}
+.boxWrap{
+  margin: 160px auto;
+  margin-top: 40%;
+}
+
+.box{
+opacity: 1;
+transition: 1s;
+
+}
+
+.box{
+
+  height: 40px;
+  padding: 6px;
+  display: block;
+  text-decoration: none;
+  /*border-radius: 200px;*/
+  /*box-shadow: 1px 1px 4px rgba(0,0,0,.2);*/
+  overflow: hidden;
+ /* border:1px solid #ffffff;*/
+}
+
+a.box:hover{
+  text-decoration: none;
+}
+
+.box.pwd{
+	background:#232142;
+	color:white;
+  border-radius: 0px;
+  border: 2px solid #472f6d;
+  white-space: nowrap;
+}
+
+
+.box.pwd input{
+  width:55%;
+  border: 0px;
+  background: none;
+    border-bottom: 2px dashed #969696;
+	color:white;
+	
+}
+/*.box.pwd button{
+  border-radius: 5px;
+  width: 60px;
+  height: 40px;
+  border: none;
+  background: #472f6d;
+  color:white;
+}*/
+
+.box.pwd button{
+  position: absolute;
+  padding:5px;
+  height:40px;
+  right: 0px;
+  top: 0;
+  border-radius: 0px;
+  color:white;
+  background: #472f6d;
+}
+
+
+.box.google{
+  font-size: 46px;
+  background:white;
+}
+.box.fb{
+    font-size: 52px;
+    color: white;
+	background:#3b5998;
+    font-weight: bold;
+}
+
+.box .innerContent{
+	display:none;
+}
+.box .outerContent{
+		font-size:18px!important;
+}
+
+.optionWrap >h3{
+	background:white;
+	padding:10px;
+	
+	
+}
+.optionWrap a{
+color:white;
+}
+
+@media (max-width: 767px) {
+	#counter-default .timer-text{
+    font-size:24px!important;
+    letter-spacing: 0px;
+    padding: 0px;
+  }
+  
+  #counter-default .timer-number{
+    font-size:30px!important;
+    letter-spacing: 0px;
+	}
+  .box{
+    margin:10px 20%;
+    text-align: center;
+  }
+  .box.pwd{
+    text-align: left;
+  }
+
+  .box.pwd button{
+    width:80px;
+  }
+.optionWrap .btn{
+	width:100%;
+	border-radius:0px;
+}
+#counter-default>div{
+	width:25%;
+}
+nav span{
+	font-size:20px!important;
+}
+nav .d-inline-block{
+	display:none!important;
+}
+}
+
+/*大於768*/
+@media (min-width: 768px) {
+.box.pwd input{
+  margin:0px;
+  margin-top:-10px;
+  margin-right:55px;
+  width:110px;
+  
+}
+
+
+ /*[start]迴轉動畫*/ 
+/*.hover .box{
+	width:200px;
+	height:200px;
+	max-width:200px;
+	max-height:200px;
+}
+
+.hover .box.pwd{
+	padding:20px 10px;
+}
+
+
+.hover .box .innerContent{
+	display:block;
+
+}
+.hover .box .outerContent{
+	display:none;
+}
+
+.hover .box.google:before{
+width: 120px;
+    height: 120px;
+    content: '';
+    display: block;
+    border-radius: 100px;
+    position: absolute;
+    top: 35px;
+    z-index: -1;
+    background: #ffffff;
+    background-image: url(../images/googleLogo.jpg);
+    background-size: 100px 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hover .box.fb:before{
+	width:120px;
+	height:120px;
+	content:'FB';
+	display:block;
+	background:#3b5998;
+	padding-left:30px;
+	padding-top:20px;
+	border-radius:100px;
+	position:absolute;
+	z-index:-1;
+}
+
+.box:nth-child(1){
+    transform-origin:bottom right;
+    transform: rotate(-10deg);
+}
+.box:nth-child(2){
+  transform-origin:bottom left;
+  transform: rotate(30deg);
+}
+.box:nth-child(3){
+  transform-origin:top right;
+  transform: rotate(-35deg);
+}*/
+
+
+/*box0 hover*/
+/*.hover0 .box.active{
+  transform-origin:center;
+  transform: rotate(0deg) scale(1.5,1.5);
+  border-radius:100px;
+}
+.hover0 .box:nth-child(2){
+  transform-origin:top right;
+  transform: rotate(-60deg) scale(0.6,0.6);
+  background:none;
+}
+.hover0 .box:nth-child(3){
+  transform-origin:top right;
+  transform: rotate(-35deg) scale(0.6,0.6);
+  background:none;
+}*/
+
+/*box1 hover*/
+/*.hover1 .box:nth-child(1){
+  transform-origin:bottom right;
+  transform: rotate(-20deg) scale(0.6,0.6);
+    border-radius:100px;
+}
+.hover1 .box.active{
+  transform-origin:bottom left;
+  transform: rotate(20deg) scale(1.5,1.5);
+  background:none;
+}
+.hover1 .box:nth-child(3){
+  transform-origin:top right;
+  transform: rotate(-45deg) scale(0.6,0.6);
+  background:none;
+}*/
+
+/*box2 hover*/
+/*.hover2 .box:nth-child(1){
+  transform-origin:bottom right;
+  transform: rotate(10deg) scale(0.6,0.6);
+    border-radius:100px;
+}
+.hover2 .box:nth-child(2){
+  transform-origin:bottom left;
+  transform: rotate(50deg) scale(0.6,0.6);
+  background:none;
+}
+.hover2 .box.active{
+  transform-origin:top left;
+  transform: rotate(-20deg) scale(1.5,1.5);
+  background:none;
+}*/
+ /*[end]迴轉動畫*/ 
+}
+/*手機版面*/
+@media (max-width: 575.98px) { 
+  .box{
+    margin:10px 0px;
+  }
+  #panel{
+    margin-top: 80px;
+  }
+ }
