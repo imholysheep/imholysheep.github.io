@@ -1,0 +1,106 @@
+.mstheme
+{
+	separator-image: url(wayrule.gif);
+	list-image-1: url(waybull1.gif);
+	list-image-2: url(waybull2.gif);
+	list-image-3: url(waybull3.gif);
+	nav-banner-image: url(waybnr.gif);
+	navbutton-horiz-normal: url(wayphb.gif);
+
+	navbutton-horiz-pushed: url(wayphbp.gif);
+	navbutton-vert-normal: url(waypvb.gif);
+
+	navbutton-vert-pushed: url(waypvbp.gif);
+	navbutton-home-normal: url(wayhomes.gif);
+
+	navbutton-home-pushed: url(wayhomes.gif);
+	navbutton-next-normal: url(waynexth.gif);
+	
+	navbutton-next-pushed: url(waynexth.gif);
+	navbutton-prev-normal: url(wayprevh.gif);
+
+	navbutton-prev-pushed: url(wayprevh.gif);
+	navbutton-up-normal: url(wayhomes.gif);
+
+	navbutton-up-pushed: url(wayhomes.gif);
+}
+.mstheme-bannertxt
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 6;
+	font-style: normal;
+	font-weight: normal;
+}
+.mstheme-horiz-navtxt
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-vert-navtxt
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxthome
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtnext
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtprev
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtup
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+ul
+{
+	list-style-image: url(waybull1.gif);
+}
+ul ul
+{
+	list-style-image: url(waybull2.gif);
+}
+ul ul ul
+{
+	list-style-image: url(waybull3.gif);
+}

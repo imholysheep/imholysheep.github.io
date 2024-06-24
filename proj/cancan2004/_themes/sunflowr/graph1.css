@@ -1,0 +1,86 @@
+.mstheme
+{
+	nav-banner-image: url(sunbanna.gif);
+	separator-image: url(sunsepa.gif);
+	list-image-1: url(sunbul1a.gif);
+	list-image-2: url(sunbul2a.gif);
+	list-image-3: url(sunbul3a.gif);
+	navbutton-horiz-pushed: url(sunnavhp.gif);
+	navbutton-horiz-normal: url(sunnavha.gif);
+	navbutton-horiz-hovered: url(sunnavhh.gif);
+	navbutton-vert-pushed: url(sunnavvp.gif);
+	navbutton-vert-normal: url(sunnavva.gif);
+	navbutton-vert-hovered: url(sunnavvh.gif);
+	navbutton-home-normal: url(sunhomea.gif);
+	navbutton-home-hovered: url(sunhomeh.gif);
+	navbutton-home-pushed: url(sunhomea.gif);
+	navbutton-up-normal: url(sunupa.gif);
+	navbutton-up-hovered: url(sunuph.gif);
+	navbutton-up-pushed: url(sunupa.gif);
+	navbutton-prev-normal: url(sunpreva.gif);
+	navbutton-prev-hovered: url(sunprevh.gif);
+	navbutton-prev-pushed: url(sunpreva.gif);
+	navbutton-next-normal: url(sunnexta.gif);
+	navbutton-next-hovered: url(sunnexth.gif);
+	navbutton-next-pushed: url(sunnexta.gif);
+}
+.mstheme-bannertxt
+{
+	font-family: "Trebuchet MS", Arial, Helvetica;
+	font-size: 6;
+	color: rgb(255,255,255);
+}
+.mstheme-horiz-navtxt
+{
+	font-family: "Trebuchet MS", Arial, Helvetica;
+	font-size: 2;
+	font-weight: bold;
+	color: rgb(255,255,255);
+}
+.mstheme-vert-navtxt
+{
+	font-family: "Trebuchet MS", Arial, Helvetica;
+	font-size: 2;
+	font-weight: bold;
+	color: rgb(255,255,255);
+}
+.mstheme-navtxthome
+{
+	font-family: "Trebuchet MS", Arial, Helvetica;
+	font-size: 1;
+	font-weight: bold;
+	color: rgb(255,153,0);
+}
+.mstheme-navtxtup
+{
+	font-family: "Trebuchet MS", Arial, Helvetica;
+	font-size: 1;
+	font-weight: bold;
+	color: rgb(255,153,0);
+}
+.mstheme-navtxtprev
+{
+	font-family: "Trebuchet MS", Arial, Helvetica;
+	font-size: 1;
+	font-weight: bold;
+	color: rgb(255,153,0);
+}
+.mstheme-navtxtnext
+{
+	font-family: "Trebuchet MS", Arial, Helvetica;
+	font-size: 1;
+	font-weight: bold;
+	color: rgb(255,153,0);
+}
+UL
+{
+	list-style-image:url(sunbul1A.gif);
+}
+UL UL
+{
+	list-style-image:url(sunbul1A.gif);
+}
+UL UL UL
+{
+	list-style-image:url(sunbul1A.gif);
+}

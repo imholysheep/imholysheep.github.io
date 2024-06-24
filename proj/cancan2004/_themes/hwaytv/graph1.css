@@ -1,0 +1,108 @@
+.mstheme
+{
+	separator-image: url(awayrule.gif);
+	list-image-1: url(awaybul1.gif);
+	list-image-2: url(awaybul2.gif);
+	list-image-3: url(awaybul3.gif);
+	nav-banner-image: url(awaybnr.gif);
+	navbutton-horiz-normal: url(wayvbs.gif);
+	navbutton-horiz-hovered: url(wayvbh.gif);
+	navbutton-horiz-pushed: url(wayhbp.gif);
+	navbutton-vert-normal: url(wayvbs.gif);
+	navbutton-vert-hovered: url(wayvbh.gif);
+	navbutton-vert-pushed: url(wayhbp.gif);
+	navbutton-home-normal: url(wayhomes.gif);
+	navbutton-home-hovered: url(wayhomes.gif);
+	navbutton-home-pushed: url(wayhomes.gif);
+	navbutton-next-normal: url(waynexth.gif);
+	navbutton-next-hovered: url(waynexth.gif);
+	navbutton-next-pushed: url(waynexth.gif);
+	navbutton-prev-normal: url(wayprevh.gif);
+	navbutton-prev-hovered: url(wayprevh.gif);
+	navbutton-prev-pushed: url(wayprevh.gif);
+	navbutton-up-normal: url(wayhomes.gif);
+	navbutton-up-hovered: url(wayhomes.gif);
+	navbutton-up-pushed: url(wayhomes.gif);
+}
+.mstheme-bannertxt
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 6;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-horiz-navtxt
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-vert-navtxt
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxthome
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtnext
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtprev
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtup
+{
+	font-family: Verdana, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 4;
+	font-style: normal;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+ul
+{
+	list-style-image: url(awaybul1.gif);
+}
+ul ul
+{
+	list-style-image: url(awaybul2.gif);
+}
+ul ul ul
+{
+	list-style-image: url(awaybul3.gif);
+}

@@ -1,0 +1,11 @@
+[info]
+refcount=1
+version=02.00
+readonly=true
+codepage=65001
+format=2.00
+title=Flower
+
+[titles]
+1028=如夢花季
+2052=如梦花季

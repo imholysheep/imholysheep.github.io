@@ -1,0 +1,108 @@
+.mstheme
+{
+	separator-image: url(4.gif);
+	list-image-1: url(3-1.gif);
+	list-image-2: url(3-2.gif);
+	list-image-3: url(3-3.gif);
+	nav-banner-image: url(1.gif);
+	navbutton-horiz-normal: url(2-1.gif);
+	navbutton-horiz-hovered: url(2-3.gif);
+	navbutton-horiz-pushed: url(2-2.gif);
+	navbutton-vert-normal: url(2-1.gif);
+	navbutton-vert-hovered: url(2-3.gif);
+	navbutton-vert-pushed: url(2-2.gif);
+	navbutton-home-normal: url(5-1.gif);
+	navbutton-home-hovered: url(5-3.gif);
+	navbutton-home-pushed: url(5-2.gif);
+	navbutton-next-normal: url(5-1.gif);
+	navbutton-next-hovered: url(5-3.gif);
+	navbutton-next-pushed: url(5-2.gif);
+	navbutton-prev-normal: url(5-1.gif);
+	navbutton-prev-hovered: url(5-3.gif);
+	navbutton-prev-pushed: url(5-2.gif);
+	navbutton-up-normal: url(5-1.gif);
+	navbutton-up-hovered: url(5-3.gif);
+	navbutton-up-pushed: url(5-2.gif);
+}
+.mstheme-bannertxt
+{
+	font-family: Century Gothic, Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 5;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-horiz-navtxt
+{
+	font-family: Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-vert-navtxt
+{
+	font-family: Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxthome
+{
+	font-family: Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtnext
+{
+	font-family: Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtprev
+{
+	font-family: Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+.mstheme-navtxtup
+{
+	font-family: Arial, Helvetica;
+	color: rgb(255, 255, 255);
+	font-size: 1;
+	font-style: normal;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+}
+ul
+{
+	list-style-image: url(3-1.gif);
+}
+ul ul
+{
+	list-style-image: url(3-2.gif);
+}
+ul ul ul
+{
+	list-style-image: url(3-3.gif);
+}

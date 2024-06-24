@@ -1,0 +1,32 @@
+.mstheme     { navbutton-background-color: rgb(0,0,0); font-size: 15pt; top-bar-button: 
+               url(wayglb.gif); font-family: Arial TV }
+.mstheme-topbar-font { font-weight: bold; color: #FFFFFF; font-size: 14pt; vertical-align: middle; 
+               font-style: normal; text-align: center; font-family: Arial TV }
+body         { background-image: url('waybkgnd.gif'); font-family: Arial TV; font-size: 15pt }
+button       { font-size: 15pt; font-style: normal; font-family: Arial TV; border-style: 
+               solid; border-width: 1pt }
+caption      { font-size: 15pt; font-style: normal; font-family: Arial TV }
+fieldset     { font-family: Arial TV; font-size: 15pt; font-style: normal; border-style: 
+               solid; border-width: 1pt }
+h1           { font-weight: normal; font-style: normal; font-size: 24pt; font-family: 
+               Arial TV }
+h2           { font-family: Arial TV; font-style: normal; font-size: 22pt; font-weight: 
+               normal }
+h3           { font-family: Arial TV; font-size: 20pt; font-weight: normal; font-style: 
+               normal }
+h4           { font-weight: normal; font-size: 18pt; font-style: normal; font-family: 
+               Arial TV }
+h5           { font-size: 16pt; font-style: normal; font-weight: normal; font-family: 
+               Arial TV }
+h6           { font-family: Arial TV; font-size: 15pt; font-style: normal; font-weight: 
+               normal }
+label        { font-style: normal; font-family: Arial TV; font-size: 15pt }
+label, .mstheme-label { font-size: 15pt; font-family: Arial TV; font-style: normal }
+legend       { font-style: normal; font-size: 15pt; font-family: Arial TV }
+marquee      { font-family: Arial TV; font-size: 15pt }
+select       { font-style: normal; font-family: Arial TV; font-size: 15pt; border-style: 
+               solid; border-width: 1pt }
+table        { font-family: Arial TV; font-size: 15pt; font-style: normal }
+textarea     { font-style: normal; font-size: 15pt; font-family: Arial TV; border-style: 
+               solid; border-width: 1pt }
+th           { font-family: Arial TV; font-style: normal; font-size: 15pt }
